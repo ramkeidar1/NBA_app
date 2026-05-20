@@ -18,6 +18,10 @@ export function useGames(): UseGamesResult {
     fetch('/api/matches', { signal: controller.signal })
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const ct = res.headers.get('content-type') ?? '';
+        if (!ct.includes('application/json')) {
+          throw new Error(`Expected JSON but got ${ct || 'unknown content type'} — is the backend running?`);
+        }
         return res.json();
       })
       .then((data: GameData[]) => setGames(data))
