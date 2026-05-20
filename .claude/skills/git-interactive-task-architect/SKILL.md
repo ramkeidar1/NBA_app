@@ -18,6 +18,8 @@ This workflow serves as a structured blueprint for managing development tasks in
 
 ### Step 6: Run the Steps and Finalize Tracking*   **Objective:** Execute the approved, automated roadmap.*   **Action:** Auto-generate a local requirement-tracking manifest (`TASK_REQUIREMENTS.md`) inside the workspace root and run `git add TASK_REQUIREMENTS.md` to stage it into Git tracking.*   **State Check:** Formally hand over the cleanly prepared, staged, and synchronized workspace branch to the user to begin code development.
 
+### Step 7: Run "git add ." and then "git commit -m "{Outline of the steps you did}"". 
+
 ---
 
 > ### 💡 System Prompt Directive
