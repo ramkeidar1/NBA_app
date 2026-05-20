@@ -24,5 +24,174 @@
       "record": "46-36",
       "odds": "1.91"
     }
+  },
+  {
+    "Time": "2026-05-24T18:00:00Z",
+    "Home team": {
+      "name": "Milwaukee Bucks",
+      "record": "51-31",
+      "odds": "1.42"
+    },
+    "Away team": {
+      "name": "Miami Heat",
+      "record": "44-38",
+      "odds": "2.90"
+    }
+  },
+  {
+    "Time": "2026-05-24T20:30:00Z",
+    "Home team": {
+      "name": "Denver Nuggets",
+      "record": "57-25",
+      "odds": "1.33"
+    },
+    "Away team": {
+      "name": "Phoenix Suns",
+      "record": "49-33",
+      "odds": "3.40"
+    }
+  },
+  {
+    "Time": "2026-05-25T23:00:00Z",
+    "Home team": {
+      "name": "New York Knicks",
+      "record": "50-32",
+      "odds": "1.65"
+    },
+    "Away team": {
+      "name": "Philadelphia 76ers",
+      "record": "46-36",
+      "odds": "2.30"
+    }
+  },
+  {
+    "Time": "2026-05-26T01:30:00Z",
+    "Home team": {
+      "name": "Oklahoma City Thunder",
+      "record": "57-25",
+      "odds": "1.25"
+    },
+    "Away team": {
+      "name": "Dallas Mavericks",
+      "record": "50-32",
+      "odds": "4.10"
+    }
+  },
+  {
+    "Time": "2026-05-26T19:00:00Z",
+    "Home team": {
+      "name": "Cleveland Cavaliers",
+      "record": "48-34",
+      "odds": "1.50"
+    },
+    "Away team": {
+      "name": "Indiana Pacers",
+      "record": "47-35",
+      "odds": "2.70"
+    }
+  },
+  {
+    "Time": "2026-05-27T02:00:00Z",
+    "Home team": {
+      "name": "Minnesota Timberwolves",
+      "record": "56-26",
+      "odds": "1.38"
+    },
+    "Away team": {
+      "name": "Sacramento Kings",
+      "record": "46-36",
+      "odds": "3.15"
+    }
+  },
+  {
+    "Time": "2026-05-28T23:30:00Z",
+    "Home team": {
+      "name": "Orlando Magic",
+      "record": "47-35",
+      "odds": "1.55"
+    },
+    "Away team": {
+      "name": "Atlanta Hawks",
+      "record": "36-46",
+      "odds": "2.60"
+    }
+  },
+  {
+    "Time": "2026-05-29T02:30:00Z",
+    "Home team": {
+      "name": "Los Angeles Clippers",
+      "record": "51-31",
+      "odds": "1.48"
+    },
+    "Away team": {
+      "name": "New Orleans Pelicans",
+      "record": "49-33",
+      "odds": "2.80"
+    }
+  },
+  {
+    "Time": "2026-05-30T18:00:00Z",
+    "Home team": {
+      "name": "Houston Rockets",
+      "record": "41-41",
+      "odds": "1.72"
+    },
+    "Away team": {
+      "name": "Memphis Grizzlies",
+      "record": "42-40",
+      "odds": "2.15"
+    }
+  },
+  {
+    "Time": "2026-05-31T20:00:00Z",
+    "Home team": {
+      "name": "Brooklyn Nets",
+      "record": "32-50",
+      "odds": "2.20"
+    },
+    "Away team": {
+      "name": "Toronto Raptors",
+      "record": "25-57",
+      "odds": "1.72"
+    }
+  },
+  {
+    "Time": "2026-06-01T23:00:00Z",
+    "Home team": {
+      "name": "San Antonio Spurs",
+      "record": "22-60",
+      "odds": "2.45"
+    },
+    "Away team": {
+      "name": "Utah Jazz",
+      "record": "31-51",
+      "odds": "1.60"
+    }
+  },
+  {
+    "Time": "2026-06-02T01:00:00Z",
+    "Home team": {
+      "name": "Portland Trail Blazers",
+      "record": "21-61",
+      "odds": "3.80"
+    },
+    "Away team": {
+      "name": "Detroit Pistons",
+      "record": "14-68",
+      "odds": "1.28"
+    }
+  },
+  {
+    "Time": "2026-06-03T19:30:00Z",
+    "Home team": {
+      "name": "Charlotte Hornets",
+      "record": "21-61",
+      "odds": "1.85"
+    },
+    "Away team": {
+      "name": "Washington Wizards",
+      "record": "15-67",
+      "odds": "2.00"
+    }
   }
 ]
