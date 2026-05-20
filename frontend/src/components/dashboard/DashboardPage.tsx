@@ -1,24 +1,23 @@
 import { useState } from 'react';
 import type { GameData } from '../../types/game';
-import type { OrchestratorRecommendation } from '../../types/recommendation';
 import type { AgentAnalysisMap, GameAgentAnalysis } from '../../types/analysis';
-import rawRecs_AIReccommendations from '../../../mock_data_OrchestratorAgent_AIReccomendation.json';
+import type { OrchestratorRecommendation } from '../../types/recommendation';
 import rawAgentAnalysis from '../../../mock_data_OrechestratorAgent_AgentAnalysis.json';
 import { useGames } from '../../hooks/useGames';
+import { usePredictionsStream } from '../../hooks/usePredictionsStream';
 import GameCard from './GameCard';
 import SpecificGamePanel from './SpecificGamePanel';
 import AIRecommendationPanel from './AIRecommendationPanel';
 import AgentAnalysisPanel from './AgentAnalysisPanel';
 import PlaceBetPanel from './PlaceBetPanel';
 
-const recommendations = rawRecs_AIReccommendations as OrchestratorRecommendation[];
 const agentAnalysisMap = rawAgentAnalysis as AgentAnalysisMap;
 
 function gameKey(game: GameData): string {
   return `${game['Home team'].name.replace(/ /g, '_')} vs ${game['Away team'].name.replace(/ /g, '_')}`;
 }
 
-function findRecommendation(game: GameData): OrchestratorRecommendation | null {
+function findRecommendation(game: GameData, recommendations: OrchestratorRecommendation[]): OrchestratorRecommendation | null {
   const key = gameKey(game);
   return recommendations.find((r) => r.name === key) ?? null;
 }
@@ -30,10 +29,11 @@ function findAgentAnalysis(game: GameData): GameAgentAnalysis | null {
 
 export default function DashboardPage() {
   const { games, loading, error } = useGames();
+  const { recommendations, loading: recsLoading, error: recsError } = usePredictionsStream();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   const selectedGame = selectedIndex !== null ? games[selectedIndex] : null;
-  const selectedRec = selectedGame ? findRecommendation(selectedGame) : null;
+  const selectedRec = selectedGame ? findRecommendation(selectedGame, recommendations) : null;
   const selectedAnalysis = selectedGame ? findAgentAnalysis(selectedGame) : null;
 
   return (
@@ -84,7 +84,21 @@ export default function DashboardPage() {
             <span className="panel-title">AI Recommendation</span>
           </div>
           <div className="panel-body panel-body--overflow">
-            <AIRecommendationPanel recommendation={selectedRec} />
+            {recsLoading && recommendations.length === 0 && (
+              <div className="sg-empty">
+                <span className="sg-empty-text">Loading predictions…</span>
+              </div>
+            )}
+            {recsError && (
+              <div className="sg-empty">
+                <span className="sg-empty-text" style={{ color: 'var(--risk-high)' }}>
+                  {recsError}
+                </span>
+              </div>
+            )}
+            {!recsError && recommendations.length > 0 && (
+              <AIRecommendationPanel recommendation={selectedRec} />
+            )}
           </div>
         </div>
 
