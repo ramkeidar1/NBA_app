@@ -19,9 +19,8 @@ export interface RiskAgentData {
 }
 
 export interface GameAgentAnalysis {
+  name: string;
   'Form Agent': FormAgentData;
   'Matchup Agent': MatchupAgentData;
   'Risk Agent': RiskAgentData;
 }
-
-export type AgentAnalysisMap = Record<string, GameAgentAnalysis>;
