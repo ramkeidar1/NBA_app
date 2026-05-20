@@ -1,13 +1,10 @@
 import type { GameData, TeamProfile } from '../../types/game';
-import teamProfiles from '../../../mock_data_teams.json';
+import { useTeams } from '../../hooks/useTeams';
 
-const profiles = teamProfiles as TeamProfile[];
-
-function findTeamProfile(displayName: string): TeamProfile | undefined {
+function findTeamProfile(displayName: string, teams: TeamProfile[]): TeamProfile | undefined {
   const key = displayName.replace(/ /g, '_');
-  return profiles.find((t) => t.name === key);
+  return teams.find((t) => t.name === key);
 }
-
 
 interface StatRowProps {
   label: string;
@@ -26,10 +23,11 @@ function StatRow({ label, value }: StatRowProps) {
 interface TeamColumnProps {
   teamName: string;
   side: 'home' | 'away';
+  teams: TeamProfile[];
 }
 
-function TeamColumn({ teamName, side }: TeamColumnProps) {
-  const profile = findTeamProfile(teamName);
+function TeamColumn({ teamName, side, teams }: TeamColumnProps) {
+  const profile = findTeamProfile(teamName, teams);
 
   return (
     <div className={`sg-team-col sg-team-col--${side}`}>
@@ -67,6 +65,8 @@ interface SpecificGamePanelProps {
 }
 
 export default function SpecificGamePanel({ game }: SpecificGamePanelProps) {
+  const { teams } = useTeams();
+
   if (!game) {
     return (
       <div className="sg-empty">
@@ -80,9 +80,9 @@ export default function SpecificGamePanel({ game }: SpecificGamePanelProps) {
 
   return (
     <div className="sg-panel">
-      <TeamColumn teamName={home.name} side="home" />
+      <TeamColumn teamName={home.name} side="home" teams={teams} />
       <div className="sg-divider" />
-      <TeamColumn teamName={away.name} side="away" />
+      <TeamColumn teamName={away.name} side="away" teams={teams} />
     </div>
   );
 }
