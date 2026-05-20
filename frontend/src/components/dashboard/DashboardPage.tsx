@@ -9,6 +9,7 @@ import GameCard from './GameCard';
 import SpecificGamePanel from './SpecificGamePanel';
 import AIRecommendationPanel from './AIRecommendationPanel';
 import AgentAnalysisPanel from './AgentAnalysisPanel';
+import PlaceBetPanel from './PlaceBetPanel';
 
 const games = mockGames as GameData[];
 const recommendations = rawRecs_AIReccommendations as OrchestratorRecommendation[];
@@ -88,9 +89,11 @@ export default function DashboardPage() {
         <div className="panel">
           <div className="panel-header">
             <span className="tab-index">5</span>
-            <span className="panel-title">Recent Meetings</span>
+            <span className="panel-title">Place Bet</span>
           </div>
-          <div className="panel-body" />
+          <div className="panel-body panel-body--overflow">
+            <PlaceBetPanel recommendation={selectedRec} />
+          </div>
         </div>
       </div>
     </div>
