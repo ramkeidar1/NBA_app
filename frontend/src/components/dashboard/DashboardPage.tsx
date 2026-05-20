@@ -2,16 +2,15 @@ import { useState } from 'react';
 import type { GameData } from '../../types/game';
 import type { OrchestratorRecommendation } from '../../types/recommendation';
 import type { AgentAnalysisMap, GameAgentAnalysis } from '../../types/analysis';
-import mockGames from '../../../mock_data_games.json';
 import rawRecs_AIReccommendations from '../../../mock_data_OrchestratorAgent_AIReccomendation.json';
 import rawAgentAnalysis from '../../../mock_data_OrechestratorAgent_AgentAnalysis.json';
+import { useGames } from '../../hooks/useGames';
 import GameCard from './GameCard';
 import SpecificGamePanel from './SpecificGamePanel';
 import AIRecommendationPanel from './AIRecommendationPanel';
 import AgentAnalysisPanel from './AgentAnalysisPanel';
 import PlaceBetPanel from './PlaceBetPanel';
 
-const games = mockGames as GameData[];
 const recommendations = rawRecs_AIReccommendations as OrchestratorRecommendation[];
 const agentAnalysisMap = rawAgentAnalysis as AgentAnalysisMap;
 
@@ -30,6 +29,7 @@ function findAgentAnalysis(game: GameData): GameAgentAnalysis | null {
 
 
 export default function DashboardPage() {
+  const { games, loading, error } = useGames();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   const selectedGame = selectedIndex !== null ? games[selectedIndex] : null;
@@ -43,8 +43,20 @@ export default function DashboardPage() {
           <span className="tab-index">1</span>
           <span className="panel-title">NBA Games Today</span>
         </div>
-        <div className="panel-body panel-body--scroll">
-          {games.map((game, i) => (
+        <div className={loading || error ? 'panel-body' : 'panel-body panel-body--scroll'}>
+          {loading && (
+            <div className="sg-empty">
+              <span className="sg-empty-text">Loading games…</span>
+            </div>
+          )}
+          {error && (
+            <div className="sg-empty">
+              <span className="sg-empty-text" style={{ color: 'var(--risk-high)' }}>
+                {error}
+              </span>
+            </div>
+          )}
+          {!loading && !error && games.map((game, i) => (
             <GameCard
               key={i}
               game={game}
