@@ -3,6 +3,7 @@ import type { GameData } from '../../types/game';
 import mockGames from '../../../mock_data_games.json';
 import GameCard from './GameCard';
 import SpecificGamePanel from './SpecificGamePanel';
+import AIRecommendationPanel from './AIRecommendationPanel';
 
 type PanelConfig = {
   id: string;
@@ -13,9 +14,8 @@ type PanelConfig = {
 const games = mockGames as GameData[];
 
 const BOTTOM_PANELS: PanelConfig[] = [
-  { id: 'agent-analysis',    label: 'Agent Analysis',    index: 3 },
-  { id: 'ai-recommendation', label: 'AI Recommendation', index: 4 },
-  { id: 'recent-meetings',   label: 'Recent Meetings',   index: 5 },
+  { id: 'agent-analysis',  label: 'Agent Analysis',  index: 4 },
+  { id: 'recent-meetings', label: 'Recent Meetings', index: 5 },
 ];
 
 export default function DashboardPage() {
@@ -50,6 +50,16 @@ export default function DashboardPage() {
           </div>
           <div className="panel-body">
             <SpecificGamePanel game={selectedGame} />
+          </div>
+        </div>
+
+        <div className="panel">
+          <div className="panel-header">
+            <span className="tab-index">3</span>
+            <span className="panel-title">AI Recommendation</span>
+          </div>
+          <div className="panel-body panel-body--overflow">
+            <AIRecommendationPanel />
           </div>
         </div>
 

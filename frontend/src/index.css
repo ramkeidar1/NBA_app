@@ -16,6 +16,23 @@
   --accent: #6366f1;
   --accent-dim: rgba(99, 102, 241, 0.15);
   --accent-glow: rgba(99, 102, 241, 0.3);
+
+  /* Risk level tokens */
+  --risk-low: #22c55e;
+  --risk-low-bg: rgba(34, 197, 94, 0.1);
+  --risk-low-border: rgba(34, 197, 94, 0.3);
+  --risk-medium: #f59e0b;
+  --risk-medium-bg: rgba(245, 158, 11, 0.1);
+  --risk-medium-border: rgba(245, 158, 11, 0.3);
+  --risk-high: #ef4444;
+  --risk-high-bg: rgba(239, 68, 68, 0.1);
+  --risk-high-border: rgba(239, 68, 68, 0.3);
+
+  /* Recommendation panel tokens */
+  --ev-color: #a78bfa;
+  --ev-bg: rgba(167, 139, 250, 0.12);
+  --spread-color: #38bdf8;
+  --spread-bg: rgba(56, 189, 248, 0.12);
   --sans: 'Inter', system-ui, -apple-system, sans-serif;
   --mono: ui-monospace, 'Cascadia Code', Consolas, monospace;
 
@@ -150,6 +167,229 @@ html, body, #root {
 .panel-body {
   flex: 1;
   background: var(--bg-base);
+}
+
+.panel-body--overflow {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-active) transparent;
+}
+
+/* ── AI Recommendation Panel ──────────────────────── */
+.ai-rec-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 12px;
+}
+
+/* Recommendation Card */
+.rec-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-left-width: 3px;
+}
+
+.rec-card--low    { border-left-color: var(--risk-low); }
+.rec-card--medium { border-left-color: var(--risk-medium); }
+.rec-card--high   { border-left-color: var(--risk-high); }
+
+/* Header */
+.rc-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rc-matchup-name {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.rc-winner-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rc-winner-logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.rc-winner-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.rc-winner-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.rc-winner-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Risk badge */
+.rc-risk-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 3px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.rc-risk-badge--low {
+  color: var(--risk-low);
+  background: var(--risk-low-bg);
+  border: 1px solid var(--risk-low-border);
+}
+
+.rc-risk-badge--medium {
+  color: var(--risk-medium);
+  background: var(--risk-medium-bg);
+  border: 1px solid var(--risk-medium-border);
+}
+
+.rc-risk-badge--high {
+  color: var(--risk-high);
+  background: var(--risk-high-bg);
+  border: 1px solid var(--risk-high-border);
+}
+
+/* Metrics row */
+.rc-metrics {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.rc-metric {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 6px;
+  gap: 2px;
+}
+
+.rc-metric-divider {
+  width: 1px;
+  height: 32px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+.rc-metric-value {
+  font-size: 15px;
+  font-weight: 700;
+  font-family: var(--mono);
+  color: var(--text-primary);
+}
+
+.rc-metric--ev .rc-metric-value  { color: var(--ev-color); }
+.rc-metric--spread .rc-metric-value { color: var(--spread-color); }
+
+.rc-metric-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Confidence bar */
+.rc-confidence-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.rc-confidence-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rc-confidence-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.rc-confidence-pct {
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--mono);
+  color: var(--accent);
+}
+
+.rc-confidence-track {
+  height: 4px;
+  background: var(--bg-elevated);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.rc-confidence-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--ev-color));
+  border-radius: 99px;
+  transition: width 0.6s ease;
+}
+
+/* AI Summary */
+.rc-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  background: var(--bg-elevated);
+  border-left: 2px solid var(--accent-glow);
+  border-radius: 0 6px 6px 0;
+}
+
+.rc-summary-tag {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.rc-summary-text {
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--text-secondary);
 }
 
 .panel-body--scroll {
