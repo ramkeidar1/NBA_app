@@ -17,8 +17,8 @@ export function useAgentAnalysisStream(): UseAgentAnalysisStreamResult {
 
     es.onmessage = (e) => {
       try {
-        const analysis = JSON.parse(e.data as string) as GameAgentAnalysis;
-        setAnalyses((prev) => [...prev, analysis]);
+        const latestAnalysis = JSON.parse(e.data) as GameAgentAnalysis[];
+        setAnalyses([...latestAnalysis]);
         setLoading(false);
       } catch {
         setError('Failed to parse agent analysis event');
