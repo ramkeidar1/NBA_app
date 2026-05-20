@@ -33,6 +33,14 @@
   --ev-bg: rgba(167, 139, 250, 0.12);
   --spread-color: #38bdf8;
   --spread-bg: rgba(56, 189, 248, 0.12);
+
+  /* Place Bet tokens */
+  --bet-gold: #f59e0b;
+  --bet-gold-bg: rgba(245, 158, 11, 0.10);
+  --bet-gold-border: rgba(245, 158, 11, 0.30);
+  --bet-win: #22c55e;
+  --bet-win-bg: rgba(34, 197, 94, 0.10);
+
   --sans: 'Inter', system-ui, -apple-system, sans-serif;
   --mono: ui-monospace, 'Cascadia Code', Consolas, monospace;
 
@@ -771,4 +779,106 @@ html, body, #root {
   font-size: 11px;
   color: var(--text-secondary);
   font-weight: 500;
+}
+
+/* ── Place Bet Panel ──────────────────────────────── */
+.pb-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 12px;
+  overflow-y: auto;
+  height: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-active) transparent;
+}
+
+.pb-game-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0 2px;
+}
+
+.pb-divider {
+  height: 1px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+.pb-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pb-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.pb-input {
+  width: 100%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 12px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.pb-input::placeholder {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.pb-input:focus {
+  border-color: var(--bet-gold-border);
+  box-shadow: 0 0 0 2px var(--bet-gold-bg);
+}
+
+.pb-display-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 12px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left-width: 3px;
+  border-radius: 0 6px 6px 0;
+}
+
+.pb-display-row--ev {
+  border-left-color: var(--ev-color);
+}
+
+.pb-display-row--win {
+  border-left-color: var(--bet-win);
+}
+
+.pb-display-value {
+  font-size: 18px;
+  font-weight: 700;
+  font-family: var(--mono);
+}
+
+.pb-display-value--ev  { color: var(--ev-color); }
+.pb-display-value--win { color: var(--bet-win); }
+.pb-display-value--dim { color: var(--text-muted); }
+
+.pb-display-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
 }
