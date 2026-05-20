@@ -1,15 +1,22 @@
 import type { OrchestratorRecommendation } from '../../types/recommendation';
-import rawData from '../../../mock_data_OrchestratorAgent.json';
 import RecommendationCard from './RecommendationCard';
 
-const recommendations = rawData as OrchestratorRecommendation[];
+interface AIRecommendationPanelProps {
+  recommendation: OrchestratorRecommendation | null;
+}
 
-export default function AIRecommendationPanel() {
+export default function AIRecommendationPanel({ recommendation }: AIRecommendationPanelProps) {
+  if (!recommendation) {
+    return (
+      <div className="sg-empty">
+        <span className="sg-empty-text">Select a game to view AI recommendation</span>
+      </div>
+    );
+  }
+
   return (
     <div className="ai-rec-panel">
-      {recommendations.map((rec) => (
-        <RecommendationCard key={rec.name} rec={rec} />
-      ))}
+      <RecommendationCard rec={recommendation} />
     </div>
   );
 }
