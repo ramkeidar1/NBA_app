@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create *)",
+      "Bash(npm install *)",
+      "Bash(git -b checkout  *)",
+      "Bash(git add*)",
+      "Bash(git commit *)",
+      "Bash(git status *)",
+      "Bash(mkdir -p hooks services store types pages lib)",
+      "Bash(touch components/layout/AppShell.tsx components/layout/Sidebar.tsx components/layout/TopBar.tsx components/layout/StatusIndicator.tsx components/dashboard/DashboardPage.tsx components/dashboard/MatchCard.tsx components/dashboard/MatchGrid.tsx components/analysis/AnalysisPage.tsx components/analysis/AgentReasoningPanel.tsx components/analysis/ReasoningEvent.tsx components/analysis/MatchupView.tsx components/analysis/OddsEVPanel.tsx components/analysis/DecisionCard.tsx components/matchup/TeamStatsBlock.tsx components/matchup/HeadToHeadTable.tsx components/matchup/PlayerMatchupRow.tsx components/matchup/MomentumBar.tsx components/odds/LineMovementChart.tsx components/odds/EVBadge.tsx components/odds/MarketSentimentBar.tsx components/odds/OddsComparisonRow.tsx components/risk/ConfidenceMeter.tsx components/risk/RiskRatingBadge.tsx components/risk/RecommendationSummary.tsx components/ui/Card.tsx components/ui/Badge.tsx components/ui/Skeleton.tsx components/ui/ErrorBoundary.tsx components/ui/EmptyState.tsx components/ui/ScrollArea.tsx hooks/useAgentStream.ts hooks/useMatches.ts hooks/useAnalysis.ts hooks/useRecommendation.ts hooks/useConnectionStatus.ts services/api.ts services/matchService.ts services/analysisService.ts services/streamService.ts store/useAppStore.ts store/useStreamStore.ts types/match.ts types/analysis.ts types/recommendation.ts types/stream.ts types/api.ts pages/DashboardRoute.tsx pages/AnalysisRoute.tsx lib/formatters.ts lib/constants.ts lib/motion.ts)"
+    ]
+  }
+}
