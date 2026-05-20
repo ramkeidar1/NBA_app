@@ -606,3 +606,169 @@ html, body, #root {
   color: var(--text-muted);
   padding: 8px;
 }
+
+/* ── Agent Analysis Panel ─────────────────────────── */
+.aa-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 12px;
+  overflow-y: auto;
+  height: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-active) transparent;
+}
+
+.aa-agent-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-left-width: 3px;
+}
+
+.aa-agent-card--form    { border-left-color: var(--accent); }
+.aa-agent-card--matchup { border-left-color: var(--spread-color); }
+.aa-agent-card--risk    { border-left-color: var(--risk-high); }
+
+.aa-agent-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.aa-agent-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.aa-agent-badge--form {
+  color: var(--accent);
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-glow);
+}
+
+.aa-agent-badge--matchup {
+  color: var(--spread-color);
+  background: var(--spread-bg);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.aa-agent-badge--risk {
+  color: var(--risk-high);
+  background: var(--risk-high-bg);
+  border: 1px solid var(--risk-high-border);
+}
+
+/* Certainty bar */
+.aa-certainty-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.aa-certainty-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.aa-certainty-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.aa-certainty-pct {
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--mono);
+}
+
+.aa-certainty-track {
+  height: 4px;
+  background: var(--bg-elevated);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.aa-certainty-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.5s ease;
+  opacity: 0.85;
+}
+
+/* Field rows */
+.aa-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.aa-field-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 8px;
+  border-radius: 4px;
+}
+
+.aa-field-row:nth-child(odd) {
+  background: var(--bg-elevated);
+}
+
+.aa-field-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  margin-right: 12px;
+}
+
+.aa-field-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: var(--mono);
+  text-align: right;
+}
+
+/* Risk flags */
+.aa-risk-flag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: 4px;
+}
+
+.aa-risk-flag:nth-child(odd) {
+  background: var(--bg-elevated);
+}
+
+.aa-risk-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--risk-high);
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.aa-risk-text {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
