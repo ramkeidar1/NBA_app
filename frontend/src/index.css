@@ -113,7 +113,8 @@ html, body, #root {
   display: flex;
   flex-direction: column;
   flex: 1;
-  overflow: hidden;
+  overflow: hidden;  
+  box-sizing: border-box;
 }
 
 /* Panels layout */
@@ -422,6 +423,9 @@ html, body, #root {
   background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: 8px;
+  height: auto;
+  min-height: max-content;
+  overflow: visible;
 }
 
 .game-card__time {

@@ -1,0 +1,28 @@
+[
+    {
+    "Time": "2026-05-22T19:30:00Z",
+    "Home team": {
+      "name": "Boston Celtics",
+      "record": "64-18",
+      "odds": "1.56"
+    },
+    "Away team": {
+      "name": "Chicago Bulls",
+      "record": "39-43",
+      "odds": "2.55"
+    }
+  },
+  {
+    "Time": "2026-05-23T22:00:00Z",
+    "Home team": {
+      "name": "Los Angeles Lakers",
+      "record": "47-35",
+      "odds": "1.91"
+    },
+    "Away team": {
+      "name": "Golden State Warriors",
+      "record": "46-36",
+      "odds": "1.91"
+    }
+  }
+]
