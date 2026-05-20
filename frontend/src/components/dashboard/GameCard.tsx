@@ -34,14 +34,22 @@ function TeamRow({ name, record, odds, side }: TeamRowProps) {
 
 interface GameCardProps {
   game: GameData;
+  isSelected: boolean;
+  onClick: () => void;
 }
 
-export default function GameCard({ game }: GameCardProps) {
+export default function GameCard({ game, isSelected, onClick }: GameCardProps) {
   const home = game['Home team'];
   const away = game['Away team'];
 
   return (
-    <div className="game-card">
+    <div
+      className={`game-card${isSelected ? ' game-card--selected' : ''}`}
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === 'Enter' && onClick()}
+    >
       <div className="game-card__time">{formatTime(game.Time)}</div>
       <div className="game-card__matchup">
         <TeamRow name={home.name} record={home.record} odds={home.odds} side="home" />

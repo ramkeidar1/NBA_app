@@ -241,3 +241,128 @@ html, body, #root {
   text-align: center;
   padding: 2px 0;
 }
+
+.game-card {
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.game-card--selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-glow), 0 0 12px var(--accent-glow);
+}
+
+.game-card:hover:not(.game-card--selected) {
+  border-color: var(--border-active);
+}
+
+/* Specific Game Panel */
+.sg-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 24px;
+}
+
+.sg-empty-text {
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.sg-panel {
+  display: flex;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.sg-team-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 12px;
+  min-width: 0;
+}
+
+.sg-divider {
+  width: 1px;
+  background: var(--border);
+  flex-shrink: 0;
+  margin: 12px 0;
+}
+
+.sg-team-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sg-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.sg-team-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sg-team-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.sg-side-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.sg-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.sg-stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 8px;
+  border-radius: 4px;
+}
+
+.sg-stat-row:nth-child(odd) {
+  background: var(--bg-elevated);
+}
+
+.sg-stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+.sg-stat-value {
+  font-size: 11px;
+  color: var(--text-primary);
+  font-family: var(--mono);
+  font-weight: 600;
+  text-align: right;
+}
+
+.sg-no-profile {
+  font-size: 11px;
+  color: var(--text-muted);
+  padding: 8px;
+}
