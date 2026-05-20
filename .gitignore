@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+/dist
+/build
+
+# Environment variables & Sensitive Data (API keys, secrets)
+.env
+.env.local
+.env.*.local
+
+# Project Manifests & Automation (Local Tracking)
+TASK_REQUIREMENTS.md
+
+# Operating System temporary files
+.DS_Store
+Thumbs.db
+
+# IDE configurations
+.vscode/
+.idea/
+*.suo
+*.ntvs*
