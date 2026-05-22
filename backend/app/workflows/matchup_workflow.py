@@ -6,7 +6,6 @@ from app.client import anthropic_client
 from app.schemas import MatchupEvalJSON, GameContext, H2HGame
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
 
 # UPDATED: Focused specifically on Head-to-Head matchup data extraction
 _SYSTEM_PROMPT = (
@@ -150,7 +149,7 @@ async def run(ctx: GameContext, raw_text: str, dummy: bool = True) -> MatchupEva
     tool_block = next((b for b in response.content if isinstance(b, ToolUseBlock)), None)
     if tool_block is None:
         raise ValueError(f"matchup_workflow: model did not return a tool call for game {ctx.game_id}")
-    tool_input: dict = tool_block.input
+    tool_input: dict[str, object] = tool_block.input
     tool_input["game_id"] = ctx.game_id
     result = MatchupEvalJSON.model_validate(tool_input)
     logger.info("matchup_workflow result: %s", result)

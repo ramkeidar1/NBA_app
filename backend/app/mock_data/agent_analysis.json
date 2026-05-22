@@ -4,15 +4,15 @@
     "name": "Boston_Celtics vs Chicago_Bulls",
     "Form Agent": {
       "Expected winner Form": "BOS won nine",
-      "Expected losser Form": "CHI lost three",
+      "Expected loser Form": "CHI lost three",
       "Addons": "BOS dominating home court",
       "Certainty": 70
     },
     "Matchup Agent": {
       "Expected winner Form": "BOS elite differential",
-      "Expected losser Form": "CHI poor defense",
-      "Deferntial net": "+11.4 for BOS",
-      "Intersting Matchups": "Jayson Tatum vs Coby White",
+      "Expected loser Form": "CHI poor defense",
+      "Differential net": "+11.4 for BOS",
+      "Interesting Matchups": "Jayson Tatum vs Coby White",
       "Certainty": 89
     },
     "Risk Agent": {
@@ -30,15 +30,15 @@
     "name": "Los_Angeles_Lakers vs Golden_State_Warriors",
     "Form Agent": {
       "Expected winner Form": "LAL won four",
-      "Expected losser Form": "GSW split six",
+      "Expected loser Form": "GSW split six",
       "Addons": "LAL undefeated this week",
       "Certainty": 67
     },
     "Matchup Agent": {
       "Expected winner Form": "LAL dominant paint",
-      "Expected losser Form": "GSW weak interior",
-      "Deferntial net": "+1.9 for LAL",
-      "Intersting Matchups": "Anthony Davis vs Draymond Green",
+      "Expected loser Form": "GSW weak interior",
+      "Differential net": "+1.9 for LAL",
+      "Interesting Matchups": "Anthony Davis vs Draymond Green",
       "Certainty": 87
     },
     "Risk Agent": {
@@ -56,15 +56,15 @@
     "name": "Milwaukee_Bucks vs Miami_Heat",
     "Form Agent": {
       "Expected winner Form": "MIL won six",
-      "Expected losser Form": "MIA split four",
+      "Expected loser Form": "MIA split four",
       "Addons": "MIL strong home run",
       "Certainty": 58
     },
     "Matchup Agent": {
       "Expected winner Form": "MIL offensive spacing",
-      "Expected losser Form": "MIA low scoring consistency",
-      "Deferntial net": "+4.2 for MIL",
-      "Intersting Matchups": "Giannis Antetokounmpo vs Bam Adebayo",
+      "Expected loser Form": "MIA low scoring consistency",
+      "Differential net": "+4.2 for MIL",
+      "Interesting Matchups": "Giannis Antetokounmpo vs Bam Adebayo",
       "Certainty": 79
     },
     "Risk Agent": {
@@ -82,15 +82,15 @@
     "name": "Denver_Nuggets vs Phoenix_Suns",
     "Form Agent": {
       "Expected winner Form": "DEN won seven",
-      "Expected losser Form": "PHX lost two",
+      "Expected loser Form": "PHX lost two",
       "Addons": "DEN dominant at Mile High",
       "Certainty": 72
     },
     "Matchup Agent": {
       "Expected winner Form": "DEN elite team chemistry",
-      "Expected losser Form": "PHX isolation heavy play",
-      "Deferntial net": "+6.8 for DEN",
-      "Intersting Matchups": "Nikola Jokic vs Jusuf Nurkic",
+      "Expected loser Form": "PHX isolation heavy play",
+      "Differential net": "+6.8 for DEN",
+      "Interesting Matchups": "Nikola Jokic vs Jusuf Nurkic",
       "Certainty": 85
     },
     "Risk Agent": {
@@ -108,15 +108,15 @@
     "name": "New_York_Knicks vs Philadelphia_76ers",
     "Form Agent": {
       "Expected winner Form": "NYK won five",
-      "Expected losser Form": "PHI won two",
+      "Expected loser Form": "PHI won two",
       "Addons": "MSG crowd momentum advantage",
       "Certainty": 54
     },
     "Matchup Agent": {
       "Expected winner Form": "NYK elite rebounding",
-      "Expected losser Form": "PHI interior vulnerability",
-      "Deferntial net": "+2.5 for NYK",
-      "Intersting Matchups": "Jalen Brunson vs Tyrese Maxey",
+      "Expected loser Form": "PHI interior vulnerability",
+      "Differential net": "+2.5 for NYK",
+      "Interesting Matchups": "Jalen Brunson vs Tyrese Maxey",
       "Certainty": 71
     },
     "Risk Agent": {
@@ -134,15 +134,15 @@
     "name": "Oklahoma_City_Thunder vs Dallas_Mavericks",
     "Form Agent": {
       "Expected winner Form": "OKC won eight",
-      "Expected losser Form": "DAL split six",
+      "Expected loser Form": "DAL split six",
       "Addons": "OKC league leading transition pace",
       "Certainty": 74
     },
     "Matchup Agent": {
       "Expected winner Form": "OKC multi-ballhandler depth",
-      "Expected losser Form": "DAL backcourt heavy workload",
-      "Deferntial net": "+7.3 for OKC",
-      "Intersting Matchups": "Shai Gilgeous-Alexander vs Luka Doncic",
+      "Expected loser Form": "DAL backcourt heavy workload",
+      "Differential net": "+7.3 for OKC",
+      "Interesting Matchups": "Shai Gilgeous-Alexander vs Luka Doncic",
       "Certainty": 86
     },
     "Risk Agent": {
@@ -160,15 +160,15 @@
     "name": "Cleveland_Cavaliers vs Indiana_Pacers",
     "Form Agent": {
       "Expected winner Form": "CLE won three",
-      "Expected losser Form": "IND won four",
+      "Expected loser Form": "IND won four",
       "Addons": "CLE slow tempo control at home",
       "Certainty": 49
     },
     "Matchup Agent": {
       "Expected winner Form": "CLE elite rim protection",
-      "Expected losser Form": "IND interior paint reliance",
-      "Deferntial net": "+3.1 for CLE",
-      "Intersting Matchups": "Evan Mobley vs Pascal Siakam",
+      "Expected loser Form": "IND interior paint reliance",
+      "Differential net": "+3.1 for CLE",
+      "Interesting Matchups": "Evan Mobley vs Pascal Siakam",
       "Certainty": 76
     },
     "Risk Agent": {
@@ -186,15 +186,15 @@
     "name": "Minnesota_Timberwolves vs Sacramento_Kings",
     "Form Agent": {
       "Expected winner Form": "MIN won six",
-      "Expected losser Form": "SAC lost three",
+      "Expected loser Form": "SAC lost three",
       "Addons": "MIN locking down home court",
       "Certainty": 69
     },
     "Matchup Agent": {
       "Expected winner Form": "MIN historical defensive length",
-      "Expected losser Form": "SAC struggling perimeter attack",
-      "Deferntial net": "+6.2 for MIN",
-      "Intersting Matchups": "Anthony Edwards vs De'Aaron Fox",
+      "Expected loser Form": "SAC struggling perimeter attack",
+      "Differential net": "+6.2 for MIN",
+      "Interesting Matchups": "Anthony Edwards vs De'Aaron Fox",
       "Certainty": 83
     },
     "Risk Agent": {
@@ -212,15 +212,15 @@
     "name": "Orlando_Magic vs Atlanta_Hawks",
     "Form Agent": {
       "Expected winner Form": "ORL won four",
-      "Expected losser Form": "ATL lost five",
+      "Expected loser Form": "ATL lost five",
       "Addons": "ORL dynamic home defense metrics",
       "Certainty": 60
     },
     "Matchup Agent": {
       "Expected winner Form": "ORL physical lock down",
-      "Expected losser Form": "ATL porous backcourt defense",
-      "Deferntial net": "+4.0 for ORL",
-      "Intersting Matchups": "Paolo Banchero vs Jalen Johnson",
+      "Expected loser Form": "ATL porous backcourt defense",
+      "Differential net": "+4.0 for ORL",
+      "Interesting Matchups": "Paolo Banchero vs Jalen Johnson",
       "Certainty": 78
     },
     "Risk Agent": {
@@ -238,15 +238,15 @@
     "name": "LA_Clippers vs New_Orleans_Pelicans",
     "Form Agent": {
       "Expected winner Form": "LAC won five",
-      "Expected losser Form": "NOP won three",
+      "Expected loser Form": "NOP won three",
       "Addons": "LAC veteran execution at home",
       "Certainty": 57
     },
     "Matchup Agent": {
       "Expected winner Form": "LAC crunch time efficiency",
-      "Expected losser Form": "NOP physical matching deficits",
-      "Deferntial net": "+3.6 for LAC",
-      "Intersting Matchups": "Kawhi Leonard vs Zion Williamson",
+      "Expected loser Form": "NOP physical matching deficits",
+      "Differential net": "+3.6 for LAC",
+      "Interesting Matchups": "Kawhi Leonard vs Zion Williamson",
       "Certainty": 74
     },
     "Risk Agent": {
@@ -264,15 +264,15 @@
     "name": "Houston_Rockets vs Memphis_Grizzlies",
     "Form Agent": {
       "Expected winner Form": "HOU split four",
-      "Expected losser Form": "MEM won three",
+      "Expected loser Form": "MEM won three",
       "Addons": "HOU fierce home record resilience",
       "Certainty": 45
     },
     "Matchup Agent": {
       "Expected winner Form": "HOU paint physical defense",
-      "Expected losser Form": "MEM interior scoring blocks",
-      "Deferntial net": "+0.8 for HOU",
-      "Intersting Matchups": "Alperen Sengun vs Jaren Jackson Jr.",
+      "Expected loser Form": "MEM interior scoring blocks",
+      "Differential net": "+0.8 for HOU",
+      "Interesting Matchups": "Alperen Sengun vs Jaren Jackson Jr.",
       "Certainty": 62
     },
     "Risk Agent": {
@@ -290,15 +290,15 @@
     "name": "Brooklyn_Nets vs Toronto_Raptors",
     "Form Agent": {
       "Expected winner Form": "TOR won two",
-      "Expected losser Form": "BKN lost four",
+      "Expected loser Form": "BKN lost four",
       "Addons": "BKN collapsing late-season form",
       "Certainty": 51
     },
     "Matchup Agent": {
       "Expected winner Form": "TOR organized structured play",
-      "Expected losser Form": "BKN severe identity deficits",
-      "Deferntial net": "+1.5 for TOR",
-      "Intersting Matchups": "Cam Thomas vs RJ Barrett",
+      "Expected loser Form": "BKN severe identity deficits",
+      "Differential net": "+1.5 for TOR",
+      "Interesting Matchups": "Cam Thomas vs RJ Barrett",
       "Certainty": 65
     },
     "Risk Agent": {
@@ -316,15 +316,15 @@
     "name": "San_Antonio_Spurs vs Utah_Jazz",
     "Form Agent": {
       "Expected winner Form": "UTA won three",
-      "Expected losser Form": "SAS lost six",
+      "Expected loser Form": "SAS lost six",
       "Addons": "SAS depth rotation limits",
       "Certainty": 56
     },
     "Matchup Agent": {
       "Expected winner Form": "UTA efficient spacing options",
-      "Expected losser Form": "SAS transition defensive leaks",
-      "Deferntial net": "+2.2 for UTA",
-      "Intersting Matchups": "Victor Wembanyama vs Lauri Markkanen",
+      "Expected loser Form": "SAS transition defensive leaks",
+      "Differential net": "+2.2 for UTA",
+      "Interesting Matchups": "Victor Wembanyama vs Lauri Markkanen",
       "Certainty": 70
     },
     "Risk Agent": {
@@ -342,15 +342,15 @@
     "name": "Portland_Trail_Blazers vs Detroit_Pistons",
     "Form Agent": {
       "Expected winner Form": "DET won four",
-      "Expected losser Form": "POR lost eight",
+      "Expected loser Form": "POR lost eight",
       "Addons": "POR deep injury roster depletion",
       "Certainty": 68
     },
     "Matchup Agent": {
       "Expected winner Form": "DET healthy starter advantage",
-      "Expected losser Form": "POR low chemistry units",
-      "Deferntial net": "+4.1 for DET",
-      "Intersting Matchups": "Jerami Grant vs Cade Cunningham",
+      "Expected loser Form": "POR low chemistry units",
+      "Differential net": "+4.1 for DET",
+      "Interesting Matchups": "Jerami Grant vs Cade Cunningham",
       "Certainty": 81
     },
     "Risk Agent": {
@@ -368,15 +368,15 @@
     "name": "Charlotte_Hornets vs Washington_Wizards",
     "Form Agent": {
       "Expected winner Form": "CHA won one",
-      "Expected losser Form": "WAS lost seven",
+      "Expected loser Form": "WAS lost seven",
       "Addons": "CHA home floor crowd slight edge",
       "Certainty": 42
     },
     "Matchup Agent": {
       "Expected winner Form": "CHA slight half-court cohesion",
-      "Expected losser Form": "WAS complete defensive errors",
-      "Deferntial net": "+0.5 for CHA",
-      "Intersting Matchups": "LaMelo Ball vs Jordan Poole",
+      "Expected loser Form": "WAS complete defensive errors",
+      "Differential net": "+0.5 for CHA",
+      "Interesting Matchups": "LaMelo Ball vs Jordan Poole",
       "Certainty": 55
     },
     "Risk Agent": {

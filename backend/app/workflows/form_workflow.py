@@ -6,7 +6,6 @@ from app.client import anthropic_client
 from app.schemas import FormEvalJSON, GameContext, H2HGame
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
 
 _SYSTEM_PROMPT = (
     "You are a precise NBA data extraction agent. "
@@ -94,7 +93,7 @@ async def run(ctx: GameContext, raw_text: str, team_id: str, dummy: bool = True)
     tool_block = next((b for b in response.content if isinstance(b, ToolUseBlock)), None)
     if tool_block is None:
         raise ValueError(f"form_workflow: model did not return a tool call for team {team_id}")
-    tool_input: dict = tool_block.input
+    tool_input: dict[str, object] = tool_block.input
     tool_input["game_id"] = ctx.game_id
     tool_input["team_id"] = team_id
     result = FormEvalJSON.model_validate(tool_input)

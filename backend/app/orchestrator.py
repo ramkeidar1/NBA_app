@@ -1,5 +1,4 @@
 import asyncio
-import importlib
 import json
 import logging
 from pathlib import Path
@@ -8,6 +7,8 @@ from typing import AsyncGenerator
 import aiofiles
 
 from app.schemas import AgentError, GameContext, SSEEvent
+from app.workflows import form_workflow, matchup_workflow, odds_risk_workflow
+from app.agents import final_prediction
 
 logger = logging.getLogger(__name__)
 
@@ -17,6 +18,8 @@ MOCK_DATA_DIR = Path(__file__).parent / "mock_data"
 def _parse_game_id(game_id: str) -> tuple[str, str]:
     """'LAL_GSW' or 'LAL_GSW_22_5_26' → ('LAL', 'GSW')"""
     parts = game_id.split("_")
+    if len(parts) < 2:
+        raise ValueError(f"Invalid game_id format '{game_id}': expected 'HOME_AWAY[_...]'")
     return parts[0], parts[1]
 
 
@@ -61,21 +64,10 @@ async def _load_context(game_id: str) -> tuple[GameContext, dict[str, str]]:
         "odds_risk": _find_mock_file(MOCK_DATA_DIR / "odds_and_risk", f"{home_id}_{away_id}.txt"),
     }
 
-    texts = {key: await _read_file(path) for key, path in file_map.items()}
+    keys = list(file_map.keys())
+    contents = await asyncio.gather(*[_read_file(p) for p in file_map.values()])
+    texts = dict(zip(keys, contents))
     return ctx, texts
-
-
-def _get_workflow_fn(module_path: str, fn_name: str = "run"):
-    """Import a workflow run function; returns None if not yet implemented."""
-    try:
-        mod = importlib.import_module(module_path)
-        return getattr(mod, fn_name, None)
-    except ImportError:
-        return None
-
-
-async def _not_impl(agent_name: str):
-    raise NotImplementedError(f"{agent_name} is not yet implemented")
 
 
 async def run_pipeline(game_id: str) -> AsyncGenerator[SSEEvent, None]:
@@ -90,32 +82,11 @@ async def run_pipeline(game_id: str) -> AsyncGenerator[SSEEvent, None]:
     yield SSEEvent(event_name="context_loaded", payload=ctx.model_dump())
     yield SSEEvent(event_name="status", payload={"message": "Dispatching parallel agents..."})
 
-    form_run = _get_workflow_fn("app.workflows.form_workflow")
-    matchup_run = _get_workflow_fn("app.workflows.matchup_workflow")
-    odds_run = _get_workflow_fn("app.workflows.odds_risk_workflow")
-
-    home_form_coro = (
-        form_run(ctx, texts["home_form"], ctx.home_team_id)
-        if form_run else _not_impl("form_workflow_home")
-    )
-    away_form_coro = (
-        form_run(ctx, texts["away_form"], ctx.away_team_id)
-        if form_run else _not_impl("form_workflow_away")
-    )
-    matchup_coro = (
-        matchup_run(ctx, texts["matchup"])
-        if matchup_run else _not_impl("matchup_workflow")
-    )
-    odds_coro = (
-        odds_run(ctx, texts["odds_risk"])
-        if odds_run else _not_impl("odds_risk_workflow")
-    )
-
     raw_results = await asyncio.gather(
-        home_form_coro,
-        away_form_coro,
-        matchup_coro,
-        odds_coro,
+        form_workflow.run(ctx, texts["home_form"], ctx.home_team_id),
+        form_workflow.run(ctx, texts["away_form"], ctx.away_team_id),
+        matchup_workflow.run(ctx, texts["matchup"]),
+        odds_risk_workflow.run(ctx, texts["odds_risk"]),
         return_exceptions=True,
     )
 
@@ -157,36 +128,29 @@ async def run_pipeline(game_id: str) -> AsyncGenerator[SSEEvent, None]:
 
     yield SSEEvent(event_name="status", payload={"message": "Running final prediction agent..."})
 
-    prediction_run = _get_workflow_fn("app.agents.final_prediction")
-    if prediction_run is None:
+    try:
+        use_extended_thinking = partial_telemetry or (
+            home_form is None or away_form is None or matchup is None or odds_risk is None
+        )
+        prediction = await final_prediction.run(
+            ctx=ctx,
+            home_form=home_form,
+            away_form=away_form,
+            matchup=matchup,
+            odds_risk=odds_risk,
+            partial_telemetry=partial_telemetry,
+            extended_thinking=use_extended_thinking,
+        )
+        yield SSEEvent(event_name="final_prediction", payload=prediction.model_dump())
+    except Exception as e:
+        logger.exception("final_prediction agent failed")
         yield SSEEvent(
             event_name="agent_error",
             payload=AgentError(
                 agent_name="final_prediction",
-                error_type="NotImplementedError",
-                error_message="final_prediction agent is not yet implemented.",
+                error_type=type(e).__name__,
+                error_message=str(e),
             ).model_dump(mode="json"),
         )
-    else:
-        try:
-            prediction = await prediction_run(
-                ctx=ctx,
-                home_form=home_form,
-                away_form=away_form,
-                matchup=matchup,
-                odds_risk=odds_risk,
-                partial_telemetry=partial_telemetry,
-            )
-            yield SSEEvent(event_name="final_prediction", payload=prediction.model_dump())
-        except Exception as e:
-            logger.error("final_prediction agent failed: %s", e)
-            yield SSEEvent(
-                event_name="agent_error",
-                payload=AgentError(
-                    agent_name="final_prediction",
-                    error_type=type(e).__name__,
-                    error_message=str(e),
-                ).model_dump(mode="json"),
-            )
 
     yield SSEEvent(event_name="done", payload={})
