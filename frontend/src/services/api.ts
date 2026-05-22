@@ -47,6 +47,7 @@ export type { OrchestratorRecommendation, GameAgentAnalysis };
 interface CommandRequest {
   game_id: string;
   command: string;
+  mode: 'soft' | 'hard';
 }
 
 interface CommandResponse {
@@ -55,8 +56,8 @@ interface CommandResponse {
   stream_url?: string;
 }
 
-export async function postCommand(game_id: string, command: string): Promise<CommandResponse> {
-  const body: CommandRequest = { game_id, command };
+export async function postCommand(game_id: string, command: string, mode: 'soft' | 'hard'): Promise<CommandResponse> {
+  const body: CommandRequest = { game_id, command, mode };
   const res = await fetch(`${BACKEND_BASE}/command`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

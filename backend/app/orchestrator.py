@@ -3,10 +3,19 @@ import importlib
 import json
 import logging
 from pathlib import Path
-from typing import AsyncGenerator
+from typing import AsyncGenerator, Literal
 
 import aiofiles
 
+from app.cache.db import (
+    fetch_form,
+    fetch_matchup,
+    save_form,
+    save_match,
+    save_matchup,
+    save_odds_snapshot,
+    save_recommendation,
+)
 from app.schemas import AgentError, GameContext, SSEEvent
 
 logger = logging.getLogger(__name__)
@@ -32,7 +41,7 @@ async def _read_file(path: Path) -> str:
         return await f.read()
 
 
-async def _load_context(game_id: str) -> tuple[GameContext, dict[str, str]]:
+async def _load_context(game_id: str) -> tuple[GameContext, dict[str, str], dict]:
     home_id, away_id = _parse_game_id(game_id)
 
     raw = await _read_file(MOCK_DATA_DIR / "games.json")
@@ -62,7 +71,7 @@ async def _load_context(game_id: str) -> tuple[GameContext, dict[str, str]]:
     }
 
     texts = {key: await _read_file(path) for key, path in file_map.items()}
-    return ctx, texts
+    return ctx, texts, fixture
 
 
 def _get_workflow_fn(module_path: str, fn_name: str = "run"):
@@ -78,36 +87,35 @@ async def _not_impl(agent_name: str):
     raise NotImplementedError(f"{agent_name} is not yet implemented")
 
 
-async def run_pipeline(game_id: str) -> AsyncGenerator[SSEEvent, None]:
-    yield SSEEvent(event_name="status", payload={"message": "Loading game context..."})
+# ── Hard pipeline ─────────────────────────────────────────────────────────────
+# Runs all 4 workflows concurrently, saves everything to DB.
 
-    try:
-        ctx, texts = await _load_context(game_id)
-    except Exception as e:
-        yield SSEEvent(event_name="error", payload={"message": str(e)})
-        return
-
-    yield SSEEvent(event_name="context_loaded", payload=ctx.model_dump())
+async def _run_hard(
+    ctx: GameContext,
+    texts: dict[str, str],
+    fixture: dict,
+    dummy: bool = True,
+) -> AsyncGenerator[SSEEvent, None]:
     yield SSEEvent(event_name="status", payload={"message": "Dispatching parallel agents..."})
 
-    form_run = _get_workflow_fn("app.workflows.form_workflow")
+    form_run    = _get_workflow_fn("app.workflows.form_workflow")
     matchup_run = _get_workflow_fn("app.workflows.matchup_workflow")
-    odds_run = _get_workflow_fn("app.workflows.odds_risk_workflow")
+    odds_run    = _get_workflow_fn("app.workflows.odds_risk_workflow")
 
     home_form_coro = (
-        form_run(ctx, texts["home_form"], ctx.home_team_id)
+        form_run(ctx, texts["home_form"], ctx.home_team_id, dummy=dummy)
         if form_run else _not_impl("form_workflow_home")
     )
     away_form_coro = (
-        form_run(ctx, texts["away_form"], ctx.away_team_id)
+        form_run(ctx, texts["away_form"], ctx.away_team_id, dummy=dummy)
         if form_run else _not_impl("form_workflow_away")
     )
     matchup_coro = (
-        matchup_run(ctx, texts["matchup"])
+        matchup_run(ctx, texts["matchup"], dummy=dummy)
         if matchup_run else _not_impl("matchup_workflow")
     )
     odds_coro = (
-        odds_run(ctx, texts["odds_risk"])
+        odds_run(ctx, texts["odds_risk"], dummy=dummy)
         if odds_run else _not_impl("odds_risk_workflow")
     )
 
@@ -121,6 +129,7 @@ async def run_pipeline(game_id: str) -> AsyncGenerator[SSEEvent, None]:
 
     labels = ["form_workflow_home", "form_workflow_away", "matchup_workflow", "odds_risk_workflow"]
     home_form = away_form = matchup = odds_risk = None
+    odds_snapshot_id: str | None = None
     partial_telemetry = False
 
     for label, result in zip(labels, raw_results):
@@ -140,14 +149,16 @@ async def run_pipeline(game_id: str) -> AsyncGenerator[SSEEvent, None]:
             )
             if label == "form_workflow_home":
                 home_form = result
+                await save_form(result)
             elif label == "form_workflow_away":
                 away_form = result
+                await save_form(result)
             elif label == "matchup_workflow":
-                # print("Matchup JSON Output:")
-                # print(json.dumps(result.model_dump(), indent=2))
                 matchup = result
+                await save_matchup(result)
             elif label == "odds_risk_workflow":
                 odds_risk = result
+                odds_snapshot_id = await save_odds_snapshot(result)
 
     if partial_telemetry:
         yield SSEEvent(
@@ -176,8 +187,11 @@ async def run_pipeline(game_id: str) -> AsyncGenerator[SSEEvent, None]:
                 matchup=matchup,
                 odds_risk=odds_risk,
                 partial_telemetry=partial_telemetry,
+                dummy=dummy,
             )
             yield SSEEvent(event_name="final_prediction", payload=prediction.model_dump())
+            if odds_snapshot_id:
+                await save_recommendation(prediction, odds_snapshot_id)
         except Exception as e:
             logger.error("final_prediction agent failed: %s", e)
             yield SSEEvent(
@@ -188,5 +202,133 @@ async def run_pipeline(game_id: str) -> AsyncGenerator[SSEEvent, None]:
                     error_message=str(e),
                 ).model_dump(mode="json"),
             )
+
+
+# ── Soft pipeline ─────────────────────────────────────────────────────────────
+# Loads form + matchup from DB cache, only runs odds_risk_workflow live.
+# Falls back to hard pipeline if any cached row is missing.
+
+async def _run_soft(
+    ctx: GameContext,
+    texts: dict[str, str],
+    fixture: dict,
+    dummy: bool = True,
+) -> AsyncGenerator[SSEEvent, None]:
+    yield SSEEvent(event_name="status", payload={"message": "Soft pipeline — loading cached agent data..."})
+
+    # Fetch all three cached results concurrently
+    home_form, away_form, matchup = await asyncio.gather(
+        fetch_form(ctx.game_id, ctx.home_team_id),
+        fetch_form(ctx.game_id, ctx.away_team_id),
+        fetch_matchup(ctx.game_id),
+    )
+
+    # Fall back to hard pipeline if any cache entry is missing
+    if home_form is None or away_form is None or matchup is None:
+        yield SSEEvent(
+            event_name="status",
+            payload={"message": "Cache miss — switching to hard pipeline..."},
+        )
+        async for event in _run_hard(ctx, texts, fixture, dummy=dummy):
+            yield event
+        return
+
+    # Emit cached results as agent_update events so the UI receives the same shape
+    yield SSEEvent(event_name="agent_update", payload={"agent": "form_workflow_home", "data": home_form.model_dump()})
+    yield SSEEvent(event_name="agent_update", payload={"agent": "form_workflow_away", "data": away_form.model_dump()})
+    yield SSEEvent(event_name="agent_update", payload={"agent": "matchup_workflow",   "data": matchup.model_dump()})
+
+    # Run only the odds_risk workflow to get fresh market data
+    yield SSEEvent(event_name="status", payload={"message": "Fetching fresh odds and risk data..."})
+
+    odds_run = _get_workflow_fn("app.workflows.odds_risk_workflow")
+    odds_coro = (
+        odds_run(ctx, texts["odds_risk"], dummy=dummy)
+        if odds_run else _not_impl("odds_risk_workflow")
+    )
+
+    odds_result = await asyncio.gather(odds_coro, return_exceptions=True)
+    odds_risk = odds_result[0]
+    odds_snapshot_id: str | None = None
+    partial_telemetry = False
+
+    if isinstance(odds_risk, Exception):
+        partial_telemetry = True
+        err = AgentError(
+            agent_name="odds_risk_workflow",
+            error_type=type(odds_risk).__name__,
+            error_message=str(odds_risk),
+        )
+        yield SSEEvent(event_name="agent_error", payload=err.model_dump(mode="json"))
+        logger.warning("odds_risk_workflow failed in soft pipeline: %s", odds_risk)
+    else:
+        yield SSEEvent(event_name="agent_update", payload={"agent": "odds_risk_workflow", "data": odds_risk.model_dump()})
+        odds_snapshot_id = await save_odds_snapshot(odds_risk)
+
+    if partial_telemetry:
+        yield SSEEvent(
+            event_name="status",
+            payload={"message": "Partial telemetry — odds agent failed. Proceeding with available data."},
+        )
+
+    yield SSEEvent(event_name="status", payload={"message": "Running final prediction agent..."})
+
+    prediction_run = _get_workflow_fn("app.agents.final_prediction")
+    if prediction_run is None:
+        yield SSEEvent(
+            event_name="agent_error",
+            payload=AgentError(
+                agent_name="final_prediction",
+                error_type="NotImplementedError",
+                error_message="final_prediction agent is not yet implemented.",
+            ).model_dump(mode="json"),
+        )
+    else:
+        try:
+            prediction = await prediction_run(
+                ctx=ctx,
+                home_form=home_form,
+                away_form=away_form,
+                matchup=matchup,
+                odds_risk=odds_risk if not isinstance(odds_risk, Exception) else None,
+                partial_telemetry=partial_telemetry,
+                dummy=dummy,
+            )
+            yield SSEEvent(event_name="final_prediction", payload=prediction.model_dump())
+            if odds_snapshot_id:
+                await save_recommendation(prediction, odds_snapshot_id)
+        except Exception as e:
+            logger.error("final_prediction agent failed in soft pipeline: %s", e)
+            yield SSEEvent(
+                event_name="agent_error",
+                payload=AgentError(
+                    agent_name="final_prediction",
+                    error_type=type(e).__name__,
+                    error_message=str(e),
+                ).model_dump(mode="json"),
+            )
+
+
+# ── Entry point ───────────────────────────────────────────────────────────────
+
+async def run_pipeline(
+    game_id: str,
+    mode: Literal["hard", "soft"] = "hard",
+    dummy: bool = True,
+) -> AsyncGenerator[SSEEvent, None]:
+    yield SSEEvent(event_name="status", payload={"message": "Loading game context..."})
+
+    try:
+        ctx, texts, fixture = await _load_context(game_id)
+    except Exception as e:
+        yield SSEEvent(event_name="error", payload={"message": str(e)})
+        return
+
+    await save_match(ctx, fixture)
+    yield SSEEvent(event_name="context_loaded", payload=ctx.model_dump())
+
+    pipeline = _run_hard if mode == "hard" else _run_soft
+    async for event in pipeline(ctx, texts, fixture, dummy=dummy):
+        yield event
 
     yield SSEEvent(event_name="done", payload={})

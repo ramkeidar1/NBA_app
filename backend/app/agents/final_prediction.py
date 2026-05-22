@@ -135,8 +135,9 @@ async def run(
     matchup: MatchupEvalJSON | None,
     odds_risk: OddsRiskEvalJSON | None,
     partial_telemetry: bool,
+    dummy: bool = _DUMMY_MODE,
 ) -> FinalPredictionJSON:
-    if _DUMMY_MODE:
+    if dummy:
         logger.info("DUMMY FINAL_PREDICTION_%s", ctx.game_id)
         result = _DUMMY_PREDICTION.model_copy(
             update={"game_id": ctx.game_id, "partial_telemetry": partial_telemetry}

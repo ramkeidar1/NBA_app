@@ -96,7 +96,8 @@ class GameAnalysisSchema(BaseModel):
     
 class CommandRequest(BaseModel):
     game_id: str = Field(..., description="The ID of the match to target")
-    command: str = Field(..., description="The directive to execute, e.g., 'REFRESH'")
+    command: str = Field(..., description="The directive to execute, e.g., 'GetFullPredictionData'")
+    mode: str = Field(default="hard", description="Pipeline mode: 'hard' runs all agents, 'soft' uses cached form/matchup")
 
 
 __all__ = [

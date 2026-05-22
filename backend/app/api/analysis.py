@@ -81,11 +81,13 @@ async def stream_analysis(game_id: str):
 @router.post("/command")
 async def receive_ui_command(payload: CommandRequest):
     if payload.command == "GetFullPredictionData":
-        stream_url = f"/api/analysis/stream/{payload.game_id}"
+        mode = payload.mode if payload.mode in ("hard", "soft") else "hard"
+        stream_url = f"/api/analysis/stream/{payload.game_id}?mode={mode}"
         return {
             "status": "success",
-            "message": f"Pipeline ready for game {payload.game_id}.",
+            "message": f"Pipeline ready for game {payload.game_id} in {mode} mode.",
             "stream_url": stream_url,
+            "mode": mode,
         }
 
     return {

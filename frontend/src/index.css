@@ -442,6 +442,11 @@ html, body, #root {
   color: var(--accent);
 }
 
+.game-card__actions {
+  display: flex;
+  gap: 4px;
+}
+
 .game-card__refresh {
   background: none;
   border: 1px solid var(--border);
@@ -457,6 +462,18 @@ html, body, #root {
 .game-card__refresh:hover {
   color: var(--accent);
   border-color: var(--accent);
+}
+
+.game-card__refresh--hard {
+  color: var(--risk-high, #ef4444);
+  border-color: var(--risk-high, #ef4444);
+  opacity: 0.7;
+}
+
+.game-card__refresh--hard:hover {
+  color: var(--risk-high, #ef4444);
+  border-color: var(--risk-high, #ef4444);
+  opacity: 1;
 }
 
 .game-card__matchup {
