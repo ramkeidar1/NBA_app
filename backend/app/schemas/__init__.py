@@ -1,3 +1,10 @@
+from .base import AgentError, GameContext, SSEEvent
+from .form import FormEvalJSON, PlayerStatus, TeamFormData
+from .matchup import H2HGame, MatchupEvalJSON
+from .odds_risk import InjuryEntry, OddsRiskEvalJSON
+from .prediction import FinalPredictionJSON
+
+# Legacy models — defined inline to preserve backward compat with existing API routes
 from pydantic import BaseModel, Field, ConfigDict
 from typing import List
 
@@ -84,3 +91,29 @@ class GameAnalysisSchema(BaseModel):
     form_agent: FormAgentSchema = Field(..., alias="Form Agent")
     matchup_agent: MatchupAgentSchema = Field(..., alias="Matchup Agent")
     risk_agent: RiskAgentSchema = Field(..., alias="Risk Agent")
+
+
+__all__ = [
+    # Inter-agent contracts
+    "GameContext",
+    "SSEEvent",
+    "AgentError",
+    "PlayerStatus",
+    "TeamFormData",
+    "FormEvalJSON",
+    "H2HGame",
+    "MatchupEvalJSON",
+    "InjuryEntry",
+    "OddsRiskEvalJSON",
+    "FinalPredictionJSON",
+    # Legacy
+    "TeamData",
+    "MatchFixture",
+    "StandingSchema",
+    "NBATeamSchema",
+    "MatchPredictionSchema",
+    "FormAgentSchema",
+    "MatchupAgentSchema",
+    "RiskAgentSchema",
+    "GameAnalysisSchema",
+]
