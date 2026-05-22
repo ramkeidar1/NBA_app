@@ -103,7 +103,7 @@ async def run_pipeline(game_id: str) -> AsyncGenerator[SSEEvent, None]:
         if form_run else _not_impl("form_workflow_away")
     )
     matchup_coro = (
-        matchup_run(ctx, texts["matchup"])
+        matchup_run(ctx, texts["matchup"], ctx.game_id)
         if matchup_run else _not_impl("matchup_workflow")
     )
     odds_coro = (
