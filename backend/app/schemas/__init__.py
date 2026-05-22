@@ -14,6 +14,7 @@ common_config = ConfigDict(populate_by_name=True)
 class TeamData(BaseModel):
     model_config = common_config
 
+    id: str
     name: str
     record: str
     odds: str
@@ -92,6 +93,10 @@ class GameAnalysisSchema(BaseModel):
     form_agent: FormAgentSchema = Field(..., alias="Form Agent")
     matchup_agent: MatchupAgentSchema = Field(..., alias="Matchup Agent")
     risk_agent: RiskAgentSchema = Field(..., alias="Risk Agent")
+    
+class CommandRequest(BaseModel):
+    game_id: str = Field(..., description="The ID of the match to target")
+    command: str = Field(..., description="The directive to execute, e.g., 'REFRESH'")
 
 
 __all__ = [
