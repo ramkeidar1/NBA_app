@@ -26,6 +26,7 @@ class OddsRiskWorkflowJSON(BaseModel):
     
     confidence: float = Field(description="Confidence score based on market odds and risk boundaries, between 0.0 and 1.0.")
     workflow_weight: float = Field(description="The structural weight given to market conditions and risk vectors.")
+    winner_odds: float = Field(description="The market odds for the predicted winner in European Decimal format (e.g., 1.35, 2.10). Must be greater than 1.0. Returns null if lines are unavailable.")
     key_context: list[str] = Field(description="List of specific risk factors identified in the odds market (e.g., line movement anomalies).")
 
 class FinalPredictionJSON(BaseModel):

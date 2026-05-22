@@ -15,7 +15,7 @@ from app.schemas.prediction import FormWorkflowJSON, MatchupWorkflowJSON, OddsRi
 
 logger = logging.getLogger(__name__)
 
-_DUMMY_MODE = os.getenv("USE_DUMMY_AGENTS", "false").lower() == "true"
+_DUMMY_MODE = True
 
 # ─── $ref resolver ───────────────────────────────────────────────────────────
 
@@ -111,6 +111,7 @@ _DUMMY_PREDICTION = FinalPredictionJSON(
     odds_risk_report=OddsRiskWorkflowJSON(
         confidence=0.61,
         workflow_weight=0.25,
+        winner_odds=1.8,
         key_context=[
             "GSW -155, 60.8% implied",
             "Spread -3.5 GSW",

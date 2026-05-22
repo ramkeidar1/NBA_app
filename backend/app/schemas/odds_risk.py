@@ -26,9 +26,9 @@ class OddsRiskEvalJSON(BaseModel):
     injury_report: list[InjuryEntry] = Field(
         description="A structured list containing all relevant player health updates and status designations for this specific game.")
     moneyline_home: float = Field(
-        description="The standard American odds or decimal odds line for the home team to win outright.")
+        description="The standard decimal odds line for the home team to win outright.")
     moneyline_away: float = Field(
-        description="The standard American odds or decimal odds line for the away team to win outright.")
+        description="The standard decimal odds line for the away team to win outright.")
     spread: float = Field(
         description="The opening or current consensus point spread for the match, relative to the home team (e.g., -4.5 implies the home team is favored by 4.5 points).")
     over_under: float = Field(
