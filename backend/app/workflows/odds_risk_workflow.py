@@ -6,6 +6,7 @@ from app.client import anthropic_client
 from app.schemas import OddsRiskEvalJSON, GameContext, InjuryEntry
 
 logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 _SYSTEM_PROMPT = (
     "You are a precise NBA sports data extraction agent. "

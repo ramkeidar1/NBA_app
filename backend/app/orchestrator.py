@@ -143,8 +143,8 @@ async def run_pipeline(game_id: str) -> AsyncGenerator[SSEEvent, None]:
             elif label == "form_workflow_away":
                 away_form = result
             elif label == "matchup_workflow":
-                print("Matchup JSON Output:")
-                print(json.dumps(result.model_dump(), indent=2))
+                # print("Matchup JSON Output:")
+                # print(json.dumps(result.model_dump(), indent=2))
                 matchup = result
             elif label == "odds_risk_workflow":
                 odds_risk = result

@@ -6,6 +6,7 @@ from app.client import anthropic_client
 from app.schemas import FormEvalJSON, GameContext, H2HGame
 
 logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 _SYSTEM_PROMPT = (
     "You are a precise NBA data extraction agent. "
