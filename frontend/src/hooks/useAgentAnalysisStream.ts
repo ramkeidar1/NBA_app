@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { GameAgentAnalysis } from '../types/analysis';
+import { openAgentAnalysisStream } from '../services/api';
 
 interface UseAgentAnalysisStreamResult {
   analyses: GameAgentAnalysis[];
@@ -13,7 +14,7 @@ export function useAgentAnalysisStream(): UseAgentAnalysisStreamResult {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const es = new EventSource('/api/agent_analysis/stream');
+    const es = openAgentAnalysisStream();
 
     es.onmessage = (e) => {
       try {

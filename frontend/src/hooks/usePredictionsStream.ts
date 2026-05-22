@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { OrchestratorRecommendation } from '../types/recommendation';
+import { openPredictionsStream } from '../services/api';
 
 interface UsePredictionsStreamResult {
   recommendations: OrchestratorRecommendation[];
@@ -13,7 +14,7 @@ export function usePredictionsStream(): UsePredictionsStreamResult {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const es = new EventSource('/api/predictions/stream');
+    const es = openPredictionsStream();
 
     es.onmessage = (e) => {
       if (!e.data || e.data.trim() === '') return;

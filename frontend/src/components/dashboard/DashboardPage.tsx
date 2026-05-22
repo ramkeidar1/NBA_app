@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { postCommand } from '../../services/api';
 import type { GameData } from '../../types/game';
 import type { GameAgentAnalysis } from '../../types/analysis';
 import type { OrchestratorRecommendation } from '../../types/recommendation';
@@ -12,17 +13,19 @@ import AgentAnalysisPanel from './AgentAnalysisPanel';
 import PlaceBetPanel from './PlaceBetPanel';
 
 function gameKey(game: GameData): string {
+  return `${game['Home team'].id}_${game['Away team'].id}`;
+}
+
+function gameLookupName(game: GameData): string {
   return `${game['Home team'].name.replace(/ /g, '_')} vs ${game['Away team'].name.replace(/ /g, '_')}`;
 }
 
 function findRecommendation(game: GameData, recommendations: OrchestratorRecommendation[]): OrchestratorRecommendation | null {
-  const key = gameKey(game);
-  return recommendations.find((r) => r.name === key) ?? null;
+  return recommendations.find((r) => r.name === gameLookupName(game)) ?? null;
 }
 
 function findAgentAnalysis(game: GameData, analyses: GameAgentAnalysis[]): GameAgentAnalysis | null {
-  const key = gameKey(game);
-  return analyses.find((a) => a.name === key) ?? null;
+  return analyses.find((a) => a.name === gameLookupName(game)) ?? null;
 }
 
 
@@ -58,10 +61,13 @@ export default function DashboardPage() {
           )}
           {!loading && !error && games.map((game, i) => (
             <GameCard
-              key={i}
+              key={gameKey(game)}
               game={game}
               isSelected={selectedIndex === i}
-              onClick={() => setSelectedIndex(selectedIndex === i ? null : i)}
+              onClick={() => {
+                setSelectedIndex(selectedIndex === i ? null : i);
+                postCommand(gameKey(game), 'GetFullPredictionData').catch((err: unknown) => console.error(err));
+              }}
             />
           ))}
         </div>
