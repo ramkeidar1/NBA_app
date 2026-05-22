@@ -7,6 +7,7 @@ from typing import AsyncGenerator
 
 import aiofiles
 
+from app.cache.db import save_form, save_match, save_matchup, save_odds_snapshot, save_recommendation
 from app.schemas import AgentError, GameContext, SSEEvent
 
 logger = logging.getLogger(__name__)
@@ -32,7 +33,7 @@ async def _read_file(path: Path) -> str:
         return await f.read()
 
 
-async def _load_context(game_id: str) -> tuple[GameContext, dict[str, str]]:
+async def _load_context(game_id: str) -> tuple[GameContext, dict[str, str], dict]:
     home_id, away_id = _parse_game_id(game_id)
 
     raw = await _read_file(MOCK_DATA_DIR / "games.json")
@@ -62,7 +63,7 @@ async def _load_context(game_id: str) -> tuple[GameContext, dict[str, str]]:
     }
 
     texts = {key: await _read_file(path) for key, path in file_map.items()}
-    return ctx, texts
+    return ctx, texts, fixture
 
 
 def _get_workflow_fn(module_path: str, fn_name: str = "run"):
@@ -82,11 +83,12 @@ async def run_pipeline(game_id: str) -> AsyncGenerator[SSEEvent, None]:
     yield SSEEvent(event_name="status", payload={"message": "Loading game context..."})
 
     try:
-        ctx, texts = await _load_context(game_id)
+        ctx, texts, fixture = await _load_context(game_id)
     except Exception as e:
         yield SSEEvent(event_name="error", payload={"message": str(e)})
         return
 
+    await save_match(ctx, fixture)
     yield SSEEvent(event_name="context_loaded", payload=ctx.model_dump())
     yield SSEEvent(event_name="status", payload={"message": "Dispatching parallel agents..."})
 
@@ -121,6 +123,7 @@ async def run_pipeline(game_id: str) -> AsyncGenerator[SSEEvent, None]:
 
     labels = ["form_workflow_home", "form_workflow_away", "matchup_workflow", "odds_risk_workflow"]
     home_form = away_form = matchup = odds_risk = None
+    odds_snapshot_id: str | None = None
     partial_telemetry = False
 
     for label, result in zip(labels, raw_results):
@@ -140,14 +143,16 @@ async def run_pipeline(game_id: str) -> AsyncGenerator[SSEEvent, None]:
             )
             if label == "form_workflow_home":
                 home_form = result
+                await save_form(result)
             elif label == "form_workflow_away":
                 away_form = result
+                await save_form(result)
             elif label == "matchup_workflow":
-                # print("Matchup JSON Output:")
-                # print(json.dumps(result.model_dump(), indent=2))
                 matchup = result
+                await save_matchup(result)
             elif label == "odds_risk_workflow":
                 odds_risk = result
+                odds_snapshot_id = await save_odds_snapshot(result)
 
     if partial_telemetry:
         yield SSEEvent(
@@ -178,6 +183,8 @@ async def run_pipeline(game_id: str) -> AsyncGenerator[SSEEvent, None]:
                 partial_telemetry=partial_telemetry,
             )
             yield SSEEvent(event_name="final_prediction", payload=prediction.model_dump())
+            if odds_snapshot_id:
+                await save_recommendation(prediction, odds_snapshot_id)
         except Exception as e:
             logger.error("final_prediction agent failed: %s", e)
             yield SSEEvent(
