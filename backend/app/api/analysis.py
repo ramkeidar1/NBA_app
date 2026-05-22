@@ -8,6 +8,7 @@ import aiofiles
 from fastapi import APIRouter, HTTPException, status
 from sse_starlette.sse import EventSourceResponse
 
+from app.orchestrator import run_pipeline
 from app.schemas import GameAnalysisSchema, CommandRequest
 
 logger = logging.getLogger(__name__)
@@ -62,22 +63,32 @@ async def stream_agent_analysis():
 
     return EventSourceResponse(event_generator())
 
+@router.get("/api/analysis/stream/{game_id}")
+async def stream_analysis(game_id: str):
+    async def event_generator():
+        try:
+            async for event in run_pipeline(game_id):
+                yield {
+                    "event": event.event_name,
+                    "data": json.dumps(event.payload, default=str),
+                }
+        except asyncio.CancelledError:
+            logger.info("Client disconnected from analysis stream for game %s", game_id)
+
+    return EventSourceResponse(event_generator())
+
+
 @router.post("/command")
 async def receive_ui_command(payload: CommandRequest):
-    """
-    Dummy endpoint to test UI-to-Backend command transmission.
-    Intercepts the POST request and prints confirmation without running agents.
-    """
-    print(f"\n[DUMMY WORKFLOW] Ingested command: '{payload.command}' for Game ID: '{payload.game_id}'")
-    
-    # Simulate a successful deterministic system check
     if payload.command == "GetFullPredictionData":
+        stream_url = f"/api/analysis/stream/{payload.game_id}"
         return {
             "status": "success",
-            "message": f"Backend received GetFullPredictionData directive for game {payload.game_id}. Dummy execution complete."
+            "message": f"Pipeline ready for game {payload.game_id}.",
+            "stream_url": stream_url,
         }
-        
+
     return {
         "status": "ignored",
-        "message": f"Command '{payload.command}' recognized but no action taken."
+        "message": f"Command '{payload.command}' not recognized.",
     }

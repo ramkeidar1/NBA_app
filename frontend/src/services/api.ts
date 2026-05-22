@@ -36,6 +36,10 @@ export function openAgentAnalysisStream(): EventSource {
   return new EventSource('/api/agent_analysis/stream');
 }
 
+export function openAnalysisStream(game_id: string): EventSource {
+  return new EventSource(`/api/analysis/stream/${game_id}`);
+}
+
 export type { OrchestratorRecommendation, GameAgentAnalysis };
 
 // ─── Commands ────────────────────────────────────────────────────────────────
@@ -48,6 +52,7 @@ interface CommandRequest {
 interface CommandResponse {
   status: string;
   message?: string;
+  stream_url?: string;
 }
 
 export async function postCommand(game_id: string, command: string): Promise<CommandResponse> {
