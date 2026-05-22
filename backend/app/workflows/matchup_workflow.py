@@ -1,15 +1,11 @@
 import copy
 import logging
-from dotenv import load_dotenv
-import anthropic
+from anthropic.types import ToolUseBlock
 
+from app.client import anthropic_client
 from app.schemas import MatchupEvalJSON, GameContext, H2HGame
 
-load_dotenv()
-
 logger = logging.getLogger(__name__)
-
-_client = anthropic.AsyncAnthropic()
 
 # UPDATED: Focused specifically on Head-to-Head matchup data extraction
 _SYSTEM_PROMPT = (
@@ -131,7 +127,7 @@ _DUMMY_MATCHUPS = [
 
 async def run(ctx: GameContext, raw_text: str, dummy: bool = True) -> MatchupEvalJSON:
     if dummy:
-        print(f"DUMMY MATCHUP_WORKFLOW_{ctx.game_id}")
+        logger.info("DUMMY MATCHUP_WORKFLOW_%s", ctx.game_id)
         result = next((matchup for matchup in _DUMMY_MATCHUPS if ctx.game_id in matchup.game_id), None)
         if result is None:
             # Fallback to first item if it's a generic test
@@ -140,7 +136,7 @@ async def run(ctx: GameContext, raw_text: str, dummy: bool = True) -> MatchupEva
         result = result.model_copy(update={"game_id": ctx.game_id})
         return result
 
-    response = await _client.messages.create(
+    response = await anthropic_client.messages.create(
         model="claude-haiku-4-5",
         max_tokens=1024,
         system=_SYSTEM_PROMPT,
@@ -150,9 +146,12 @@ async def run(ctx: GameContext, raw_text: str, dummy: bool = True) -> MatchupEva
         messages=[{"role": "user", "content": raw_text}],
     )
 
-    tool_input: dict = response.content[0].input
+    tool_block = next((b for b in response.content if isinstance(b, ToolUseBlock)), None)
+    if tool_block is None:
+        raise ValueError(f"matchup_workflow: model did not return a tool call for game {ctx.game_id}")
+    tool_input: dict = tool_block.input
     tool_input["game_id"] = ctx.game_id
     result = MatchupEvalJSON.model_validate(tool_input)
-    print(result)
+    logger.info("matchup_workflow result: %s", result)
 
     return result

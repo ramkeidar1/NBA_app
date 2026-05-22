@@ -1,18 +1,11 @@
 import copy
-import json
 import logging
-from pathlib import Path
-from dotenv import load_dotenv
-import aiofiles
-import anthropic
+from anthropic.types import ToolUseBlock
 
+from app.client import anthropic_client
 from app.schemas import FormEvalJSON, GameContext, H2HGame
 
-load_dotenv()
-
 logger = logging.getLogger(__name__)
-
-_client = anthropic.AsyncAnthropic()
 
 _SYSTEM_PROMPT = (
     "You are a precise NBA data extraction agent. "
@@ -81,14 +74,14 @@ _DUMMY_FORMS: dict[str, FormEvalJSON] = {
 
 async def run(ctx: GameContext, raw_text: str, team_id: str, dummy: bool = True) -> FormEvalJSON:
     if dummy:
-        print(f"DUMMY FORM_WORKFLOW_{team_id}")
+        logger.info("DUMMY FORM_WORKFLOW_%s", team_id)
         result = _DUMMY_FORMS.get(team_id)
         if result is None:
             raise ValueError(f"No dummy data for team_id={team_id}")
         result = result.model_copy(update={"game_id": ctx.game_id})
         return result
 
-    response = await _client.messages.create(
+    response = await anthropic_client.messages.create(
         model="claude-haiku-4-5",
         max_tokens=1024,
         system=_SYSTEM_PROMPT,
@@ -97,10 +90,13 @@ async def run(ctx: GameContext, raw_text: str, team_id: str, dummy: bool = True)
         messages=[{"role": "user", "content": raw_text}],
     )
 
-    tool_input: dict = response.content[0].input
+    tool_block = next((b for b in response.content if isinstance(b, ToolUseBlock)), None)
+    if tool_block is None:
+        raise ValueError(f"form_workflow: model did not return a tool call for team {team_id}")
+    tool_input: dict = tool_block.input
     tool_input["game_id"] = ctx.game_id
     tool_input["team_id"] = team_id
     result = FormEvalJSON.model_validate(tool_input)
-    print(result)
+    logger.info("form_workflow result: %s", result)
 
     return result
