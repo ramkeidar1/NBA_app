@@ -1,9 +1,6 @@
 import copy
-import json
 import logging
-from pathlib import Path
 from dotenv import load_dotenv
-import aiofiles
 import anthropic
 
 from app.schemas import MatchupEvalJSON, GameContext, H2HGame
@@ -14,30 +11,29 @@ logger = logging.getLogger(__name__)
 
 _client = anthropic.AsyncAnthropic()
 
-
-_TEAMS_FILE = Path(__file__).parent.parent / "mock_data" / "teams.json"
-
+# UPDATED: Focused specifically on Head-to-Head matchup data extraction
 _SYSTEM_PROMPT = (
-    "You are a precise NBA data extraction agent. "
-    "Extract the team's form and performance statistics from the provided raw data text. "
+    "You are a precise NBA matchup data extraction agent. "
+    "Extract the head-to-head (H2H) history, historic scores, and recent game outcomes "
+    "between the two competing teams from the provided raw text. "
     "Return only values explicitly present in the text. "
-    "For the recent_game field, use the values from the MOST RECENT H2H GAME DETAIL section."
+    "Ensure accuracy for dates, scores, and team identifiers."
 )
 
 # Build the tool schema once at import time, removing fields we inject manually.
 _BASE_SCHEMA = copy.deepcopy(MatchupEvalJSON.model_json_schema())
-for _field in ("game_id", "team_id"):
+for _field in ("game_id",):
     _BASE_SCHEMA.get("properties", {}).pop(_field, None)
     if _field in _BASE_SCHEMA.get("required", []):
         _BASE_SCHEMA["required"].remove(_field)
 
 _TOOL_DEF = {
     "name": "submit_matchup_eval",
-    "description": "Extract and submit the structured team form evaluation from the raw data.",
+    "description": "Extract and submit the structured team's matchu[p] evaluation from the raw data.",
     "input_schema": _BASE_SCHEMA,
 }
 
-_DUMMY_FORMS = [
+_DUMMY_MATCHUPS = [
     MatchupEvalJSON(
         game_id="LAL_GSW",
         last_h2h=H2HGame(
@@ -133,12 +129,14 @@ _DUMMY_FORMS = [
     )
 ]
 
-async def run(ctx: GameContext, raw_text: str, team_id: str, dummy: bool = True) -> MatchupEvalJSON:
+async def run(ctx: GameContext, raw_text: str, dummy: bool = True) -> MatchupEvalJSON:
     if dummy:
-        print("DUMMY MATCHUP_WORKFLOW")
-        result = _DUMMY_FORMS.get(team_id)
+        print(f"DUMMY MATCHUP_WORKFLOW_{ctx.game_id}")
+        result = next((matchup for matchup in _DUMMY_MATCHUPS if ctx.game_id in matchup.game_id), None)
         if result is None:
-            raise ValueError(f"No dummy data for team_id={team_id}")
+            # Fallback to first item if it's a generic test
+            result = _DUMMY_MATCHUPS[0]
+            
         result = result.model_copy(update={"game_id": ctx.game_id})
         return result
 
@@ -147,13 +145,13 @@ async def run(ctx: GameContext, raw_text: str, team_id: str, dummy: bool = True)
         max_tokens=1024,
         system=_SYSTEM_PROMPT,
         tools=[_TOOL_DEF],
-        tool_choice={"type": "tool", "name": "submit_form_eval"},
+        # Tool choice here should match the setup tool definition name
+        tool_choice={"type": "tool", "name": "submit_matchup_eval"},
         messages=[{"role": "user", "content": raw_text}],
     )
 
     tool_input: dict = response.content[0].input
     tool_input["game_id"] = ctx.game_id
-    tool_input["team_id"] = team_id
     result = MatchupEvalJSON.model_validate(tool_input)
     print(result)
 

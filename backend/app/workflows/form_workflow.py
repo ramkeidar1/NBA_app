@@ -14,9 +14,6 @@ logger = logging.getLogger(__name__)
 
 _client = anthropic.AsyncAnthropic()
 
-
-_TEAMS_FILE = Path(__file__).parent.parent / "mock_data" / "teams.json"
-
 _SYSTEM_PROMPT = (
     "You are a precise NBA data extraction agent. "
     "Extract the team's form and performance statistics from the provided raw data text. "
@@ -84,7 +81,7 @@ _DUMMY_FORMS: dict[str, FormEvalJSON] = {
 
 async def run(ctx: GameContext, raw_text: str, team_id: str, dummy: bool = True) -> FormEvalJSON:
     if dummy:
-        print("DUMMY FORM_WORKFLOW")
+        print(f"DUMMY FORM_WORKFLOW_{team_id}")
         result = _DUMMY_FORMS.get(team_id)
         if result is None:
             raise ValueError(f"No dummy data for team_id={team_id}")
