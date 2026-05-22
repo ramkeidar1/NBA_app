@@ -20,3 +20,11 @@ Thumbs.db
 .idea/
 *.suo
 *.ntvs*
+
+# Python byte-code and cache folders
+__pycache__/
+*.pyc
+
+# Target any .env file in the root or any subfolder
+**/.env
+**/.env.local
