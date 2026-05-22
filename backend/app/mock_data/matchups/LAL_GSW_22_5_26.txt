@@ -1,0 +1,47 @@
+================================================================================
+MOCK DATA: LOS ANGELES LAKERS (LAL) VS GOLDEN STATE WARRIORS (GSW)
+GENERATED ON: May 22, 2026
+================================================================================
+
+[STAR PLAYER COMPARISON]
+
+• LOS ANGELES LAKERS STAR: Luka Doncic (SF/PG)[cite: 1]
+  - Season Metrics: 33.5 PTS | 7.7 REB | 8.3 AST | 1.6 STL[cite: 1]
+  - Notes: Regular-season MVP candidate who was unfortunately sidelined during the mid-May playoff run due to a severe injury[cite: 1].
+
+• GOLDEN STATE WARRIORS STAR: Stephen Curry (PG)
+  - Season Metrics: 26.4 PTS | 4.5 REB | 5.1 AST | 0.9 STL
+  - Notes: Led the league in total three-pointers made while maintaining a 41.2% efficiency from beyond the arc.
+
+--------------------------------------------------------------------------------
+[LAST 10 GAMES RECORD]
+
+• LAL Last 10 Games Record: 4 Wins, 6 Losses[cite: 1]
+• GSW Last 10 Games Record: 5 Wins, 5 Losses
+
+--------------------------------------------------------------------------------
+[LAST 10 GAMES HEAD-TO-HEAD HISTORY]
+
+The last 10 games played directly between the Lakers and Warriors across the 2025 and 2026 campaigns:
+• April 10, 2026: Golden State Warriors 103 - 119 Los Angeles Lakers (LAL Win)[cite: 1]
+• March 04, 2026: Los Angeles Lakers 112 - 118 Golden State Warriors (GSW Win)
+• January 25, 2026: Golden State Warriors 105 - 114 Los Angeles Lakers (LAL Win)
+• December 18, 2025: Los Angeles Lakers 122 - 126 Golden State Warriors (GSW Win)
+• November 02, 2025: Golden State Warriors 110 - 101 Los Angeles Lakers (GSW Win)
+• April 05, 2025: Los Angeles Lakers 108 - 115 Golden State Warriors (GSW Win)
+• March 12, 2025: Golden State Warriors 121 - 128 Los Angeles Lakers (LAL Win)
+• January 29, 2025: Los Angeles Lakers 119 - 111 Golden State Warriors (LAL Win)
+• December 23, 2024: Golden State Warriors 102 - 105 Los Angeles Lakers (LAL Win)
+• November 15, 2024: Los Angeles Lakers 114 - 120 Golden State Warriors (GSW Win)
+
+Head-to-Head Record over last 10 matchups: Tied 5-5
+
+--------------------------------------------------------------------------------
+[VENUE SPECIFIC RECORDS - AT HOME OF EACH TEAM]
+
+• LAL Record at Home (Crypto.com Arena vs GSW): 3 Wins, 2 Losses
+  - The Lakers hold a narrow advantage on their home floor in recent matchups, backed by strong interior scoring.
+
+• GSW Record at Home (Chase Center vs LAL): 3 Wins, 2 Losses
+  - The Warriors have matched that success in San Francisco, utilizing high-volume transition shooting to protect home court.
+================================================================================

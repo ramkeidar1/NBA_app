@@ -1,0 +1,45 @@
+================================================================================
+MOCK DATA: GOLDEN STATE WARRIORS (GSW) BRIEF TEAM PROFILE
+GENERATED ON: May 22, 2026
+================================================================================
+
+[TEAM STATUS & IDENTIFICATION]
+• Franchise Name: Golden State Warriors
+• Official NBA Abbreviation: GSW / GS
+• Current Head Coach: Steve Kerr
+
+--------------------------------------------------------------------------------
+[SEASON RECORD & STANDINGS]
+• 2025-2026 Full Season Standing: 10th in the Western Conference (Pacific Division: 4th)
+• Playoff/Postseason Status: Clinched a Play-In spot. Defeated the LA Clippers 126-121 in the first stage of the play-in, but were eliminated by the Phoenix Suns 111-96 in the final qualifying round. 
+• Full Season Record: 37 Wins, 45 Losses (.451)
+• Record at Home (Chase Center): 22 Wins, 19 Losses
+• Record Away (Road Games): 15 Wins, 26 Losses
+
+--------------------------------------------------------------------------------
+[RECENT FORM & ENCOUNTERS]
+• Last Match Result (April 17, 2026): GSW 96 - 111 Phoenix Suns (Loss - Play-In Elimination)
+• Last 10 Matches Record (End of Regular Season + Play-In): 4 Wins, 6 Losses 
+  - Apr 17, 2026: GSW 96 - 111 PHO (L)
+  - Apr 15, 2026: GSW 126 - 121 LAC (W)
+  - Apr 12, 2026: GSW 110 - 115 LAC (L)
+  - Apr 10, 2026: GSW 118 - 124 SAC (L)
+  - Apr 09, 2026: GSW 103 - 119 LAL (L)
+  - Apr 07, 2026: GSW 110 - 105 SAC (W)
+  - Apr 05, 2026: GSW 116 - 117 HOU (L)
+  - Apr 02, 2026: GSW 111 - 118 CLE (L)
+  - Apr 01, 2026: GSW 113 - 127 SAS (L)
+  - Mar 29, 2026: GSW 93 - 116 DEN (W) / *Score flipping standard match trend*
+
+--------------------------------------------------------------------------------
+[HISTORICAL CONTEXT]
+• Last Season Context (2024-2025): Finished with a much stronger 48-34 winning record before experiencing their first full-season sub-.500 record since 2011 during the injury-plagued 2025-26 campaign.
+
+--------------------------------------------------------------------------------
+[KEY STAR PLAYERS]
+• Stephen Curry (PG): Primary franchise cornerstone. Carried the offensive loads late in the year.
+• Jimmy Butler (SF): Star mid-season addition whose campaign tragically ended on January 19, 2026, due to a season-ending ACL tear.
+• Draymond Green (PF): Core defensive anchor and primary floor facilitator.
+• Brandin Podziemski (SG): Dynamic young guard executing an expanded backcourt role.
+
+================================================================================
