@@ -5,6 +5,56 @@ from app.cache.supabase import get_supabase
 from app.schemas import FormEvalJSON, MatchupEvalJSON, OddsRiskEvalJSON, FinalPredictionJSON
 from app.schemas.base import GameContext
 
+# ── reads ─────────────────────────────────────────────────────────────────────
+
+def _fetch_form_sync(match_id: str, team_id: str) -> FormEvalJSON | None:
+    res = get_supabase().table("form_cache") \
+        .select("payload") \
+        .eq("match_id", match_id) \
+        .eq("team_id", team_id) \
+        .limit(1) \
+        .execute()
+    if not res.data:
+        return None
+    return FormEvalJSON.model_validate(res.data[0]["payload"])
+
+
+async def fetch_form(match_id: str, team_id: str) -> FormEvalJSON | None:
+    try:
+        result = await asyncio.to_thread(_fetch_form_sync, match_id, team_id)
+        if result:
+            logger.info("db: form_cache hit for %s/%s", match_id, team_id)
+        else:
+            logger.info("db: form_cache miss for %s/%s", match_id, team_id)
+        return result
+    except Exception as exc:
+        logger.error("db: fetch_form failed for %s/%s: %s", match_id, team_id, exc)
+        return None
+
+
+def _fetch_matchup_sync(match_id: str) -> MatchupEvalJSON | None:
+    res = get_supabase().table("matchup_cache") \
+        .select("payload") \
+        .eq("match_id", match_id) \
+        .limit(1) \
+        .execute()
+    if not res.data:
+        return None
+    return MatchupEvalJSON.model_validate(res.data[0]["payload"])
+
+
+async def fetch_matchup(match_id: str) -> MatchupEvalJSON | None:
+    try:
+        result = await asyncio.to_thread(_fetch_matchup_sync, match_id)
+        if result:
+            logger.info("db: matchup_cache hit for %s", match_id)
+        else:
+            logger.info("db: matchup_cache miss for %s", match_id)
+        return result
+    except Exception as exc:
+        logger.error("db: fetch_matchup failed for %s: %s", match_id, exc)
+        return None
+
 logger = logging.getLogger(__name__)
 
 
