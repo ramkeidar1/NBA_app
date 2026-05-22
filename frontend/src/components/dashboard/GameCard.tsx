@@ -33,7 +33,7 @@ interface GameCardProps {
   game: GameData;
   isSelected: boolean;
   onClick: () => void;
-  onRefresh: () => void;
+  onRefresh: (mode: 'soft' | 'hard') => void;
 }
 
 export default function GameCard({ game, isSelected, onClick, onRefresh }: GameCardProps) {
@@ -50,14 +50,24 @@ export default function GameCard({ game, isSelected, onClick, onRefresh }: GameC
     >
       <div className="game-card__header">
         <div className="game-card__time">{formatTime(game.Time)}</div>
-        <button
-          className="game-card__refresh"
-          onClick={(e) => { e.stopPropagation(); onRefresh(); }}
-          title="Run pipeline"
-          aria-label="Run pipeline"
-        >
-          ↻
-        </button>
+        <div className="game-card__actions">
+          <button
+            className="game-card__refresh"
+            onClick={(e) => { e.stopPropagation(); onRefresh('soft'); }}
+            title="Soft refresh (cached)"
+            aria-label="Soft refresh"
+          >
+            ↻
+          </button>
+          <button
+            className="game-card__refresh game-card__refresh--hard"
+            onClick={(e) => { e.stopPropagation(); onRefresh('hard'); }}
+            title="Hard refresh (full pipeline)"
+            aria-label="Hard refresh"
+          >
+            ↻
+          </button>
+        </div>
       </div>
       <div className="game-card__matchup">
         <TeamRow id={home.id} name={home.name} record={home.record} odds={home.odds} side="home" />

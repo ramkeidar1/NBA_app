@@ -42,9 +42,9 @@ export default function DashboardPage() {
     };
   }, []);
 
-  function triggerPipeline(game_id: string) {
+  function triggerPipeline(game_id: string, mode: 'soft' | 'hard') {
     analysisStreamRef.current?.close();
-    postCommand(game_id, 'GetFullPredictionData')
+    postCommand(game_id, 'GetFullPredictionData', mode)
       .then((res) => {
         if (res.stream_url) {
           const es = openAnalysisStream(game_id);
@@ -90,7 +90,7 @@ export default function DashboardPage() {
               game={game}
               isSelected={selectedIndex === i}
               onClick={() => setSelectedIndex(selectedIndex === i ? null : i)}
-              onRefresh={() => triggerPipeline(gameKey(game))}
+              onRefresh={(mode) => triggerPipeline(gameKey(game), mode)}
             />
           ))}
         </div>
