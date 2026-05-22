@@ -214,7 +214,7 @@
     "division": "Pacific",
     "homeCourtName": "Crypto.com Arena",
     "standing": {
-      "wins": 40,
+      "wins": 4,
       "losses": 6,
       "seed": 4
     },
@@ -479,4 +479,4 @@
     "differentialRating": -4.9,
     "starPlayer": "Jordan Poole"
   }
-]
+]]

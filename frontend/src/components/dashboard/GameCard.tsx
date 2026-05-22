@@ -1,26 +1,23 @@
 import type { GameData } from '../../types/game';
 
-function teamLogoPath(name: string): string {
-  return `/icons/${name.replace(/ /g, '_')}.png`;
-}
-
 function formatTime(iso: string): string {
   return new Date(iso).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
 interface TeamRowProps {
+  id: string;
   name: string;
   record: string;
   odds: string;
   side: 'home' | 'away';
 }
 
-function TeamRow({ name, record, odds, side }: TeamRowProps) {
+function TeamRow({ id, name, record, odds, side }: TeamRowProps) {
   return (
     <div className={`game-card__team game-card__team--${side}`}>
       <img
         className="game-card__logo"
-        src={teamLogoPath(name)}
+        src={`/icons/${id}.png`}
         alt={name}
       />
       <div className="game-card__team-info">
@@ -52,9 +49,9 @@ export default function GameCard({ game, isSelected, onClick }: GameCardProps) {
     >
       <div className="game-card__time">{formatTime(game.Time)}</div>
       <div className="game-card__matchup">
-        <TeamRow name={home.name} record={home.record} odds={home.odds} side="home" />
+        <TeamRow id={home.id} name={home.name} record={home.record} odds={home.odds} side="home" />
         <div className="game-card__vs">VS</div>
-        <TeamRow name={away.name} record={away.record} odds={away.odds} side="away" />
+        <TeamRow id={away.id} name={away.name} record={away.record} odds={away.odds} side="away" />
       </div>
     </div>
   );

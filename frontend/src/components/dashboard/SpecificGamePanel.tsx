@@ -21,12 +21,13 @@ function StatRow({ label, value }: StatRowProps) {
 }
 
 interface TeamColumnProps {
+  teamId: string;
   teamName: string;
   side: 'home' | 'away';
   teams: TeamProfile[];
 }
 
-function TeamColumn({ teamName, side, teams }: TeamColumnProps) {
+function TeamColumn({ teamId, teamName, side, teams }: TeamColumnProps) {
   const profile = findTeamProfile(teamName, teams);
 
   return (
@@ -34,7 +35,7 @@ function TeamColumn({ teamName, side, teams }: TeamColumnProps) {
       <div className="sg-team-header">
         <img
           className="sg-logo"
-          src={`/icons/${teamName.replace(/ /g, '_')}.png`}
+          src={`/icons/${teamId}.png`}
           alt={teamName}
         />
         <div className="sg-team-title">
@@ -80,9 +81,9 @@ export default function SpecificGamePanel({ game }: SpecificGamePanelProps) {
 
   return (
     <div className="sg-panel">
-      <TeamColumn teamName={home.name} side="home" teams={teams} />
+      <TeamColumn teamId={home.id} teamName={home.name} side="home" teams={teams} />
       <div className="sg-divider" />
-      <TeamColumn teamName={away.name} side="away" teams={teams} />
+      <TeamColumn teamId={away.id} teamName={away.name} side="away" teams={teams} />
     </div>
   );
 }
