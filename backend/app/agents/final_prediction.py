@@ -66,13 +66,18 @@ _SYSTEM_PROMPT = (
     "2. All confidence scores and workflow_weight values must be decimals between 0.0 and 1.0. "
     "The three workflow_weight values across form_report, matchup_report, and odds_risk_report must sum to exactly 1.0.\n"
     "3. Set signal_disagreement_flag to true if any two sub-signals point to different winners.\n"
-    "4. reasoning_narrative must be at least 3 sentences: one summarising form, one summarising "
-    "matchup history, one summarising market conditions, and a final sentence stating the decision.\n"
+    "4. reasoning_narrative must be exactly 2 sentences. Each sentence must be dense and informative, "
+    "covering form momentum, H2H history, market conditions, and the final decision — all compressed "
+    "into those two sentences. No filler words.\n"
     "5. risk_rating is LOW when confidence > 0.70 and no signal disagreement, HIGH when confidence "
     "< 0.50 or signal_disagreement_flag is true, and MEDIUM otherwise.\n"
     "6. If any agent input is marked UNAVAILABLE, reduce that agent's workflow_weight to 0.0 and "
     "redistribute its weight to the remaining agents proportionally.\n"
-    "7. Populate winner_form and loser_form in form_report relative to your predicted_winner_id decision."
+    "7. Populate winner_form and loser_form in form_report relative to your predicted_winner_id decision.\n"
+    "8. ALL string fields except reasoning_narrative must be 3-4 words maximum. "
+    "This applies to: winner_form, loser_form, key_context (form_report), "
+    "last_match, last_ten_matches, net_differential, and each item in key_context (odds_risk_report). "
+    "Be telegraphic — use stats and abbreviations, not prose."
 )
 
 # ─── Dummy data ───────────────────────────────────────────────────────────────
@@ -84,58 +89,35 @@ _DUMMY_PREDICTION = FinalPredictionJSON(
     confidence=0.63,
     risk_rating="MEDIUM",
     reasoning_narrative=(
-        "The Golden State Warriors enter this fixture with superior recent form, posting a 6-4 record "
-        "over their last 10 games against the Lakers' 4-6 stretch, anchored by a +5.7 net rating differential. "
-        "Head-to-head history over the last 10 meetings heavily favours Golden State with 7 wins, "
-        "including the most recent encounter on March 8 where they won by 6 points at home. "
-        "Market conditions reflect this edge with GSW installed as -155 moneyline favourites implying 60.8% "
-        "win probability, though the absence of Luka Doncic for LAL and Brandin Podziemski for GSW "
-        "introduces meaningful roster uncertainty on both sides. "
-        "Weighing all three signals, Golden State is projected to win at home with moderate confidence."
+        "GSW's +5.7 net rating, 7-3 H2H dominance, and -155 market line collectively outweigh LAL's "
+        "compromised roster — Doncic OUT strips their primary creation engine while Curry anchors GSW's spacing. "
+        "Moderate confidence (0.63) reflects Podziemski's absence and Kuminga's questionable status introducing "
+        "bilateral roster risk, but form, matchup history, and market consensus align on a GSW home win."
     ),
     form_report=FormWorkflowJSON(
         confidence=0.68,
         workflow_weight=0.40,
-        winner_form=(
-            "Golden State Warriors — 6-4 over last 10, ORTG 118.2, DRTG 112.5, net rating +5.7. "
-            "Strong home record of 5-2 in the postseason stretch."
-        ),
-        loser_form=(
-            "Los Angeles Lakers — 4-6 over last 10, ORTG 110.4, DRTG 114.2, net rating -3.8. "
-            "Luka Doncic sidelined significantly reduces offensive ceiling."
-        ),
-        key_context=(
-            "Lakers playing without their primary ball-handler and MVP candidate. "
-            "Austin Reaves and LeBron James must absorb heavy usage volume."
-        ),
+        winner_form="GSW 6-4, +5.7 net",
+        loser_form="LAL 4-6, -3.8 net",
+        key_context="Doncic OUT, LAL depleted",
     ),
     matchup_report=MatchupWorkflowJSON(
         confidence=0.71,
         workflow_weight=0.35,
-        last_match=(
-            "March 8, 2026 — GSW 118, LAL 112 at Chase Center. "
-            "Warriors controlled the fourth quarter, outscoring LAL by 9 in the final period."
-        ),
-        last_ten_matches=(
-            "GSW leads the last 10 H2H meetings 7-3. "
-            "Warriors have won 3 consecutive matchups and 5 of the last 6. "
-            "Average margin of victory for GSW in wins: +7.1 points."
-        ),
-        net_differential=(
-            "GSW holds a +4.2 average point differential across the last 10 meetings. "
-            "Home/away split favours GSW strongly at Chase Center (5-1 in last 6 home games vs LAL)."
-        ),
+        last_match="GSW 118-112 Mar-8",
+        last_ten_matches="GSW leads 7-3",
+        net_differential="GSW +4.2 avg",
     ),
     odds_risk_report=OddsRiskWorkflowJSON(
         confidence=0.61,
         workflow_weight=0.25,
         key_context=[
-            "GSW moneyline -155 implies 60.8% market win probability — aligned with model output.",
-            "Spread set at -3.5 for GSW, consistent with historical average margin.",
-            "Luka Doncic (LAL) OUT — significant downward pressure on LAL implied probability.",
-            "Brandin Podziemski (GSW) OUT — reduces backcourt depth but Curry fully available.",
-            "Jonathan Kuminga (GSW) QUESTIONABLE — monitor day-of status for frontcourt impact.",
-            "Over/Under 224.5 — slightly elevated given LAL's defensive struggles in last 10.",
+            "GSW -155, 60.8% implied",
+            "Spread -3.5 GSW",
+            "Doncic OUT LAL",
+            "Podziemski OUT GSW",
+            "Kuminga QUESTIONABLE GSW",
+            "O/U 224.5",
         ],
     ),
     signal_disagreement_flag=False,

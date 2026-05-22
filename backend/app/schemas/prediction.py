@@ -32,7 +32,8 @@ class FinalPredictionJSON(BaseModel):
     model_config = common_config
 
     game_id: str = Field(description="The unique identifier for the scheduled fixture.")
-    predicted_winner: str = Field(description="The name of the team projected to win.")
+    predicted_winner_id: str = Field(description="The id of the team projected to win.")
+    predicted_winner_name: str = Field(description="The name of the team projected to win.")
     confidence: float = Field(description="Overall consolidated model confidence score, between 0.0 and 1.0.")
     risk_rating: Literal["LOW", "MEDIUM", "HIGH"] = Field(description="The evaluated volatility and risk profile of making this assertion.")
     reasoning_narrative: str = Field(description="High-level executive summary combining all workflow outputs into a cohesive decision defense.")
