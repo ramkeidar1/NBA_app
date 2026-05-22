@@ -1,10 +1,5 @@
 import type { GameData, TeamProfile } from '../../types/game';
-import { useTeams } from '../../hooks/useTeams';
-
-function findTeamProfile(displayName: string, teams: TeamProfile[]): TeamProfile | undefined {
-  const key = displayName.replace(/ /g, '_');
-  return teams.find((t) => t.name === key);
-}
+import { useTeamProfiles } from '../../hooks/useTeamProfiles';
 
 interface StatRowProps {
   label: string;
@@ -24,12 +19,10 @@ interface TeamColumnProps {
   teamId: string;
   teamName: string;
   side: 'home' | 'away';
-  teams: TeamProfile[];
+  profile: TeamProfile | null;
 }
 
-function TeamColumn({ teamId, teamName, side, teams }: TeamColumnProps) {
-  const profile = findTeamProfile(teamName, teams);
-
+function TeamColumn({ teamId, teamName, side, profile }: TeamColumnProps) {
   return (
     <div className={`sg-team-col sg-team-col--${side}`}>
       <div className="sg-team-header">
@@ -48,11 +41,12 @@ function TeamColumn({ teamId, teamName, side, teams }: TeamColumnProps) {
         <div className="sg-stats">
           <StatRow label="Conference" value={profile.conference} />
           <StatRow label="Division" value={profile.division} />
-          <StatRow label="Home Court" value={profile.homeCourtName} />
-          <StatRow label="Standing" value={`${profile.standing.wins}W – ${profile.standing.losses}L · Seed #${profile.standing.seed}`} />
-          <StatRow label="Off. Rating" value={profile.offensiveRating} />
-          <StatRow label="Def. Rating" value={profile.defensiveRating} />
-          <StatRow label="Star Player" value={profile.starPlayer} />
+          <StatRow label="Home Court" value={profile.home_court_name} />
+          <StatRow label="Seed" value={`${profile.seed}`} />
+          <StatRow label="Record" value={profile.record} />
+          <StatRow label="Off. Rating" value={profile.offensive_rating} />
+          <StatRow label="Def. Rating" value={profile.defensive_rating} />
+          <StatRow label="Star Player" value={profile.star_player} />
         </div>
       ) : (
         <div className="sg-no-profile">No profile available</div>
@@ -66,7 +60,13 @@ interface SpecificGamePanelProps {
 }
 
 export default function SpecificGamePanel({ game }: SpecificGamePanelProps) {
-  const { teams } = useTeams();
+  const home = game ? game['Home team'] : null;
+  const away = game ? game['Away team'] : null;
+
+  const { home: homeProfile, away: awayProfile, loading, error } = useTeamProfiles(
+    home?.id ?? null,
+    away?.id ?? null,
+  );
 
   if (!game) {
     return (
@@ -76,14 +76,27 @@ export default function SpecificGamePanel({ game }: SpecificGamePanelProps) {
     );
   }
 
-  const home = game['Home team'];
-  const away = game['Away team'];
+  if (loading) {
+    return (
+      <div className="sg-empty">
+        <span className="sg-empty-text">Loading team profiles…</span>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="sg-empty">
+        <span className="sg-empty-text" style={{ color: 'var(--risk-high)' }}>{error}</span>
+      </div>
+    );
+  }
 
   return (
     <div className="sg-panel">
-      <TeamColumn teamId={home.id} teamName={home.name} side="home" teams={teams} />
+      <TeamColumn teamId={home!.id} teamName={home!.name} side="home" profile={homeProfile} />
       <div className="sg-divider" />
-      <TeamColumn teamId={away.id} teamName={away.name} side="away" teams={teams} />
+      <TeamColumn teamId={away!.id} teamName={away!.name} side="away" profile={awayProfile} />
     </div>
   );
 }

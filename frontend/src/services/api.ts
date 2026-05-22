@@ -22,8 +22,8 @@ export function fetchMatches(signal?: AbortSignal): Promise<GameData[]> {
   return fetchJson<GameData[]>('/api/matches', signal);
 }
 
-export function fetchTeams(signal?: AbortSignal): Promise<TeamProfile[]> {
-  return fetchJson<TeamProfile[]>('/api/teams', signal);
+export function fetchTeam(teamId: string, signal?: AbortSignal): Promise<TeamProfile> {
+  return fetchJson<TeamProfile>(`/api/teams/${teamId}`, signal);
 }
 
 // ─── SSE streams ─────────────────────────────────────────────────────────────

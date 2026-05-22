@@ -20,9 +20,7 @@ export function usePredictionsStream(): UsePredictionsStreamResult {
       if (!e.data || e.data.trim() === '') return;
       try {
         const latestPredictions = JSON.parse(e.data) as OrchestratorRecommendation[];        
-        console.log(latestPredictions)
         setRecommendations([...latestPredictions]);
-        console.log(latestPredictions)
         setLoading(false);
       } catch {
         setError('Failed to parse prediction event');
