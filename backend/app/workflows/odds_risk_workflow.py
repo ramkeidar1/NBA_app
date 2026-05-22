@@ -1,15 +1,11 @@
 import copy
 import logging
-from dotenv import load_dotenv
-import anthropic
+from anthropic.types import ToolUseBlock
 
+from app.client import anthropic_client
 from app.schemas import OddsRiskEvalJSON, GameContext, InjuryEntry
 
-load_dotenv()
-
 logger = logging.getLogger(__name__)
-
-_client = anthropic.AsyncAnthropic()
 
 _SYSTEM_PROMPT = (
     "You are a precise NBA sports data extraction agent. "
@@ -82,7 +78,7 @@ _DUMMY_ODDS_RISKS = [
 
 async def run(ctx: GameContext, raw_text: str, dummy: bool = True) -> OddsRiskEvalJSON:
     if dummy:
-        print(f"DUMMY ODDS_&_RISK_WORKFLOW_{ctx.game_id}")
+        logger.info("DUMMY ODDS_RISK_WORKFLOW_%s", ctx.game_id)
         result = next((odds_risks for odds_risks in _DUMMY_ODDS_RISKS if ctx.game_id in odds_risks.game_id), None)
         if result is None:
             # Fallback to first item if it's a generic test
@@ -91,7 +87,7 @@ async def run(ctx: GameContext, raw_text: str, dummy: bool = True) -> OddsRiskEv
         result = result.model_copy(update={"game_id": ctx.game_id})
         return result
 
-    response = await _client.messages.create(
+    response = await anthropic_client.messages.create(
         model="claude-haiku-4-5",
         max_tokens=1024,
         system=_SYSTEM_PROMPT,
@@ -100,9 +96,12 @@ async def run(ctx: GameContext, raw_text: str, dummy: bool = True) -> OddsRiskEv
         messages=[{"role": "user", "content": raw_text}],
     )
 
-    tool_input: dict = response.content[0].input
+    tool_block = next((b for b in response.content if isinstance(b, ToolUseBlock)), None)
+    if tool_block is None:
+        raise ValueError(f"odds_risk_workflow: model did not return a tool call for game {ctx.game_id}")
+    tool_input: dict = tool_block.input
     tool_input["game_id"] = ctx.game_id
     result = OddsRiskEvalJSON.model_validate(tool_input)
-    print(result)
+    logger.info("odds_risk_workflow result: %s", result)
 
     return result
