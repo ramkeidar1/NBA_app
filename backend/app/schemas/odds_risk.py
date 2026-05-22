@@ -23,5 +23,3 @@ class OddsRiskEvalJSON(BaseModel):
     spread: float
     over_under: float
     market_implied_probability_home: float
-    standalone_probability: float
-    analysis_notes: str = ""

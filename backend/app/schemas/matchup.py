@@ -19,8 +19,4 @@ class MatchupEvalJSON(BaseModel):
 
     game_id: str
     h2h_last_10: list[H2HGame]
-    home_team_h2h_wins: int
-    home_team_h2h_losses: int
-    venue_advantage_note: str = ""
-    standalone_probability: float
-    analysis_notes: str = ""
+    last_h2h: H2HGame

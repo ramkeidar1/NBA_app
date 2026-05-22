@@ -1,5 +1,5 @@
 from .base import AgentError, GameContext, SSEEvent
-from .form import FormEvalJSON, PlayerStatus, TeamFormData
+from .form import FormEvalJSON, PlayerStatus
 from .matchup import H2HGame, MatchupEvalJSON
 from .odds_risk import InjuryEntry, OddsRiskEvalJSON
 from .prediction import FinalPredictionJSON
@@ -43,6 +43,7 @@ class NBATeamSchema(BaseModel):
     standing: StandingSchema
     offensive_rating: float = Field(..., alias="offensiveRating")
     defensive_rating: float = Field(..., alias="defensiveRating")
+    rating_differential: float = Field(..., alias="differentialRating")
     star_player: str = Field(..., alias="starPlayer")
 
 
@@ -99,7 +100,6 @@ __all__ = [
     "SSEEvent",
     "AgentError",
     "PlayerStatus",
-    "TeamFormData",
     "FormEvalJSON",
     "H2HGame",
     "MatchupEvalJSON",
