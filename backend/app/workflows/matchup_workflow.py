@@ -6,6 +6,7 @@ from app.client import anthropic_client
 from app.schemas import MatchupEvalJSON, GameContext, H2HGame
 
 logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 # UPDATED: Focused specifically on Head-to-Head matchup data extraction
 _SYSTEM_PROMPT = (
