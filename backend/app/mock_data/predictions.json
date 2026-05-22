@@ -1,7 +1,8 @@
 [
   {
+    "id": "BOS_CHI",
     "name": "Boston_Celtics vs Chicago_Bulls",
-    "winnerTeam": "Boston_Celtics",
+    "winnerTeam": "BOS",
     "difference": 11,
     "confidence": 0.85,
     "expectedValue": 1.31,
@@ -9,8 +10,9 @@
     "aiSummary": "Boston enters as a heavy favorite playing on their home court. With a massive gap in net rating and defensive efficiency, the Celtics are highly expected to control the pace. The low risk profile makes backing the home side a straightforward prediction."
   },
   {
+    "id": "LAL_GSW",
     "name": "Los_Angeles_Lakers vs Golden_State_Warriors",
-    "winnerTeam": "Los_Angeles_Lakers",
+    "winnerTeam": "LAL",
     "difference": 2,
     "confidence": 0.55,
     "expectedValue": 0.99,
@@ -18,8 +20,9 @@
     "aiSummary": "A classic rivalry with dead-even odds. The Lakers hold a slight edge purely due to home-court advantage and paint presence. Expect a down-to-the-wire finish with minimal separation between these veteran squads."
   },
   {
+    "id": "MIL_MIA",
     "name": "Milwaukee_Bucks vs Miami_Heat",
-    "winnerTeam": "Milwaukee_Bucks",
+    "winnerTeam": "MIL",
     "difference": 7,
     "confidence": 0.70,
     "expectedValue": 1.15,
@@ -27,8 +30,9 @@
     "aiSummary": "The Bucks boast a superior regular-season record and strong home metrics. While Miami's disciplined defense always poses a threat, Milwaukee's offensive firepower should look to secure a comfortable win at home."
   },
   {
+    "id": "DEN_PHX",
     "name": "Denver_Nuggets vs Phoenix_Suns",
-    "winnerTeam": "Denver_Nuggets",
+    "winnerTeam": "DEN",
     "difference": 9,
     "confidence": 0.75,
     "expectedValue": 1.22,
@@ -36,8 +40,9 @@
     "aiSummary": "Denver is exceptionally tough to beat at Mile High. Despite Phoenix possessing explosive star power, the Nuggets' elite team chemistry and execution give them a distinct upper hand to cover the margin."
   },
   {
+    "id": "NYK_PHI",
     "name": "New_York_Knicks vs Philadelphia_76ers",
-    "winnerTeam": "New_York_Knicks",
+    "winnerTeam": "NYK",
     "difference": 4,
     "confidence": 0.61,
     "expectedValue": 1.05,
@@ -45,8 +50,9 @@
     "aiSummary": "A gritty Atlantic division matchup where Madison Square Garden will play a huge factor. The Knicks' rebounding and physical identity give them a slight defensive cushion over a dangerous Philadelphia roster."
   },
   {
+    "id": "OKC_DAL",
     "name": "Oklahoma_City_Thunder vs Dallas_Mavericks",
-    "winnerTeam": "Oklahoma_City_Thunder",
+    "winnerTeam": "OKC",
     "difference": 10,
     "confidence": 0.78,
     "expectedValue": 1.26,
@@ -54,8 +60,9 @@
     "aiSummary": "OKC enters with a stellar 57-25 record and a heavily favored moneyline. While Dallas has elite individual creators, the Thunder's depth, youth, and transition efficiency make them strong home favorites."
   },
   {
+    "id": "CLE_IND",
     "name": "Cleveland_Cavaliers vs Indiana_Pacers",
-    "winnerTeam": "Cleveland_Cavaliers",
+    "winnerTeam": "CLE",
     "difference": 5,
     "confidence": 0.66,
     "expectedValue": 1.11,
@@ -63,8 +70,9 @@
     "aiSummary": "Cleveland's elite rim protection matches up well against Indiana's high-octane, paint-heavy offense. Expect the Cavaliers to slow down the tempo and squeeze out a moderate victory at home."
   },
   {
+    "id": "MIN_SAC",
     "name": "Minnesota_Timberwolves vs Sacramento_Kings",
-    "winnerTeam": "Minnesota_Timberwolves",
+    "winnerTeam": "MIN",
     "difference": 8,
     "confidence": 0.73,
     "expectedValue": 1.18,
@@ -72,8 +80,9 @@
     "aiSummary": "Minnesota's league-leading defensive length is a tough riddle for the fast-paced Kings. Backed by a strong home record, the Timberwolves should control the glass and stifle Sacramento's perimeter attack."
   },
   {
+    "id": "ORL_ATL",
     "name": "Orlando_Magic vs Atlanta_Hawks",
-    "winnerTeam": "Orlando_Magic",
+    "winnerTeam": "ORL",
     "difference": 6,
     "confidence": 0.65,
     "expectedValue": 1.09,
@@ -81,8 +90,9 @@
     "aiSummary": "Orlando's lockdown defense meets Atlanta's porous backcourt coverage. The Magic's ability to force turnovers and score in the half-court makes them a reliable pick to win this matchup comfortably."
   },
   {
+    "id": "LAC_NOP",
     "name": "LA_Clippers vs New_Orleans_Pelicans",
-    "winnerTeam": "LA_Clippers",
+    "winnerTeam": "LAC",
     "difference": 6,
     "confidence": 0.68,
     "expectedValue": 1.13,
@@ -90,8 +100,9 @@
     "aiSummary": "The Clippers hold the better overall record and home advantage. New Orleans matches up well physically, but the Clippers' veteran execution in clutch moments gives them the definitive edge here."
   },
   {
+    "id": "HOU_MEM",
     "name": "Houston_Rockets vs Memphis_Grizzlies",
-    "winnerTeam": "Houston_Rockets",
+    "winnerTeam": "HOU",
     "difference": 3,
     "confidence": 0.58,
     "expectedValue": 1.02,
@@ -99,8 +110,9 @@
     "aiSummary": "A highly competitive matchup between two young, physical teams. Houston's strong home-court performance this season gives them the fractional edge to edge out a victory against a resilient Memphis squad."
   },
   {
+    "id": "TOR_BKN",
     "name": "Brooklyn_Nets vs Toronto_Raptors",
-    "winnerTeam": "Toronto_Raptors",
+    "winnerTeam": "TOR",
     "difference": 4,
     "confidence": 0.60,
     "expectedValue": 1.06,
@@ -108,8 +120,9 @@
     "aiSummary": "Despite being the away team, Toronto is favored by the oddsmakers. Brooklyn has struggled to find an identity late in the season, allowing the slightly more organized Raptors to steal a win on the road."
   },
   {
+    "id": "UTA_SAS",
     "name": "San_Antonio_Spurs vs Utah_Jazz",
-    "winnerTeam": "Utah_Jazz",
+    "winnerTeam": "UTA",
     "difference": 5,
     "confidence": 0.63,
     "expectedValue": 1.08,
@@ -117,8 +130,9 @@
     "aiSummary": "San Antonio's 22-60 record reflects their structural depth issues. Utah enters as the clear road favorite, possessing the offensive spacing and veteran leadership necessary to exploit the Spurs' defensive lapses."
   },
   {
+    "id": "DET_POR",
     "name": "Portland_Trail_Blazers vs Detroit_Pistons",
-    "winnerTeam": "Detroit_Pistons",
+    "winnerTeam": "DET",
     "difference": 8,
     "confidence": 0.76,
     "expectedValue": 1.24,
@@ -126,8 +140,9 @@
     "aiSummary": "A bottom-tier battle where the oddsmakers heavily favor the away side. Despite a dreadful season record, Detroit gets a major confidence boost against a depleted Portland squad, making them a safe moneyline choice."
   },
   {
+    "id": "CHA_WAS",
     "name": "Charlotte_Hornets vs Washington_Wizards",
-    "winnerTeam": "Charlotte_Hornets",
+    "winnerTeam": "CHA",
     "difference": 2,
     "confidence": 0.54,
     "expectedValue": 1.01,
