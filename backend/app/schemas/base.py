@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -28,7 +28,7 @@ class SSEEvent(BaseModel):
     payload: dict[str, Any] = Field(
         description="A dynamic, unstructured dictionary carrying the event's raw data properties and contextual parameters.")
     timestamp: datetime = Field(
-        default_factory=datetime.utcnow,
+        default_factory=lambda: datetime.now(timezone.utc),
         description="The UTC timestamp recording when the event was dispatched, formatted in ISO 8601 syntax.")
 
 
@@ -42,5 +42,5 @@ class AgentError(BaseModel):
     error_message: str = Field(
         description="A detailed human-readable narrative explaining why the execution thread failed.")
     timestamp: datetime = Field(
-        default_factory=datetime.utcnow,
+        default_factory=lambda: datetime.now(timezone.utc),
         description="The UTC timestamp tracking exactly when the execution anomaly occurred, formatted in ISO 8601 syntax.")

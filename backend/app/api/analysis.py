@@ -56,8 +56,8 @@ async def stream_agent_analysis():
             except asyncio.CancelledError:
                 logger.info("Client disconnected from agent analysis stream.")
                 break
-            except Exception as e:
-                logger.error("Error streaming agent analysis: %s", e)
+            except Exception:
+                logger.exception("Error streaming agent analysis")
                 yield {"event": "error", "data": "Internal streaming error"}
                 await asyncio.sleep(10)
 
@@ -88,7 +88,8 @@ async def receive_ui_command(payload: CommandRequest):
             "stream_url": stream_url,
         }
 
-    return {
-        "status": "ignored",
-        "message": f"Command '{payload.command}' not recognized.",
-    }
+    from fastapi.responses import JSONResponse
+    return JSONResponse(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        content={"status": "error", "message": f"Command '{payload.command}' not recognized."},
+    )

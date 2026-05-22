@@ -6,7 +6,6 @@ from .prediction import FinalPredictionJSON
 
 # Legacy models — defined inline to preserve backward compat with existing API routes
 from pydantic import BaseModel, Field, ConfigDict
-from typing import List
 
 common_config = ConfigDict(populate_by_name=True)
 
@@ -64,7 +63,7 @@ class FormAgentSchema(BaseModel):
     model_config = common_config
 
     expected_winner_form: str = Field(..., alias="Expected winner Form")
-    expected_loser_form: str = Field(..., alias="Expected losser Form")
+    expected_loser_form: str = Field(..., alias="Expected loser Form")
     addons: str = Field(..., alias="Addons")
     certainty: int = Field(..., alias="Certainty", ge=0, le=100)
 
@@ -73,16 +72,16 @@ class MatchupAgentSchema(BaseModel):
     model_config = common_config
 
     expected_winner_form: str = Field(..., alias="Expected winner Form")
-    expected_loser_form: str = Field(..., alias="Expected losser Form")
-    differential_net: str = Field(..., alias="Deferntial net")
-    interesting_matchups: str = Field(..., alias="Intersting Matchups")
+    expected_loser_form: str = Field(..., alias="Expected loser Form")
+    differential_net: str = Field(..., alias="Differential net")
+    interesting_matchups: str = Field(..., alias="Interesting Matchups")
     certainty: int = Field(..., alias="Certainty", ge=0, le=100)
 
 
 class RiskAgentSchema(BaseModel):
     model_config = common_config
 
-    addons: List[str] = Field(..., alias="Addons")
+    addons: list[str] = Field(..., alias="Addons")
     certainty: int = Field(..., alias="Certainty", ge=0, le=100)
 
 

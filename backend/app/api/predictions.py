@@ -55,8 +55,8 @@ async def stream_predictions():
             except asyncio.CancelledError:
                 logger.info("Client disconnected from predictions stream.")
                 break
-            except Exception as e:
-                logger.error("Error streaming predictions: %s", e)
+            except Exception:
+                logger.exception("Error streaming predictions")
                 yield {"event": "error", "data": "Internal streaming error"}
                 await asyncio.sleep(10)
 

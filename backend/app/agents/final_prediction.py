@@ -1,6 +1,5 @@
 import copy
 import logging
-import os
 from anthropic.types import ToolUseBlock
 
 from app.client import anthropic_client
@@ -135,11 +134,16 @@ async def run(
     matchup: MatchupEvalJSON | None,
     odds_risk: OddsRiskEvalJSON | None,
     partial_telemetry: bool,
+    extended_thinking: bool = False,
 ) -> FinalPredictionJSON:
     if _DUMMY_MODE:
         logger.info("DUMMY FINAL_PREDICTION_%s", ctx.game_id)
         result = _DUMMY_PREDICTION.model_copy(
-            update={"game_id": ctx.game_id, "partial_telemetry": partial_telemetry}
+            update={
+                "game_id": ctx.game_id,
+                "partial_telemetry": partial_telemetry,
+                "extended_thinking": extended_thinking,
+            }
         )
         return result
 
@@ -156,23 +160,28 @@ async def run(
         f"Partial telemetry active: {partial_telemetry}"
     )
 
-    response = await anthropic_client.messages.create(
-        model="claude-sonnet-4-6",
-        max_tokens=4096,
-        system=_SYSTEM_PROMPT,
-        tools=[_TOOL_DEF],
-        tool_choice={"type": "tool", "name": "submit_final_prediction"},
-        messages=[{"role": "user", "content": user_message}],
-    )
+    create_kwargs: dict = {
+        "model": "claude-sonnet-4-6",
+        "max_tokens": 8000 if extended_thinking else 4096,
+        "system": _SYSTEM_PROMPT,
+        "tools": [_TOOL_DEF],
+        "tool_choice": {"type": "tool", "name": "submit_final_prediction"},
+        "messages": [{"role": "user", "content": user_message}],
+    }
+    if extended_thinking:
+        create_kwargs["betas"] = ["interleaved-thinking-2025-05-14"]
+        create_kwargs["thinking"] = {"type": "enabled", "budget_tokens": 3000}
+
+    response = await anthropic_client.messages.create(**create_kwargs)
 
     tool_block = next((b for b in response.content if isinstance(b, ToolUseBlock)), None)
     if tool_block is None:
         raise ValueError(f"final_prediction: model did not return a tool call for game {ctx.game_id}")
 
-    tool_input: dict = tool_block.input
+    tool_input: dict[str, object] = tool_block.input
     tool_input["game_id"] = ctx.game_id
     tool_input["partial_telemetry"] = partial_telemetry
-    tool_input["extended_thinking"] = False
+    tool_input["extended_thinking"] = extended_thinking
 
     result = FinalPredictionJSON.model_validate(tool_input)
     logger.info("final_prediction result: %s", result)

@@ -34,4 +34,4 @@ class OddsRiskEvalJSON(BaseModel):
     over_under: float = Field(
         description="The total consensus line for the combined points scored by both teams.")
     market_implied_probability_home: float = Field(
-        description="The calculated win probability for the home team extracted from market odds, expressed as a decimal between 0.0 and 1.0 (with vigorish/juice removed if applicable).")
+        description="The calculated win probability for the home team extracted from market odds, expressed as a percentage between 0.0 and 100.0 (with vigorish/juice removed if applicable).")
