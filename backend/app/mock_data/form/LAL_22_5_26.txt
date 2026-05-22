@@ -1,0 +1,43 @@
+================================================================================
+MOCK DATA: LOS ANGELES LAKERS (LAL) BRIEF TEAM PROFILE
+GENERATED ON: May 22, 2026
+================================================================================
+
+[TEAM STATUS & IDENTIFICATION]
+• Franchise Name: Los Angeles Lakers[cite: 1]
+• Official NBA Abbreviation: LAL
+• Current Head Coach: JJ Redick[cite: 1]
+
+--------------------------------------------------------------------------------
+[SEASON RECORD & STANDINGS]
+• 2025-2026 Full Season Standing: Eliminated in the Western Conference Semifinals (0-4 sweep loss)[cite: 1].
+• Postseason Summary: Won 4 games, Lost 6 games (Advanced past Houston 4-2, swept by OKC 0-4)[cite: 1].
+• Home Record (Playoffs): 2 Wins, 3 Losses[cite: 1]
+• Away Record (Playoffs): 2 Wins, 3 Losses[cite: 1]
+
+--------------------------------------------------------------------------------
+[RECENT FORM & ENCOUNTERS]
+• Last Match Result (May 12, 2026): LAL 110 - 115 Oklahoma City Thunder (Loss)[cite: 1]
+• Last 10 Matches Record: 4 Wins, 6 Losses[cite: 1]
+  - May 12, 2026: LAL 110 - 115 OKC (L)[cite: 1]
+  - May 10, 2026: LAL 108 - 131 OKC (L)[cite: 1]
+  - May 08, 2026: OKC 125 - 107 LAL (L)[cite: 1]
+  - May 06, 2026: OKC 108 - 90 LAL (L)[cite: 1]
+  - May 02, 2026: HOU 78 - 98 LAL (W)[cite: 1]
+  - April 30, 2026: LAL 93 - 99 HOU (L)[cite: 1]
+  - April 27, 2026: HOU 115 - 96 LAL (L)[cite: 1]
+  - April 25, 2026: HOU 108 - 112 LAL (W)[cite: 1]
+  - April 22, 2026: LAL 101 - 94 HOU (W)[cite: 1]
+  - April 19, 2026: LAL 107 - 98 HOU (W)[cite: 1]
+
+--------------------------------------------------------------------------------
+[HISTORICAL CONTEXT]
+• Last Season Context (2024-2025): Preceded a highly competitive 2025 roster overhaul where core pieces were retained or added to establish the current rotation leading into the 2026 postseason push[cite: 1].
+
+--------------------------------------------------------------------------------
+[KEY STAR PLAYERS]
+• Luka Doncic (SF/PG): Season MVP Candidate. Averaged 33.5 PTS, 7.7 REB, 8.3 AST. Sidelined for the entire second round of the playoffs due to a severe injury[cite: 1].
+• Austin Reaves (PG/SG): Core foundation piece. Averaged 23.3 PTS, 4.7 REB, 5.5 AST[cite: 1].
+• LeBron James (F): Veteran leader. Averaged 20.9 PTS, 6.1 REB, 7.2 AST at 41 years old[cite: 1].
+
+================================================================================
