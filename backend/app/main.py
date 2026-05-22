@@ -1,4 +1,6 @@
 # app/main.py
+import app.config  # noqa: F401 — configures logging and env before any router loads
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 

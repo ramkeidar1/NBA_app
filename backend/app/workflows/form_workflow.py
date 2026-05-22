@@ -3,10 +3,10 @@ import logging
 from anthropic.types import ToolUseBlock
 
 from app.client import anthropic_client
+from app.config import DUMMY_MODE
 from app.schemas import FormEvalJSON, GameContext, H2HGame
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
 
 _SYSTEM_PROMPT = (
     "You are a precise NBA data extraction agent. "
@@ -73,7 +73,7 @@ _DUMMY_FORMS: dict[str, FormEvalJSON] = {
 }
 
 
-async def run(ctx: GameContext, raw_text: str, team_id: str, dummy: bool = True) -> FormEvalJSON:
+async def run(ctx: GameContext, raw_text: str, team_id: str, dummy: bool = DUMMY_MODE) -> FormEvalJSON:
     if dummy:
         logger.info("DUMMY FORM_WORKFLOW_%s", team_id)
         result = _DUMMY_FORMS.get(team_id)

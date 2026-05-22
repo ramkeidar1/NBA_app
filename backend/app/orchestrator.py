@@ -16,6 +16,7 @@ from app.cache.db import (
     save_odds_snapshot,
     save_recommendation,
 )
+from app.config import DUMMY_MODE
 from app.schemas import AgentError, GameContext, SSEEvent
 
 logger = logging.getLogger(__name__)
@@ -314,7 +315,7 @@ async def _run_soft(
 async def run_pipeline(
     game_id: str,
     mode: Literal["hard", "soft"] = "hard",
-    dummy: bool = True,
+    dummy: bool = DUMMY_MODE,
 ) -> AsyncGenerator[SSEEvent, None]:
     yield SSEEvent(event_name="status", payload={"message": "Loading game context..."})
 
