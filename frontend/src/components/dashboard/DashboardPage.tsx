@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { postCommand } from '../../services/api';
+import { useEffect, useRef, useState } from 'react';
+import { postCommand, openAnalysisStream } from '../../services/api';
 import type { GameData } from '../../types/game';
 import type { GameAgentAnalysis } from '../../types/analysis';
 import type { OrchestratorRecommendation } from '../../types/recommendation';
@@ -34,6 +34,31 @@ export default function DashboardPage() {
   const { recommendations, loading: recsLoading, error: recsError } = usePredictionsStream();
   const { analyses, loading: analysisLoading, error: analysisError } = useAgentAnalysisStream();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const analysisStreamRef = useRef<EventSource | null>(null);
+
+  useEffect(() => {
+    return () => {
+      analysisStreamRef.current?.close();
+    };
+  }, []);
+
+  function triggerPipeline(game_id: string) {
+    analysisStreamRef.current?.close();
+    postCommand(game_id, 'GetFullPredictionData')
+      .then((res) => {
+        if (res.stream_url) {
+          const es = openAnalysisStream(game_id);
+          analysisStreamRef.current = es;
+          es.addEventListener('agent_update', (e) => console.log('[agent_update]', e.data));
+          es.addEventListener('agent_error',  (e) => console.error('[agent_error]', e.data));
+          es.addEventListener('final_prediction', (e) => console.log('[final_prediction]', e.data));
+          es.addEventListener('status', (e) => console.log('[status]', e.data));
+          es.addEventListener('done', () => { es.close(); analysisStreamRef.current = null; });
+          es.onerror = () => { console.error('Analysis stream error'); es.close(); };
+        }
+      })
+      .catch((err: unknown) => console.error('[postCommand]', err));
+  }
 
   const selectedGame = selectedIndex !== null ? games[selectedIndex] : null;
   const selectedRec = selectedGame ? findRecommendation(selectedGame, recommendations) : null;
@@ -66,7 +91,7 @@ export default function DashboardPage() {
               isSelected={selectedIndex === i}
               onClick={() => {
                 setSelectedIndex(selectedIndex === i ? null : i);
-                postCommand(gameKey(game), 'GetFullPredictionData').catch((err: unknown) => console.error(err));
+                triggerPipeline(gameKey(game));
               }}
             />
           ))}

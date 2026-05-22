@@ -14,10 +14,17 @@ logger = logging.getLogger(__name__)
 MOCK_DATA_DIR = Path(__file__).parent / "mock_data"
 
 
-def _parse_game_id(game_id: str) -> tuple[str, str, str]:
-    """'LAL_GSW_22_5_26' → ('LAL', 'GSW', '22_5_26')"""
+def _parse_game_id(game_id: str) -> tuple[str, str]:
+    """'LAL_GSW' or 'LAL_GSW_22_5_26' → ('LAL', 'GSW')"""
     parts = game_id.split("_")
-    return parts[0], parts[1], "_".join(parts[2:])
+    return parts[0], parts[1]
+
+
+def _find_mock_file(directory: Path, name: str) -> Path:
+    path = directory / name
+    if not path.exists():
+        raise FileNotFoundError(f"Missing mock data file: {directory.name}/{name}")
+    return path
 
 
 async def _read_file(path: Path) -> str:
@@ -26,7 +33,7 @@ async def _read_file(path: Path) -> str:
 
 
 async def _load_context(game_id: str) -> tuple[GameContext, dict[str, str]]:
-    home_id, away_id, date_suffix = _parse_game_id(game_id)
+    home_id, away_id = _parse_game_id(game_id)
 
     raw = await _read_file(MOCK_DATA_DIR / "games.json")
     games = json.loads(raw)
@@ -48,15 +55,11 @@ async def _load_context(game_id: str) -> tuple[GameContext, dict[str, str]]:
     )
 
     file_map: dict[str, Path] = {
-        "home_form": MOCK_DATA_DIR / "form" / f"{home_id}_{date_suffix}.txt",
-        "away_form": MOCK_DATA_DIR / "form" / f"{away_id}_{date_suffix}.txt",
-        "matchup":   MOCK_DATA_DIR / "matchups" / f"{home_id}_{away_id}_{date_suffix}.txt",
-        "odds_risk": MOCK_DATA_DIR / "odds_and_risk" / f"{home_id}_{away_id}_{date_suffix}.txt",
+        "home_form": _find_mock_file(MOCK_DATA_DIR / "form",          f"{home_id}.txt"),
+        "away_form": _find_mock_file(MOCK_DATA_DIR / "form",          f"{away_id}.txt"),
+        "matchup":   _find_mock_file(MOCK_DATA_DIR / "matchups",      f"{home_id}_{away_id}.txt"),
+        "odds_risk": _find_mock_file(MOCK_DATA_DIR / "odds_and_risk", f"{home_id}_{away_id}.txt"),
     }
-
-    for key, path in file_map.items():
-        if not path.exists():
-            raise FileNotFoundError(f"Missing mock data file: {path.name}")
 
     texts = {key: await _read_file(path) for key, path in file_map.items()}
     return ctx, texts
