@@ -89,10 +89,8 @@ export default function DashboardPage() {
               key={gameKey(game)}
               game={game}
               isSelected={selectedIndex === i}
-              onClick={() => {
-                setSelectedIndex(selectedIndex === i ? null : i);
-                triggerPipeline(gameKey(game));
-              }}
+              onClick={() => setSelectedIndex(selectedIndex === i ? null : i)}
+              onRefresh={() => triggerPipeline(gameKey(game))}
             />
           ))}
         </div>
