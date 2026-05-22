@@ -1,45 +1,80 @@
 ================================================================================
-MOCK DATA: GOLDEN STATE WARRIORS (GSW) BRIEF TEAM PROFILE
+MOCK DATA: GOLDEN STATE WARRIORS (GSW) BRIEF TEAM PROFILE & ANALYTICS
 GENERATED ON: May 22, 2026
 ================================================================================
 
 [TEAM STATUS & IDENTIFICATION]
 • Franchise Name: Golden State Warriors
-• Official NBA Abbreviation: GSW / GS
+• Official NBA Abbreviation: GSW
+• Official NBA Team ID: 1610612744
 • Current Head Coach: Steve Kerr
 
 --------------------------------------------------------------------------------
 [SEASON RECORD & STANDINGS]
-• 2025-2026 Full Season Standing: 10th in the Western Conference (Pacific Division: 4th)
-• Playoff/Postseason Status: Clinched a Play-In spot. Defeated the LA Clippers 126-121 in the first stage of the play-in, but were eliminated by the Phoenix Suns 111-96 in the final qualifying round. 
-• Full Season Record: 37 Wins, 45 Losses (.451)
-• Record at Home (Chase Center): 22 Wins, 19 Losses
-• Record Away (Road Games): 15 Wins, 26 Losses
+• 2025-2026 Full Season Standing: Advanced to the Western Conference Finals.
+• Postseason Summary: Won 8 games, Lost 5 games (Defeated Sacramento 4-1, Defeated Phoenix 4-0, currently battling OKC).
+• Complete Postseason Record: 8 Wins, 5 Losses (8-5)
+• Home Record (Playoffs): 5 Wins, 2 Losses (5-2)
+• Away Record (Playoffs): 3 Wins, 3 Losses (3-3)
+
+--------------------------------------------------------------------------------
+[ADVANCED ANALYTICS (LAST 10 GAMES)]
+• Last 10 Offensive Rating (ORTG): 118.2
+• Last 10 Defensive Rating (DRTG): 112.5
+• Last 10 Net Rating Differential: +5.7
 
 --------------------------------------------------------------------------------
 [RECENT FORM & ENCOUNTERS]
-• Last Match Result (April 17, 2026): GSW 96 - 111 Phoenix Suns (Loss - Play-In Elimination)
-• Last 10 Matches Record (End of Regular Season + Play-In): 4 Wins, 6 Losses 
-  - Apr 17, 2026: GSW 96 - 111 PHO (L)
-  - Apr 15, 2026: GSW 126 - 121 LAC (W)
-  - Apr 12, 2026: GSW 110 - 115 LAC (L)
-  - Apr 10, 2026: GSW 118 - 124 SAC (L)
-  - Apr 09, 2026: GSW 103 - 119 LAL (L)
-  - Apr 07, 2026: GSW 110 - 105 SAC (W)
-  - Apr 05, 2026: GSW 116 - 117 HOU (L)
-  - Apr 02, 2026: GSW 111 - 118 CLE (L)
-  - Apr 01, 2026: GSW 113 - 127 SAS (L)
-  - Mar 29, 2026: GSW 93 - 116 DEN (W) / *Score flipping standard match trend*
+• Last Match Result (May 20, 2026): GSW 112 - 108 Oklahoma City Thunder (Win)
+• Last 10 Matches Record: 6 Wins, 4 Losses (6-4)
+  - May 20, 2026: GSW 112 - 108 OKC (W)  [Game ID: 0042500312]
+  - May 18, 2026: OKC 119 - 110 GSW (L)  [Game ID: 0042500311]
+  - May 14, 2026: GSW 122 - 105 PHX (W)  [Game ID: 0042500234]
+  - May 12, 2026: PHX 114 - 128 GSW (W)  [Game ID: 0042500233]
+  - May 10, 2026: GSW 115 - 98 PHX (W)   [Game ID: 0042500232]
+  - May 08, 2026: GSW 110 - 106 PHX (W)   [Game ID: 0042500231]
+  - May 03, 2026: SAC 102 - 116 GSW (W)  [Game ID: 0042500125]
+  - May 01, 2026: GSW 99 - 105 SAC (L)   [Game ID: 0042500124]
+  - April 28, 2026: SAC 111 - 108 GSW (L) [Game ID: 0042500123]
+  - April 25, 2026: GSW 124 - 115 SAC (W) [Game ID: 0042500122]
+
+--------------------------------------------------------------------------------
+[MOST RECENT H2H GAME DETAIL]
+• Game ID: 0042500312
+• Game Date: 2026-05-20
+• Home Team ID: 1610612744
+• Home Team Name: Golden State Warriors
+• Home Team Abbreviation: GSW
+• Home Score: 112
+• Away Team ID: 1610612760
+• Away Team Name: Oklahoma City Thunder
+• Away Team Abbreviation: OKC
+• Away Score: 108
+• Winner Team ID: 1610612744
+• Match Outcome for Warriors: W
 
 --------------------------------------------------------------------------------
 [HISTORICAL CONTEXT]
-• Last Season Context (2024-2025): Finished with a much stronger 48-34 winning record before experiencing their first full-season sub-.500 record since 2011 during the injury-plagued 2025-26 campaign.
+• Last Season Context (2024-2025): Maintained structural depth while emphasizing modern floor-spacing adjustments, setting up an aggressive high-efficiency offensive system for the 2026 deep playoff run.
 
 --------------------------------------------------------------------------------
-[KEY STAR PLAYERS]
-• Stephen Curry (PG): Primary franchise cornerstone. Carried the offensive loads late in the year.
-• Jimmy Butler (SF): Star mid-season addition whose campaign tragically ended on January 19, 2026, due to a season-ending ACL tear.
-• Draymond Green (PF): Core defensive anchor and primary floor facilitator.
-• Brandin Podziemski (SG): Dynamic young guard executing an expanded backcourt role.
+[KEY PLAYER STATUS & ROSTER DETAILS]
+• Stephen Curry (PG)
+  - Team ID: 1610612744
+  - Roster Status: AVAILABLE
+  - Season Performance: Elite Floor General. Averaged 28.4 PTS, 5.1 REB, 6.4 AST.
+  - Medical/Injury Notes: Fully cleared, managing standard veteran recovery schedules between games.
+
+• Jonathan Kuminga (PF)
+  - Team ID: 1610612744
+  - Roster Status: QUESTIONABLE
+  - Season Performance: Athletic Wing Threat. Averaged 19.8 PTS, 6.5 REB, 2.2 AST.
+  - Medical/Injury Notes: Day-to-day following mild ankle soreness during game 2 of the WCF.
+
+• Brandin Podziemski (SG/PG)
+  - Team ID: 1610612744
+  - Roster Status: OUT
+  - Season Performance: High-IQ Guard. Averaged 12.5 PTS, 5.8 REB, 4.9 AST.
+  - Medical/Injury Notes: Sidelined for the remainder of the series due to a non-displaced wrist fracture.
 
 ================================================================================

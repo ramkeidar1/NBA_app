@@ -1,5 +1,6 @@
 [
   {
+    "id": "ATL",
     "name": "Atlanta_Hawks",
     "conference": "Eastern",
     "division": "Southeast",
@@ -11,9 +12,11 @@
     },
     "offensiveRating": 118.5,
     "defensiveRating": 112.0,
+    "differentialRating": 6.5,
     "starPlayer": "Trae Young"
   },
   {
+    "id": "BOS",
     "name": "Boston_Celtics",
     "conference": "Eastern",
     "division": "Atlantic",
@@ -25,9 +28,11 @@
     },
     "offensiveRating": 121.2,
     "defensiveRating": 109.8,
+    "differentialRating": 11.4,
     "starPlayer": "Jayson Tatum"
   },
   {
+    "id": "BKN",
     "name": "Brooklyn_Nets",
     "conference": "Eastern",
     "division": "Atlantic",
@@ -39,9 +44,11 @@
     },
     "offensiveRating": 105.9,
     "defensiveRating": 116.2,
+    "differentialRating": -10.3,
     "starPlayer": "Cam Thomas"
   },
   {
+    "id": "CHA",
     "name": "Charlotte_Hornets",
     "conference": "Eastern",
     "division": "Southeast",
@@ -53,9 +60,11 @@
     },
     "offensiveRating": 116.0,
     "defensiveRating": 112.9,
+    "differentialRating": 3.1,
     "starPlayer": "LaMelo Ball"
   },
   {
+    "id": "CHI",
     "name": "Chicago_Bulls",
     "conference": "Eastern",
     "division": "Central",
@@ -67,9 +76,11 @@
     },
     "offensiveRating": 116.3,
     "defensiveRating": 115.1,
+    "differentialRating": 1.2,
     "starPlayer": "Coby White"
   },
   {
+    "id": "CLE",
     "name": "Cleveland_Cavaliers",
     "conference": "Eastern",
     "division": "Central",
@@ -81,9 +92,11 @@
     },
     "offensiveRating": 119.5,
     "defensiveRating": 110.8,
+    "differentialRating": 8.7,
     "starPlayer": "Donovan Mitchell"
   },
   {
+    "id": "DAL",
     "name": "Dallas_Mavericks",
     "conference": "Western",
     "division": "Southwest",
@@ -95,9 +108,11 @@
     },
     "offensiveRating": 114.1,
     "defensiveRating": 112.3,
+    "differentialRating": 1.8,
     "starPlayer": "Luka Doncic"
   },
   {
+    "id": "DEN",
     "name": "Denver_Nuggets",
     "conference": "Western",
     "division": "Northwest",
@@ -109,9 +124,11 @@
     },
     "offensiveRating": 122.1,
     "defensiveRating": 114.1,
+    "differentialRating": 8.0,
     "starPlayer": "Nikola Jokic"
   },
   {
+    "id": "DET",
     "name": "Detroit_Pistons",
     "conference": "Eastern",
     "division": "Central",
@@ -123,9 +140,11 @@
     },
     "offensiveRating": 117.8,
     "defensiveRating": 106.4,
+    "differentialRating": 11.4,
     "starPlayer": "Cade Cunningham"
   },
   {
+    "id": "GSW",
     "name": "Golden_State_Warriors",
     "conference": "Western",
     "division": "Pacific",
@@ -137,9 +156,11 @@
     },
     "offensiveRating": 114.6,
     "defensiveRating": 111.1,
+    "differentialRating": 3.5,
     "starPlayer": "Stephen Curry"
   },
   {
+    "id": "HOU",
     "name": "Houston_Rockets",
     "conference": "Western",
     "division": "Southwest",
@@ -151,9 +172,11 @@
     },
     "offensiveRating": 115.2,
     "defensiveRating": 109.5,
+    "differentialRating": 5.7,
     "starPlayer": "Alperen Sengun"
   },
   {
+    "id": "IND",
     "name": "Indiana_Pacers",
     "conference": "Eastern",
     "division": "Central",
@@ -165,9 +188,11 @@
     },
     "offensiveRating": 112.4,
     "defensiveRating": 114.7,
+    "differentialRating": -2.3,
     "starPlayer": "Tyrese Haliburton"
   },
   {
+    "id": "LAC",
     "name": "LA_Clippers",
     "conference": "Western",
     "division": "Pacific",
@@ -179,9 +204,11 @@
     },
     "offensiveRating": 113.8,
     "defensiveRating": 113.0,
+    "differentialRating": 0.8,
     "starPlayer": "James Harden"
   },
   {
+    "id": "LAL",
     "name": "Los_Angeles_Lakers",
     "conference": "Western",
     "division": "Pacific",
@@ -193,9 +220,11 @@
     },
     "offensiveRating": 116.3,
     "defensiveRating": 114.4,
+    "differentialRating": 1.9,
     "starPlayer": "Anthony Davis"
   },
   {
+    "id": "MEM",
     "name": "Memphis_Grizzlies",
     "conference": "Western",
     "division": "Southwest",
@@ -207,9 +236,11 @@
     },
     "offensiveRating": 114.7,
     "defensiveRating": 112.9,
+    "differentialRating": 1.8,
     "starPlayer": "Ja Morant"
   },
   {
+    "id": "MIA",
     "name": "Miami_Heat",
     "conference": "Eastern",
     "division": "Southeast",
@@ -221,9 +252,11 @@
     },
     "offensiveRating": 120.9,
     "defensiveRating": 109.6,
+    "differentialRating": 11.3,
     "starPlayer": "Jimmy Butler"
   },
   {
+    "id": "MIL",
     "name": "Milwaukee_Bucks",
     "conference": "Eastern",
     "division": "Central",
@@ -235,9 +268,11 @@
     },
     "offensiveRating": 110.6,
     "defensiveRating": 114.6,
+    "differentialRating": -4.0,
     "starPlayer": "Giannis Antetokounmpo"
   },
   {
+    "id": "MIN",
     "name": "Minnesota_Timberwolves",
     "conference": "Western",
     "division": "Northwest",
@@ -249,9 +284,11 @@
     },
     "offensiveRating": 118.0,
     "defensiveRating": 109.7,
+    "differentialRating": 8.3,
     "starPlayer": "Anthony Edwards"
   },
   {
+    "id": "NOP",
     "name": "New_Orleans_Pelicans",
     "conference": "Western",
     "division": "Southwest",
@@ -263,9 +300,11 @@
     },
     "offensiveRating": 115.5,
     "defensiveRating": 115.3,
+    "differentialRating": 0.2,
     "starPlayer": "Zion Williamson"
   },
   {
+    "id": "NYK",
     "name": "New_York_Knicks",
     "conference": "Eastern",
     "division": "Atlantic",
@@ -277,9 +316,11 @@
     },
     "offensiveRating": 116.5,
     "defensiveRating": 110.0,
+    "differentialRating": 6.5,
     "starPlayer": "Jalen Brunson"
   },
   {
+    "id": "OKC",
     "name": "Oklahoma_City_Thunder",
     "conference": "Western",
     "division": "Northwest",
@@ -291,9 +332,11 @@
     },
     "offensiveRating": 119.0,
     "defensiveRating": 104.9,
+    "differentialRating": 14.1,
     "starPlayer": "Shai Gilgeous-Alexander"
   },
   {
+    "id": "ORL",
     "name": "Orlando_Magic",
     "conference": "Eastern",
     "division": "Southeast",
@@ -305,9 +348,11 @@
     },
     "offensiveRating": 115.7,
     "defensiveRating": 111.5,
+    "differentialRating": 4.2,
     "starPlayer": "Paolo Banchero"
   },
   {
+    "id": "PHI",
     "name": "Philadelphia_76ers",
     "conference": "Eastern",
     "division": "Atlantic",
@@ -319,9 +364,11 @@
     },
     "offensiveRating": 115.9,
     "defensiveRating": 111.8,
+    "differentialRating": 4.1,
     "starPlayer": "Joel Embiid"
   },
   {
+    "id": "PHX",
     "name": "Phoenix_Suns",
     "conference": "Western",
     "division": "Pacific",
@@ -333,9 +380,11 @@
     },
     "offensiveRating": 112.6,
     "defensiveRating": 110.7,
+    "differentialRating": 1.9,
     "starPlayer": "Devin Booker"
   },
   {
+    "id": "POR",
     "name": "Portland_Trail_Blazers",
     "conference": "Western",
     "division": "Northwest",
@@ -347,9 +396,11 @@
     },
     "offensiveRating": 115.5,
     "defensiveRating": 113.5,
+    "differentialRating": 2.0,
     "starPlayer": "Anfernee Simons"
   },
   {
+    "id": "SAC",
     "name": "Sacramento_Kings",
     "conference": "Western",
     "division": "Pacific",
@@ -361,9 +412,11 @@
     },
     "offensiveRating": 111.0,
     "defensiveRating": 117.6,
+    "differentialRating": -6.6,
     "starPlayer": "De'Aaron Fox"
   },
   {
+    "id": "SAS",
     "name": "San_Antonio_Spurs",
     "conference": "Western",
     "division": "Southwest",
@@ -375,9 +428,11 @@
     },
     "offensiveRating": 119.8,
     "defensiveRating": 108.5,
+    "differentialRating": 11.3,
     "starPlayer": "Victor Wembanyama"
   },
   {
+    "id": "TOR",
     "name": "Toronto_Raptors",
     "conference": "Eastern",
     "division": "Atlantic",
@@ -389,9 +444,11 @@
     },
     "offensiveRating": 114.6,
     "defensiveRating": 109.8,
+    "differentialRating": 4.8,
     "starPlayer": "Scottie Barnes"
   },
   {
+    "id": "UTA",
     "name": "Utah_Jazz",
     "conference": "Western",
     "division": "Northwest",
@@ -403,9 +460,11 @@
     },
     "offensiveRating": 117.6,
     "defensiveRating": 119.1,
+    "differentialRating": -1.5,
     "starPlayer": "Lauri Markkanen"
   },
   {
+    "id": "WAS",
     "name": "Washington_Wizards",
     "conference": "Eastern",
     "division": "Southeast",
@@ -417,6 +476,7 @@
     },
     "offensiveRating": 112.9,
     "defensiveRating": 117.8,
+    "differentialRating": -4.9,
     "starPlayer": "Jordan Poole"
   }
 ]

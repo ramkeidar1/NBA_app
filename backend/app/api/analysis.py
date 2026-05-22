@@ -8,7 +8,7 @@ import aiofiles
 from fastapi import APIRouter, HTTPException, status
 from sse_starlette.sse import EventSourceResponse
 
-from app.schemas import GameAnalysisSchema
+from app.schemas import GameAnalysisSchema, CommandRequest
 
 logger = logging.getLogger(__name__)
 MOCK_DATA_DIR = Path(__file__).parent.parent / "mock_data"
@@ -61,3 +61,23 @@ async def stream_agent_analysis():
                 await asyncio.sleep(10)
 
     return EventSourceResponse(event_generator())
+
+@router.post("/command")
+async def receive_ui_command(payload: CommandRequest):
+    """
+    Dummy endpoint to test UI-to-Backend command transmission.
+    Intercepts the POST request and prints confirmation without running agents.
+    """
+    print(f"\n[DUMMY WORKFLOW] Ingested command: '{payload.command}' for Game ID: '{payload.game_id}'")
+    
+    # Simulate a successful deterministic system check
+    if payload.command == "GetFullPredictionData":
+        return {
+            "status": "success",
+            "message": f"Backend received GetFullPredictionData directive for game {payload.game_id}. Dummy execution complete."
+        }
+        
+    return {
+        "status": "ignored",
+        "message": f"Command '{payload.command}' recognized but no action taken."
+    }

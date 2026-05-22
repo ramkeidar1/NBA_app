@@ -1,41 +1,52 @@
 ================================================================================
-MOCK DATA: LAKERS VS WARRIORS - MEDICAL STATUS, ODDS & MATCH FACTORS
+MOCK DATA: LAKERS VS WARRIORS (LAL VS GSW) ODDS, RISK, & INJURY EVALUATION
 GENERATED ON: May 22, 2026
 ================================================================================
 
-[CURRENT INJURY REPORT]
-
-• LOS ANGELES LAKERS (LAL) MEDICAL STATUS:
-  - Luka Doncic (SF/PG): OUT - Severe lower extremity injury sustained prior to the mid-May playoff run; remains sidelined for all active basketball operations[cite: 1].
-  - Austin Reaves (PG/SG): QUESTIONABLE - Dealing with a minor ankle sprain sustained during late-season heavy volume usage[cite: 1].
-  - LeBron James (F): AVAILABLE - Managing standard veteran load maintenance; cleared for full regular minutes[cite: 1].
-
-• GOLDEN STATE WARRIORS (GSW) MEDICAL STATUS:
-  - Stephen Curry (PG): AVAILABLE - Full clearance after resting minor shin soreness.
-  - Brandin Podziemski (SG): QUESTIONABLE - Day-to-day with a mild wrist sprain.
-  - Kevon Looney (C): OUT - Sidelined due to a finger fracture tracking for re-evaluation next week.
+[MATCHUP IDENTIFICATION]
+• Target Game ID: 0042500401
+• Home Team: Golden State Warriors (GSW) | ID: 1610612744
+• Away Team: Los Angeles Lakers (LAL)   | ID: 1610612747
 
 --------------------------------------------------------------------------------
-[BETTING ODDS & MARKET ANALYSIS]
-
-• Moneyline: Golden State Warriors (-145) | Los Angeles Lakers (+125)
-• Point Spread: GSW -3.5 / LAL +3.5
-• Over/Under Total: 224.5 Points
-• Win Probability Projection: Warriors 57% | Lakers 43%
-  - Note: Vegas lines heavily heavily factor in the absence of LAL's primary playmaker[cite: 1], shifting the Warriors to road favorites.
+[BETTING MARKET ODDS]
+• Moneyline Home (GSW): -155.0
+• Moneyline Away (LAL): +135.0
+• Spread: -3.5 (Home Favorite)
+• Over/Under Total Points: 224.5
+• Market Implied Probability (Home - GSW): 60.8
 
 --------------------------------------------------------------------------------
-[CRITICAL MATCH FACTORS & GENERAL INFLUENCES]
+[CONSOLIDATED INJURY & RISK REPORT]
 
-1. The Playmaking Deficit:
-   With Luka Doncic unavailable, the Lakers' half-court offense loses its primary engine[cite: 1]. Increased offensive burden shifts to LeBron James and Austin Reaves to generate ball movement against the Warriors' switching defensive schemes[cite: 1].
+• Luka Doncic
+  - Team ID: 1610612747 (LAL)
+  - Roster Status: OUT
+  - Impact Note: Sidelined for the entire second round of the playoffs due to a severe injury. Significantly shifts offensive creation burden to secondary playmakers.
 
-2. Transition Defense vs. Pace:
-   Golden State thrives on turning defensive rebounds and live-ball turnovers into fast-break opportunities. The Lakers showed vulnerability against high-tempo offenses late in the year[cite: 1], making transition defense their highest strategic priority.
+• Jonathan Kuminga
+  - Team ID: 1610612744 (GSW)
+  - Roster Status: QUESTIONABLE
+  - Impact Note: Day-to-day following mild ankle soreness during game 2 of the WCF. Potential limit to frontcourt athleticism and transition versatility if restricted.
 
-3. Frontcourt Rebounding Advantage:
-   With Golden State's Kevon Looney sidelined, the Lakers' frontcourt rotation featuring Deandre Ayton has a distinct height and rebounding advantage[cite: 1]. Securing second-chance points in the paint will be crucial to offset LAL's missing perimeter firepower[cite: 1].
+• Brandin Podziemski
+  - Team ID: 1610612744 (GSW)
+  - Roster Status: OUT
+  - Impact Note: Sidelined for the remainder of the series due to a non-displaced wrist fracture. Thins out backcourt depth and secondary playmaking rotations.
 
-4. Offseason Rumor Distractions:
-   As of late May, high-profile free agency speculation surrounds LeBron James, alongside heavy trade rumors involving future Lakers assets[cite: 1]. Maintaining locker-room focus amidst front-office planning serves as an underlying psychological variable[cite: 1].
+• Austin Reaves
+  - Team ID: 1610612747 (LAL)
+  - Roster Status: AVAILABLE
+  - Impact Note: Fully cleared, no structural or physical limitations. Expected to shoulder heavy volume and primary scoring responsibility.
+
+• Stephen Curry
+  - Team ID: 1610612744 (GSW)
+  - Roster Status: AVAILABLE
+  - Impact Note: Fully cleared, managing standard veteran recovery schedules between games. Anchors the primary spacing engine.
+
+• LeBron James
+  - Team ID: 1610612747 (LAL)
+  - Roster Status: AVAILABLE
+  - Impact Note: Fully cleared, handling veteran workload management cleanly. Anticipated high usage rate in high-leverage positions.
+
 ================================================================================
