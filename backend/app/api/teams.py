@@ -31,7 +31,7 @@ async def _read_json_file(filename: str) -> list:
         ) from exc
 
 
-@router.get("/api/teams", response_model=list[NBATeamSchema])
+@router.get("/api/teams", response_model=list[NBATeamSchema], response_model_by_alias=True)
 async def get_teams() -> list[NBATeamSchema]:
     data = await _read_json_file("teams.json")
     return [NBATeamSchema.model_validate(item) for item in data]

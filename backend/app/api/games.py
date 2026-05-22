@@ -31,7 +31,7 @@ async def _read_json_file(filename: str) -> list:
         ) from exc
 
 
-@router.get("/api/matches", response_model=list[MatchFixture])
+@router.get("/api/matches", response_model=list[MatchFixture], response_model_by_alias=True)
 async def get_matches() -> list[MatchFixture]:
     data = await _read_json_file("games.json")
     return [MatchFixture.model_validate(item) for item in data]

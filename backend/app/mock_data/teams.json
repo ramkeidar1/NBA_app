@@ -150,13 +150,13 @@
     "division": "Pacific",
     "homeCourtName": "Chase Center",
     "standing": {
-      "wins": 37,
-      "losses": 45,
+      "wins": 8,
+      "losses": 5,
       "seed": 10
     },
-    "offensiveRating": 114.6,
-    "defensiveRating": 111.1,
-    "differentialRating": 3.5,
+    "offensiveRating": 118.2,
+    "defensiveRating": 112.5,
+    "differentialRating": 5.7,
     "starPlayer": "Stephen Curry"
   },
   {
@@ -214,13 +214,13 @@
     "division": "Pacific",
     "homeCourtName": "Crypto.com Arena",
     "standing": {
-      "wins": 53,
-      "losses": 29,
+      "wins": 4,
+      "losses": 6,
       "seed": 4
     },
-    "offensiveRating": 116.3,
-    "defensiveRating": 114.4,
-    "differentialRating": 1.9,
+    "offensiveRating": 110.4,
+    "defensiveRating": 114.2,
+    "differentialRating": -3.8,
     "starPlayer": "Anthony Davis"
   },
   {

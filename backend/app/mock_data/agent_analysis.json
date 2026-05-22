@@ -1,5 +1,6 @@
 [
   {
+    "id": "BOS_CHI",
     "name": "Boston_Celtics vs Chicago_Bulls",
     "Form Agent": {
       "Expected winner Form": "BOS won nine",
@@ -25,6 +26,7 @@
     }
   },
   {
+    "id": "LAL_GSW",
     "name": "Los_Angeles_Lakers vs Golden_State_Warriors",
     "Form Agent": {
       "Expected winner Form": "LAL won four",
@@ -50,6 +52,7 @@
     }
   },
   {
+    "id": "MIL_MIA",
     "name": "Milwaukee_Bucks vs Miami_Heat",
     "Form Agent": {
       "Expected winner Form": "MIL won six",
@@ -75,6 +78,7 @@
     }
   },
   {
+    "id": "DEN_PHX",
     "name": "Denver_Nuggets vs Phoenix_Suns",
     "Form Agent": {
       "Expected winner Form": "DEN won seven",
@@ -100,6 +104,7 @@
     }
   },
   {
+    "id": "NYK_PHI",
     "name": "New_York_Knicks vs Philadelphia_76ers",
     "Form Agent": {
       "Expected winner Form": "NYK won five",
@@ -125,6 +130,7 @@
     }
   },
   {
+    "id": "OKC_DAL",
     "name": "Oklahoma_City_Thunder vs Dallas_Mavericks",
     "Form Agent": {
       "Expected winner Form": "OKC won eight",
@@ -150,6 +156,7 @@
     }
   },
   {
+    "id": "CLE_IND",
     "name": "Cleveland_Cavaliers vs Indiana_Pacers",
     "Form Agent": {
       "Expected winner Form": "CLE won three",
@@ -175,6 +182,7 @@
     }
   },
   {
+    "id": "MIN_SAC",
     "name": "Minnesota_Timberwolves vs Sacramento_Kings",
     "Form Agent": {
       "Expected winner Form": "MIN won six",
@@ -200,6 +208,7 @@
     }
   },
   {
+    "id": "ORL_ATL",
     "name": "Orlando_Magic vs Atlanta_Hawks",
     "Form Agent": {
       "Expected winner Form": "ORL won four",
@@ -225,6 +234,7 @@
     }
   },
   {
+    "id": "LAC_NOP",
     "name": "LA_Clippers vs New_Orleans_Pelicans",
     "Form Agent": {
       "Expected winner Form": "LAC won five",
@@ -250,6 +260,7 @@
     }
   },
   {
+    "id": "HOU_MEM",
     "name": "Houston_Rockets vs Memphis_Grizzlies",
     "Form Agent": {
       "Expected winner Form": "HOU split four",
@@ -275,6 +286,7 @@
     }
   },
   {
+    "id": "TOR_BKN",
     "name": "Brooklyn_Nets vs Toronto_Raptors",
     "Form Agent": {
       "Expected winner Form": "TOR won two",
@@ -300,6 +312,7 @@
     }
   },
   {
+    "id": "UTA_SAS",
     "name": "San_Antonio_Spurs vs Utah_Jazz",
     "Form Agent": {
       "Expected winner Form": "UTA won three",
@@ -325,6 +338,7 @@
     }
   },
   {
+    "id": "DET_POR",
     "name": "Portland_Trail_Blazers vs Detroit_Pistons",
     "Form Agent": {
       "Expected winner Form": "DET won four",
@@ -350,6 +364,7 @@
     }
   },
   {
+    "id": "CHA_WAS",
     "name": "Charlotte_Hornets vs Washington_Wizards",
     "Form Agent": {
       "Expected winner Form": "CHA won one",
