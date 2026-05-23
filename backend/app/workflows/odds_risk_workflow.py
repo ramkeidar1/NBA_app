@@ -4,7 +4,8 @@ from anthropic.types import ToolUseBlock
 
 from app.client import anthropic_client
 from app.config import DUMMY_MODE
-from app.schemas import OddsRiskEvalJSON, GameContext, InjuryEntry
+from app.schemas import OddsRiskEvalJSON, GameContext
+from app.workflows.dummy_data import _DUMMY_ODDS_RISKS
 
 logger = logging.getLogger(__name__)
 
@@ -27,55 +28,6 @@ _TOOL_DEF = {
     "description": "Extract and submit the structured odds and risk evaluation from the raw data.",
     "input_schema": _BASE_SCHEMA,
 }
-
-_DUMMY_ODDS_RISKS = [
-    OddsRiskEvalJSON(
-        game_id="LAL_GSW",
-        moneyline_home=-155.0,
-        moneyline_away=135.0,
-        spread=-3.5,
-        over_under=224.5,
-        market_implied_probability_home=60.8,
-        injury_report=[
-            InjuryEntry(
-                player_name="Luka Doncic",
-                team_id="LAL",
-                status="OUT",
-                impact_note="Sidelined for the entire second round of the playoffs due to a severe injury. Significantly shifts offensive creation burden to secondary playmakers."
-            ),
-            InjuryEntry(
-                player_name="Jonathan Kuminga",
-                team_id="GSW",
-                status="QUESTIONABLE",
-                impact_note="Day-to-day following mild ankle soreness during game 2 of the WCF. Potential limit to frontcourt athleticism and transition versatility if restricted."
-            ),
-            InjuryEntry(
-                player_name="Brandin Podziemski",
-                team_id="GSW",
-                status="OUT",
-                impact_note="Sidelined for the remainder of the series due to a non-displaced wrist fracture. Thins out backcourt depth and secondary playmaking rotations."
-            ),
-            InjuryEntry(
-                player_name="Austin Reaves",
-                team_id="LAL",
-                status="AVAILABLE",
-                impact_note="Fully cleared, no structural or physical limitations. Expected to shoulder heavy volume and primary scoring responsibility."
-            ),
-            InjuryEntry(
-                player_name="Stephen Curry",
-                team_id="GSW",
-                status="AVAILABLE",
-                impact_note="Fully cleared, managing standard veteran recovery schedules between games. Anchors the primary spacing engine."
-            ),
-            InjuryEntry(
-                player_name="LeBron James",
-                team_id="LAL",
-                status="AVAILABLE",
-                impact_note="Fully cleared, handling veteran workload management cleanly. Anticipated high usage rate in high-leverage positions."
-            )
-        ]
-    )
-]
 
 async def run(ctx: GameContext, raw_text: str, dummy: bool = DUMMY_MODE) -> OddsRiskEvalJSON:
     if dummy:
