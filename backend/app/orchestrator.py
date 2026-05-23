@@ -96,7 +96,7 @@ async def _run_hard(
     ctx: GameContext,
     texts: dict[str, str],
     fixture: dict,
-    dummy: bool = True,
+    dummy: bool = DUMMY_MODE,
 ) -> AsyncGenerator[SSEEvent, None]:
     yield SSEEvent(event_name="status", payload={"message": "Dispatching parallel agents..."})
 
@@ -151,16 +151,20 @@ async def _run_hard(
             )
             if label == "form_workflow_home":
                 home_form = result
-                await save_form(result)
+                if not dummy:
+                    await save_form(result)
             elif label == "form_workflow_away":
                 away_form = result
-                await save_form(result)
+                if not dummy:
+                    await save_form(result)
             elif label == "matchup_workflow":
                 matchup = result
-                await save_matchup(result)
+                if not dummy:
+                    await save_matchup(result)
             elif label == "odds_risk_workflow":
                 odds_risk = result
-                odds_snapshot_id = await save_odds_snapshot(result)
+                if not dummy:
+                    odds_snapshot_id = await save_odds_snapshot(result)
 
     if partial_telemetry:
         yield SSEEvent(
@@ -192,7 +196,7 @@ async def _run_hard(
                 dummy=dummy,
             )
             yield SSEEvent(event_name="final_prediction", payload=prediction.model_dump())
-            if odds_snapshot_id:
+            if not dummy and odds_snapshot_id:
                 await save_recommendation(prediction, odds_snapshot_id)
         except Exception as e:
             logger.error("final_prediction agent failed: %s", e)
@@ -233,7 +237,7 @@ async def _run_soft(
     ctx: GameContext,
     texts: dict[str, str],
     fixture: dict,
-    dummy: bool = True,
+    dummy: bool = DUMMY_MODE,
 ) -> AsyncGenerator[SSEEvent, None]:
     yield SSEEvent(event_name="status", payload={"message": "Soft pipeline — checking cache..."})
 
@@ -282,7 +286,8 @@ async def _run_soft(
         logger.warning("odds_risk_workflow failed in soft pipeline: %s", odds_risk)
     else:
         yield SSEEvent(event_name="agent_update", payload={"agent": "odds_risk_workflow", "data": odds_risk.model_dump()})
-        odds_snapshot_id = await save_odds_snapshot(odds_risk)
+        if not dummy:
+            odds_snapshot_id = await save_odds_snapshot(odds_risk)
 
     if partial_telemetry:
         yield SSEEvent(
@@ -314,7 +319,7 @@ async def _run_soft(
                 dummy=dummy,
             )
             yield SSEEvent(event_name="final_prediction", payload=prediction.model_dump())
-            if odds_snapshot_id:
+            if not dummy and odds_snapshot_id:
                 await save_recommendation(prediction, odds_snapshot_id)
         except Exception as e:
             logger.error("final_prediction agent failed in soft pipeline: %s", e)
@@ -343,7 +348,8 @@ async def run_pipeline(
         yield SSEEvent(event_name="error", payload={"message": str(e)})
         return
 
-    await save_match(ctx, fixture)
+    if not dummy:
+        await save_match(ctx, fixture)
     yield SSEEvent(event_name="context_loaded", payload=ctx.model_dump())
 
     pipeline = _run_hard if mode == "hard" else _run_soft
