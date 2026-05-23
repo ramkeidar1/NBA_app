@@ -2,7 +2,7 @@ from .base import AgentError, GameContext, SSEEvent
 from .form import FormEvalJSON
 from .matchup import H2HGame, MatchupEvalJSON
 from .odds_risk import InjuryEntry, OddsRiskEvalJSON
-from .prediction import FinalPredictionJSON
+from .prediction import FinalPredictionJSON, FormWorkflowJSON, MatchupWorkflowJSON, OddsRiskWorkflowJSON
 
 # Legacy models — defined inline to preserve backward compat with existing API routes
 from pydantic import BaseModel, Field, ConfigDict

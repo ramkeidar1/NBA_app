@@ -11,7 +11,9 @@ from app.schemas import (
     OddsRiskEvalJSON,
     FinalPredictionJSON,
 )
-from app.schemas.prediction import FormWorkflowJSON, MatchupWorkflowJSON, OddsRiskWorkflowJSON
+
+from app.workflows.dummy_data import _DUMMY_PREDICTION
+
 
 logger = logging.getLogger(__name__)
 
@@ -79,54 +81,6 @@ _SYSTEM_PROMPT = (
     "last_match, last_ten_matches, net_differential, and each item in key_context (odds_risk_report). "
     "Be telegraphic — use stats and abbreviations, not prose."
 )
-
-# ─── Dummy data ───────────────────────────────────────────────────────────────
-
-_DUMMY_PREDICTION = FinalPredictionJSON(
-    game_id="LAL_GSW",
-    predicted_winner_id="GSW",
-    predicted_winner_name="Golden State Warriors",
-    confidence=0.63,
-    risk_rating="MEDIUM",
-    reasoning_narrative=(
-        "GSW's +5.7 net rating, 7-3 H2H dominance, and -155 market line collectively outweigh LAL's "
-        "compromised roster — Doncic OUT strips their primary creation engine while Curry anchors GSW's spacing. "
-        "Moderate confidence (0.63) reflects Podziemski's absence and Kuminga's questionable status introducing "
-        "bilateral roster risk, but form, matchup history, and market consensus align on a GSW home win."
-    ),
-    form_report=FormWorkflowJSON(
-        confidence=0.68,
-        workflow_weight=0.40,
-        winner_form="GSW 6-4, +5.7 net",
-        loser_form="LAL 4-6, -3.8 net",
-        key_context="Doncic OUT, LAL depleted",
-    ),
-    matchup_report=MatchupWorkflowJSON(
-        confidence=0.71,
-        workflow_weight=0.35,
-        last_match="GSW 118-112 Mar-8",
-        last_ten_matches="GSW leads 7-3",
-        net_differential="GSW +4.2 avg",
-    ),
-    odds_risk_report=OddsRiskWorkflowJSON(
-        confidence=0.61,
-        workflow_weight=0.25,
-        winner_odds=1.8,
-        key_context=[
-            "GSW -155, 60.8% implied",
-            "Spread -3.5 GSW",
-            "Doncic OUT LAL",
-            "Podziemski OUT GSW",
-            "Kuminga QUESTIONABLE GSW",
-            "O/U 224.5",
-        ],
-    ),
-    signal_disagreement_flag=False,
-    partial_telemetry=False,
-    extended_thinking=False,
-)
-
-# ─── run() ────────────────────────────────────────────────────────────────────
 
 async def run(
     ctx: GameContext,

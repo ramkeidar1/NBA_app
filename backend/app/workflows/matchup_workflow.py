@@ -4,7 +4,8 @@ from anthropic.types import ToolUseBlock
 
 from app.client import anthropic_client
 from app.config import DUMMY_MODE
-from app.schemas import MatchupEvalJSON, GameContext, H2HGame
+from app.schemas import MatchupEvalJSON, GameContext
+from app.workflows.dummy_data import _DUMMY_MATCHUPS
 
 logger = logging.getLogger(__name__)
 
@@ -30,101 +31,6 @@ _TOOL_DEF = {
     "input_schema": _BASE_SCHEMA,
 }
 
-_DUMMY_MATCHUPS = [
-    MatchupEvalJSON(
-        game_id="LAL_GSW",
-        last_h2h=H2HGame(
-            date="2026-03-08",
-            home_team_id="GSW",
-            away_team_id="LAL",
-            home_score=118,
-            away_score=112,
-            winner_team_id="GSW",
-        ),
-        h2h_last_10=[
-            H2HGame(
-                date="2026-03-08",
-                home_team_id="GSW",
-                away_team_id="LAL",
-                home_score=118,
-                away_score=112,
-                winner_team_id="GSW",
-            ),
-            H2HGame(
-                date="2026-01-25",
-                home_team_id="LAL",
-                away_team_id="GSW",
-                home_score=105,
-                away_score=112,
-                winner_team_id="GSW",
-            ),
-            H2HGame(
-                date="2025-12-15",
-                home_team_id="GSW",
-                away_team_id="LAL",
-                home_score=121,
-                away_score=115,
-                winner_team_id="GSW",
-            ),
-            H2HGame(
-                date="2025-10-30",
-                home_team_id="LAL",
-                away_team_id="GSW",
-                home_score=110,
-                away_score=104,
-                winner_team_id="LAL",
-            ),
-            H2HGame(
-                date="2025-04-05",
-                home_team_id="GSW",
-                away_team_id="LAL",
-                home_score=128,
-                away_score=120,
-                winner_team_id="GSW",
-            ),
-            H2HGame(
-                date="2025-03-12",
-                home_team_id="LAL",
-                away_team_id="GSW",
-                home_score=114,
-                away_score=122,
-                winner_team_id="GSW",
-            ),
-            H2HGame(
-                date="2025-01-18",
-                home_team_id="GSW",
-                away_team_id="LAL",
-                home_score=109,
-                away_score=113,
-                winner_team_id="LAL",
-            ),
-            H2HGame(
-                date="2024-12-25",
-                home_team_id="LAL",
-                away_team_id="GSW",
-                home_score=124,
-                away_score=118,
-                winner_team_id="LAL",
-            ),
-            H2HGame(
-                date="2024-04-09",
-                home_team_id="LAL",
-                away_team_id="GSW",
-                home_score=120,
-                away_score=134,
-                winner_team_id="GSW",
-            ),
-            H2HGame(
-                date="2024-03-16",
-                home_team_id="LAL",
-                away_team_id="GSW",
-                home_score=121,
-                away_score=128,
-                winner_team_id="GSW",
-            ),
-        ],
-    )
-]
 
 async def run(ctx: GameContext, raw_text: str, dummy: bool = DUMMY_MODE) -> MatchupEvalJSON:
     if dummy:
