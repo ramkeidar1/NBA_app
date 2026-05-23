@@ -5,6 +5,7 @@ import type { GameAgentAnalysis } from '../../types/analysis';
 import type { OrchestratorRecommendation, RiskLevel } from '../../types/recommendation';
 import type { FinalPredictionJSON, FormEvalJSON, MatchupEvalJSON, OddsRiskEvalJSON, AgentUpdateState } from '../../types/prediction';
 import { useGames } from '../../hooks/useGames';
+import LoadingDots from '../ui/LoadingDots';
 import GameCard from './GameCard';
 import SpecificGamePanel from './SpecificGamePanel';
 import AIRecommendationPanel from './AIRecommendationPanel';
@@ -100,6 +101,7 @@ export default function DashboardPage() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [pipelineResults, setPipelineResults] = useState<Record<string, FinalPredictionJSON>>({});
   const [agentUpdatesByGame, setAgentUpdatesByGame] = useState<Record<string, AgentUpdateState>>({});
+  const [isStreaming, setIsStreaming] = useState(false);
   const analysisStreamRef = useRef<EventSource | null>(null);
   const fetchedKeys = useRef<Set<string>>(new Set());
 
@@ -136,6 +138,7 @@ export default function DashboardPage() {
 
   function triggerPipeline(game_id: string, mode: 'soft' | 'hard') {
     analysisStreamRef.current?.close();
+    setIsStreaming(true);
     postCommand(game_id, 'GetFullPredictionData', mode)
       .then((res) => {
         if (res.stream_url) {
@@ -168,11 +171,11 @@ export default function DashboardPage() {
               console.error('[final_prediction] failed to parse', e.data);
             }
           });
-          es.addEventListener('done', () => { es.close(); analysisStreamRef.current = null; });
-          es.onerror = () => { console.error('Analysis stream error'); es.close(); };
+          es.addEventListener('done', () => { es.close(); analysisStreamRef.current = null; setIsStreaming(false); });
+          es.onerror = () => { console.error('Analysis stream error'); es.close(); setIsStreaming(false); };
         }
       })
-      .catch((err: unknown) => console.error('[postCommand]', err));
+      .catch((err: unknown) => { console.error('[postCommand]', err); setIsStreaming(false); });
   }
 
   const selectedGame = selectedIndex !== null ? games[selectedIndex] : null;
@@ -242,7 +245,7 @@ export default function DashboardPage() {
             <span className="panel-title">AI Recommendation</span>
           </div>
           <div className="panel-body panel-body--overflow">
-            <AIRecommendationPanel recommendation={selectedRec} />
+            {isStreaming ? <LoadingDots /> : <AIRecommendationPanel recommendation={selectedRec} />}
           </div>
         </div>
 
@@ -252,7 +255,7 @@ export default function DashboardPage() {
             <span className="panel-title">Agent Analysis</span>
           </div>
           <div className="panel-body panel-body--overflow">
-            <AgentAnalysisPanel analysis={selectedAnalysis} />
+            {isStreaming ? <LoadingDots /> : <AgentAnalysisPanel analysis={selectedAnalysis} />}
           </div>
         </div>
 
@@ -262,7 +265,7 @@ export default function DashboardPage() {
             <span className="panel-title">Place Bet</span>
           </div>
           <div className="panel-body panel-body--overflow">
-            <PlaceBetPanel recommendation={selectedRec} />
+            <PlaceBetPanel recommendation={selectedRec} isStreaming={isStreaming} />
           </div>
         </div>
       </div>

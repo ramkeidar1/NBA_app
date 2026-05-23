@@ -16,6 +16,13 @@ GENERATED ON: May 22, 2026
 • Complete Postseason Record: 40 Wins, 6 Losses (4-6)
 • Home Record (Playoffs): 2 Wins, 3 Losses (2-3)
 • Away Record (Playoffs): 2 Wins, 3 Losses (2-3)
+• Conference Seed: 4
+
+--------------------------------------------------------------------------------
+[FULL-SEASON ADVANCED ANALYTICS]
+• Full-Season Offensive Rating (ORTG): 120.4
+• Full-Season Defensive Rating (DRTG): 124.2
+• Full-Season Net Rating Differential: -3.8
 
 --------------------------------------------------------------------------------
 [ADVANCED ANALYTICS (LAST 10 GAMES)]
