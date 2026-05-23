@@ -59,6 +59,35 @@ async def run(ctx: GameContext, raw_text: str, dummy: bool = DUMMY_MODE) -> Matc
     tool_input: dict = tool_block.input
     tool_input["game_id"] = ctx.game_id
     result = MatchupEvalJSON.model_validate(tool_input)
+    result = _normalize_team_ids(result, ctx.home_team_id, ctx.away_team_id)
     logger.info("matchup_workflow result: %s", result)
 
     return result
+
+
+def _normalize_team_ids(result: MatchupEvalJSON, home_id: str, away_id: str) -> MatchupEvalJSON:
+    """Replace any non-abbreviation team IDs (e.g. numeric NBA IDs) with the canonical abbreviations."""
+    known = {home_id, away_id}
+
+    def _fix(raw: str) -> str:
+        if raw in known:
+            return raw
+        lower = raw.lower()
+        if home_id.lower() in lower:
+            return home_id
+        if away_id.lower() in lower:
+            return away_id
+        return raw
+
+    def _fix_game(g: dict) -> dict:
+        return {
+            **g,
+            "home_team_id": _fix(g["home_team_id"]),
+            "away_team_id": _fix(g["away_team_id"]),
+            "winner_team_id": _fix(g["winner_team_id"]),
+        }
+
+    patched = result.model_dump()
+    patched["h2h_last_10"] = [_fix_game(g) for g in patched["h2h_last_10"]]
+    patched["last_h2h"] = _fix_game(patched["last_h2h"])
+    return MatchupEvalJSON.model_validate(patched)
