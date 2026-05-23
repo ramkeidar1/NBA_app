@@ -63,7 +63,10 @@ export function fetchCachedMatchup(game_id: string, signal?: AbortSignal): Promi
 // ─── SSE streams ─────────────────────────────────────────────────────────────
 
 export function openAnalysisStream(game_id: string, mode: 'hard' | 'soft' = 'hard'): EventSource {
-  return new EventSource(`/api/analysis/stream/${game_id}?mode=${mode}`);
+  const token = useAuthStore.getState().accessToken;
+  const params = new URLSearchParams({ mode });
+  if (token) params.set('token', token);
+  return new EventSource(`/api/analysis/stream/${game_id}?${params}`);
 }
 
 export type { OrchestratorRecommendation, GameAgentAnalysis };

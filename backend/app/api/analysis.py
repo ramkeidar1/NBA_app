@@ -5,9 +5,10 @@ import logging
 from pathlib import Path
 
 import aiofiles
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, Query, status
 from sse_starlette.sse import EventSourceResponse
 
+from app.auth.utils import decode_access_token
 from app.cache.db import fetch_form, fetch_matchup, fetch_recommendation
 from app.orchestrator import run_pipeline
 from app.schemas import FinalPredictionJSON, GameAnalysisSchema, CommandRequest, MatchupEvalJSON
@@ -19,7 +20,16 @@ router = APIRouter()
 
 
 @router.get("/api/analysis/stream/{game_id}")
-async def stream_analysis(game_id: str, mode: str = "hard"):
+async def stream_analysis(
+    game_id: str,
+    mode: str = "hard",
+    token: str = Query(...),
+):
+    try:
+        decode_access_token(token)
+    except ValueError:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired token")
+
     async def event_generator():
         try:
             async for event in run_pipeline(game_id, mode=mode):
