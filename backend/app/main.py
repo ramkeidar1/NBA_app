@@ -4,7 +4,7 @@ import app.config  # noqa: F401 — configures logging and env before any router
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import games, teams, analysis
+from app.api import analysis, auth, games, teams
 
 app = FastAPI(title="CourMind AI Core Gateway")
 
@@ -24,6 +24,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth.router)
 app.include_router(games.router)
 app.include_router(teams.router)
 app.include_router(analysis.router)
