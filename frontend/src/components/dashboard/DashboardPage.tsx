@@ -5,8 +5,6 @@ import type { GameAgentAnalysis } from '../../types/analysis';
 import type { OrchestratorRecommendation, RiskLevel } from '../../types/recommendation';
 import type { FinalPredictionJSON, FormEvalJSON, MatchupEvalJSON, OddsRiskEvalJSON, AgentUpdateState } from '../../types/prediction';
 import { useGames } from '../../hooks/useGames';
-import { usePredictionsStream } from '../../hooks/usePredictionsStream';
-import { useAgentAnalysisStream } from '../../hooks/useAgentAnalysisStream';
 import GameCard from './GameCard';
 import SpecificGamePanel from './SpecificGamePanel';
 import AIRecommendationPanel from './AIRecommendationPanel';
@@ -21,13 +19,6 @@ function gameLookupName(game: GameData): string {
   return `${game['Home team'].name.replace(/ /g, '_')} vs ${game['Away team'].name.replace(/ /g, '_')}`;
 }
 
-function findRecommendation(game: GameData, recommendations: OrchestratorRecommendation[]): OrchestratorRecommendation | null {
-  return recommendations.find((r) => r.name === gameLookupName(game)) ?? null;
-}
-
-function findAgentAnalysis(game: GameData, analyses: GameAgentAnalysis[]): GameAgentAnalysis | null {
-  return analyses.find((a) => a.name === gameLookupName(game)) ?? null;
-}
 
 function predictionToRecommendation(game: GameData, p: FinalPredictionJSON): OrchestratorRecommendation {
   return {
@@ -106,12 +97,11 @@ function agentUpdatesToGameAgentAnalysis(game: GameData, updates: AgentUpdateSta
 
 export default function DashboardPage() {
   const { games, loading, error } = useGames();
-  const { recommendations, loading: recsLoading, error: recsError } = usePredictionsStream();
-  const { analyses, loading: analysisLoading, error: analysisError } = useAgentAnalysisStream();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [pipelineResults, setPipelineResults] = useState<Record<string, FinalPredictionJSON>>({});
   const [agentUpdatesByGame, setAgentUpdatesByGame] = useState<Record<string, AgentUpdateState>>({});
   const analysisStreamRef = useRef<EventSource | null>(null);
+  const fetchedKeys = useRef<Set<string>>(new Set());
 
   useEffect(() => {
     return () => {
@@ -124,7 +114,8 @@ export default function DashboardPage() {
     const game = games[selectedIndex];
     if (!game) return;
     const key = gameKey(game);
-    if (pipelineResults[key]) return;
+    if (fetchedKeys.current.has(key)) return;
+    fetchedKeys.current.add(key);
 
     const controller = new AbortController();
     fetchCachedPrediction(key, controller.signal)
@@ -251,21 +242,7 @@ export default function DashboardPage() {
             <span className="panel-title">AI Recommendation</span>
           </div>
           <div className="panel-body panel-body--overflow">
-            {recsLoading && (
-              <div className="sg-empty">
-                <span className="sg-empty-text">Loading predictions…</span>
-              </div>
-            )}
-            {!recsLoading && recsError && (
-              <div className="sg-empty">
-                <span className="sg-empty-text" style={{ color: 'var(--risk-high)' }}>
-                  {recsError}
-                </span>
-              </div>
-            )}
-            {!recsLoading && !recsError && (
-              <AIRecommendationPanel recommendation={selectedRec} />
-            )}
+            <AIRecommendationPanel recommendation={selectedRec} />
           </div>
         </div>
 
@@ -275,21 +252,7 @@ export default function DashboardPage() {
             <span className="panel-title">Agent Analysis</span>
           </div>
           <div className="panel-body panel-body--overflow">
-            {analysisLoading && (
-              <div className="sg-empty">
-                <span className="sg-empty-text">Loading agent analysis…</span>
-              </div>
-            )}
-            {!analysisLoading && analysisError && (
-              <div className="sg-empty">
-                <span className="sg-empty-text" style={{ color: 'var(--risk-high)' }}>
-                  {analysisError}
-                </span>
-              </div>
-            )}
-            {!analysisLoading && !analysisError && (
-              <AgentAnalysisPanel analysis={selectedAnalysis} />
-            )}
+            <AgentAnalysisPanel analysis={selectedAnalysis} />
           </div>
         </div>
 

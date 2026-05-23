@@ -33,14 +33,6 @@ export function fetchCachedPrediction(game_id: string, signal?: AbortSignal): Pr
 
 // ─── SSE streams ─────────────────────────────────────────────────────────────
 
-export function openPredictionsStream(): EventSource {
-  return new EventSource('/api/predictions/stream');
-}
-
-export function openAgentAnalysisStream(): EventSource {
-  return new EventSource('/api/agent_analysis/stream');
-}
-
 export function openAnalysisStream(game_id: string, mode: 'hard' | 'soft' = 'hard'): EventSource {
   return new EventSource(`/api/analysis/stream/${game_id}?mode=${mode}`);
 }
