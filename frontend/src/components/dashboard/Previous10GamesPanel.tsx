@@ -32,14 +32,6 @@ export default function Previous10GamesPanel({ games, homeTeamId, awayTeamId }: 
     return () => ro.disconnect();
   }, []);
 
-  if (games.length === 0) {
-    return (
-      <div className="h2h-empty">
-        <span className="sg-empty-text">Select a game and run analysis to see H2H history</span>
-      </div>
-    );
-  }
-
   const sorted = [...games].sort((a, b) => a.date.localeCompare(b.date));
 
   const allScores = sorted.flatMap(g => [g.home_score, g.away_score]);
@@ -80,6 +72,16 @@ export default function Previous10GamesPanel({ games, homeTeamId, awayTeamId }: 
   const tickValues = Array.from({ length: ticks + 1 }, (_, i) =>
     Math.round(yMin + ((yMax - yMin) * i) / ticks)
   );
+
+  if (games.length === 0) {
+    return (
+      <div className="h2h-chart-wrap" ref={wrapRef}>
+        <div className="h2h-empty">
+          <span className="sg-empty-text">Select a game and run analysis to see H2H history</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="h2h-chart-wrap" ref={wrapRef}>

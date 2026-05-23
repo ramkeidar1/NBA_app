@@ -219,6 +219,7 @@ async def _run_hard(
 async def _fetch_form_two_level(game_id: str, team_id: str):
     """TTLCache → DB for a single form entry."""
     result = form_cache.get(f"{game_id}:{team_id}")
+    print(result)
     if result is not None:
         logger.debug("memory: form_cache hit for %s/%s", game_id, team_id)
         return result

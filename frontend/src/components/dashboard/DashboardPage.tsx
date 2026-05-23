@@ -286,11 +286,11 @@ export default function DashboardPage() {
               <span className="panel-title">H2H Last 10</span>
             </div>
             <div className="panel-body">
-              <Previous10GamesPanel
+              {isStreaming ? <LoadingDots /> : <Previous10GamesPanel
                 games={selectedAgentUpdates?.matchup?.h2h_last_10 ?? []}
                 homeTeamId={selectedGame ? selectedGame['Home team'].id : ''}
                 awayTeamId={selectedGame ? selectedGame['Away team'].id : ''}
-              />
+              />}
             </div>
           </div>
         </div>

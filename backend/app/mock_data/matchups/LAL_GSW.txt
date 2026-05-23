@@ -5,89 +5,89 @@ GENERATED ON: May 22, 2026
 
 [MATCHUP IDENTIFICATION]
 • Target Game ID: 0042500401
-• Home Team: Golden State Warriors (GSW) | ID: 1610612744
-• Away Team: Los Angeles Lakers (LAL)   | ID: 1610612747
+• Home Team: Golden State Warriors (GSW) | ID: GSW
+• Away Team: Los Angeles Lakers (LAL)   | ID: LAL
 
 --------------------------------------------------------------------------------
 [MOST RECENT HEAD-TO-HEAD MATCH]
 • Date: 2026-03-08
-• Home Team ID: 1610612744 (GSW)
-• Away Team ID: 1610612747 (LAL)
+• Home Team ID: GSW
+• Away Team ID: LAL
 • Home Score: 118
 • Away Score: 112
-• Winner Team ID: 1610612744 (GSW)
+• Winner Team ID: GSW
 
 --------------------------------------------------------------------------------
 [LAST 10 HEAD-TO-HEAD ENCOUNTERS HISTORY]
 
 1. Date: 2026-03-08
-   - Home Team ID: 1610612744 (GSW)
-   - Away Team ID: 1610612747 (LAL)
+   - Home Team ID: GSW
+   - Away Team ID: LAL
    - Home Score: 118
    - Away Score: 112
-   - Winner Team ID: 1610612744 (GSW)
+   - Winner Team ID: GSW
 
 2. Date: 2026-01-25
-   - Home Team ID: 1610612747 (LAL)
-   - Away Team ID: 1610612744 (GSW)
+   - Home Team ID: LAL
+   - Away Team ID: GSW
    - Home Score: 105
    - Away Score: 112
-   - Winner Team ID: 1610612744 (GSW)
+   - Winner Team ID: GSW
 
 3. Date: 2025-12-15
-   - Home Team ID: 1610612744 (GSW)
-   - Away Team ID: 1610612747 (LAL)
+   - Home Team ID: GSW
+   - Away Team ID: LAL
    - Home Score: 121
    - Away Score: 115
-   - Winner Team ID: 1610612744 (GSW)
+   - Winner Team ID: GSW
 
 4. Date: 2025-10-30
-   - Home Team ID: 1610612747 (LAL)
-   - Away Team ID: 1610612744 (GSW)
+   - Home Team ID: LAL
+   - Away Team ID: GSW
    - Home Score: 110
    - Away Score: 104
-   - Winner Team ID: 1610612747 (LAL)
+   - Winner Team ID: LAL
 
 5. Date: 2025-04-05
-   - Home Team ID: 1610612744 (GSW)
-   - Away Team ID: 1610612747 (LAL)
+   - Home Team ID: GSW
+   - Away Team ID: LAL
    - Home Score: 128
    - Away Score: 120
-   - Winner Team ID: 1610612744 (GSW)
+   - Winner Team ID: GSW
 
 6. Date: 2025-03-12
-   - Home Team ID: 1610612747 (LAL)
-   - Away Team ID: 1610612744 (GSW)
+   - Home Team ID: LAL
+   - Away Team ID: GSW
    - Home Score: 114
    - Away Score: 122
-   - Winner Team ID: 1610612744 (GSW)
+   - Winner Team ID: GSW
 
 7. Date: 2025-01-18
-   - Home Team ID: 1610612744 (GSW)
-   - Away Team ID: 1610612747 (LAL)
+   - Home Team ID: GSW
+   - Away Team ID: LAL
    - Home Score: 109
    - Away Score: 113
-   - Winner Team ID: 1610612747 (LAL)
+   - Winner Team ID: LAL
 
 8. Date: 2024-12-25
-   - Home Team ID: 1610612747 (LAL)
-   - Away Team ID: 1610612744 (GSW)
+   - Home Team ID: LAL
+   - Away Team ID: GSW
    - Home Score: 124
    - Away Score: 118
-   - Winner Team ID: 1610612747 (LAL)
+   - Winner Team ID: LAL
 
 9. Date: 2024-04-09
-   - Home Team ID: 1610612747 (LAL)
-   - Away Team ID: 1610612744 (GSW)
+   - Home Team ID: LAL
+   - Away Team ID: GSW
    - Home Score: 120
    - Away Score: 134
-   - Winner Team ID: 1610612744 (GSW)
+   - Winner Team ID: GSW
 
 10. Date: 2024-03-16
-    - Home Team ID: 1610612747 (LAL)
-    - Away Team ID: 1610612744 (GSW)
+    - Home Team ID: LAL
+    - Away Team ID: GSW
     - Home Score: 121
     - Away Score: 128
-    - Winner Team ID: 1610612744 (GSW)
+    - Winner Team ID: GSW
 
 ================================================================================
