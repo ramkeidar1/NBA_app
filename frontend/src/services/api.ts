@@ -1,7 +1,7 @@
 import type { GameData, TeamProfile } from '../types/game';
 import type { OrchestratorRecommendation } from '../types/recommendation';
 import type { GameAgentAnalysis } from '../types/analysis';
-import type { FinalPredictionJSON } from '../types/prediction';
+import type { FinalPredictionJSON, MatchupEvalJSON } from '../types/prediction';
 
 const BACKEND_BASE = 'http://127.0.0.1:8000';
 
@@ -29,6 +29,10 @@ export function fetchTeam(teamId: string, signal?: AbortSignal): Promise<TeamPro
 
 export function fetchCachedPrediction(game_id: string, signal?: AbortSignal): Promise<FinalPredictionJSON> {
   return fetchJson<FinalPredictionJSON>(`/api/predictions/${game_id}`, signal);
+}
+
+export function fetchCachedMatchup(game_id: string, signal?: AbortSignal): Promise<MatchupEvalJSON> {
+  return fetchJson<MatchupEvalJSON>(`/api/matchup/${game_id}`, signal);
 }
 
 // ─── SSE streams ─────────────────────────────────────────────────────────────
