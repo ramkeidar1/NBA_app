@@ -1,9 +1,9 @@
 import copy
 import logging
-import os
 from anthropic.types import ToolUseBlock
 
 from app.client import anthropic_client
+from app.config import DUMMY_MODE
 from app.schemas import (
     GameContext,
     FormEvalJSON,
@@ -15,7 +15,7 @@ from app.schemas.prediction import FormWorkflowJSON, MatchupWorkflowJSON, OddsRi
 
 logger = logging.getLogger(__name__)
 
-_DUMMY_MODE = True
+_DUMMY_MODE = DUMMY_MODE
 
 # ─── $ref resolver ───────────────────────────────────────────────────────────
 

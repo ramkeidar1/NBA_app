@@ -3,10 +3,10 @@ import logging
 from anthropic.types import ToolUseBlock
 
 from app.client import anthropic_client
+from app.config import DUMMY_MODE
 from app.schemas import FormEvalJSON, GameContext, H2HGame
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
 
 _SYSTEM_PROMPT = (
     "You are a precise NBA data extraction agent. "
@@ -39,8 +39,12 @@ _DUMMY_FORMS: dict[str, FormEvalJSON] = {
         away_wins=2, away_losses=3, away_record="2-3",
         record="4-6",
         last_10_offensive_rating=110.4,
+        seed=4,
         last_10_defensive_rating=114.2,
         last_10_rating_differential=-3.8,
+        offensive_rating=120.4,
+        defensive_rating=124.2,
+        rating_differential=-3.8,
         recent_game=H2HGame(
             date="2026-05-12",
             home_team_id="1610612760",
@@ -58,9 +62,13 @@ _DUMMY_FORMS: dict[str, FormEvalJSON] = {
         home_wins=5, home_losses=2, home_record="5-2",
         away_wins=3, away_losses=3, away_record="3-3",
         record="8-5",
+        seed=6,
         last_10_offensive_rating=118.2,
         last_10_defensive_rating=112.5,
         last_10_rating_differential=5.7,
+        offensive_rating=128.2,
+        defensive_rating=122.5,
+        rating_differential=5.7,
         recent_game=H2HGame(
             date="2026-05-20",
             home_team_id="1610612744",
@@ -73,7 +81,7 @@ _DUMMY_FORMS: dict[str, FormEvalJSON] = {
 }
 
 
-async def run(ctx: GameContext, raw_text: str, team_id: str, dummy: bool = True) -> FormEvalJSON:
+async def run(ctx: GameContext, raw_text: str, team_id: str, dummy: bool = DUMMY_MODE) -> FormEvalJSON:
     if dummy:
         logger.info("DUMMY FORM_WORKFLOW_%s", team_id)
         result = _DUMMY_FORMS.get(team_id)

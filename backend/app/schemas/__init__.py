@@ -1,5 +1,5 @@
 from .base import AgentError, GameContext, SSEEvent
-from .form import FormEvalJSON, PlayerStatus
+from .form import FormEvalJSON
 from .matchup import H2HGame, MatchupEvalJSON
 from .odds_risk import InjuryEntry, OddsRiskEvalJSON
 from .prediction import FinalPredictionJSON
@@ -19,7 +19,6 @@ class TeamData(BaseModel):
     record: str
     odds: str
 
-
 class MatchFixture(BaseModel):
     model_config = common_config
 
@@ -27,25 +26,19 @@ class MatchFixture(BaseModel):
     home_team: TeamData = Field(..., alias="Home team")
     away_team: TeamData = Field(..., alias="Away team")
 
-
-class StandingSchema(BaseModel):
-    wins: int
-    losses: int
-    seed: int
-
-
 class NBATeamSchema(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    name: str
+    team_id: str
+    team_name: str
     conference: str
     division: str
-    home_court_name: str = Field(..., alias="homeCourtName")
-    standing: StandingSchema
-    offensive_rating: float = Field(..., alias="offensiveRating")
-    defensive_rating: float = Field(..., alias="defensiveRating")
-    rating_differential: float = Field(..., alias="differentialRating")
-    star_player: str = Field(..., alias="starPlayer")
+    home_court_name: str
+    record: str
+    seed: int
+    offensive_rating: float
+    defensive_rating: float
+    star_player: str
 
 
 class MatchPredictionSchema(BaseModel):
@@ -105,7 +98,6 @@ __all__ = [
     "GameContext",
     "SSEEvent",
     "AgentError",
-    "PlayerStatus",
     "FormEvalJSON",
     "H2HGame",
     "MatchupEvalJSON",
@@ -115,7 +107,6 @@ __all__ = [
     # Legacy
     "TeamData",
     "MatchFixture",
-    "StandingSchema",
     "NBATeamSchema",
     "MatchPredictionSchema",
     "FormAgentSchema",

@@ -3,10 +3,10 @@ import logging
 from anthropic.types import ToolUseBlock
 
 from app.client import anthropic_client
+from app.config import DUMMY_MODE
 from app.schemas import MatchupEvalJSON, GameContext, H2HGame
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
 
 # UPDATED: Focused specifically on Head-to-Head matchup data extraction
 _SYSTEM_PROMPT = (
@@ -126,7 +126,7 @@ _DUMMY_MATCHUPS = [
     )
 ]
 
-async def run(ctx: GameContext, raw_text: str, dummy: bool = True) -> MatchupEvalJSON:
+async def run(ctx: GameContext, raw_text: str, dummy: bool = DUMMY_MODE) -> MatchupEvalJSON:
     if dummy:
         logger.info("DUMMY MATCHUP_WORKFLOW_%s", ctx.game_id)
         result = next((matchup for matchup in _DUMMY_MATCHUPS if ctx.game_id in matchup.game_id), None)

@@ -1,77 +1,7 @@
 [
   {
-    "Time": "2026-05-22T19:30:00Z",
-    "Home team": { "id": "BOS", "name": "Boston Celtics", "record": "64-18", "odds": "1.56" },
-    "Away team": { "id": "CHI", "name": "Chicago Bulls", "record": "39-43", "odds": "2.55" }
-  },
-  {
     "Time": "2026-05-23T22:00:00Z",
     "Home team": { "id": "LAL", "name": "Los Angeles Lakers", "record": "47-35", "odds": "1.91" },
     "Away team": { "id": "GSW", "name": "Golden State Warriors", "record": "46-36", "odds": "1.91" }
-  },
-  {
-    "Time": "2026-05-24T18:00:00Z",
-    "Home team": { "id": "MIL", "name": "Milwaukee Bucks", "record": "51-31", "odds": "1.42" },
-    "Away team": { "id": "MIA", "name": "Miami Heat", "record": "44-38", "odds": "2.90" }
-  },
-  {
-    "Time": "2026-05-24T20:30:00Z",
-    "Home team": { "id": "DEN", "name": "Denver Nuggets", "record": "57-25", "odds": "1.33" },
-    "Away team": { "id": "PHX", "name": "Phoenix Suns", "record": "49-33", "odds": "3.40" }
-  },
-  {
-    "Time": "2026-05-25T23:00:00Z",
-    "Home team": { "id": "NYK", "name": "New York Knicks", "record": "50-32", "odds": "1.65" },
-    "Away team": { "id": "PHI", "name": "Philadelphia 76ers", "record": "46-36", "odds": "2.30" }
-  },
-  {
-    "Time": "2026-05-26T01:30:00Z",
-    "Home team": { "id": "OKC", "name": "Oklahoma City Thunder", "record": "57-25", "odds": "1.25" },
-    "Away team": { "id": "DAL", "name": "Dallas Mavericks", "record": "50-32", "odds": "4.10" }
-  },
-  {
-    "Time": "2026-05-26T19:00:00Z",
-    "Home team": { "id": "CLE", "name": "Cleveland Cavaliers", "record": "48-34", "odds": "1.50" },
-    "Away team": { "id": "IND", "name": "Indiana Pacers", "record": "47-35", "odds": "2.70" }
-  },
-  {
-    "Time": "2026-05-27T02:00:00Z",
-    "Home team": { "id": "MIN", "name": "Minnesota Timberwolves", "record": "56-26", "odds": "1.38" },
-    "Away team": { "id": "SAC", "name": "Sacramento Kings", "record": "46-36", "odds": "3.15" }
-  },
-  {
-    "Time": "2026-05-28T23:30:00Z",
-    "Home team": { "id": "ORL", "name": "Orlando Magic", "record": "47-35", "odds": "1.55" },
-    "Away team": { "id": "ATL", "name": "Atlanta Hawks", "record": "36-46", "odds": "2.60" }
-  },
-  {
-    "Time": "2026-05-29T02:30:00Z",
-    "Home team": { "id": "LAC", "name": "LA Clippers", "record": "51-31", "odds": "1.48" },
-    "Away team": { "id": "NOP", "name": "New Orleans Pelicans", "record": "49-33", "odds": "2.80" }
-  },
-  {
-    "Time": "2026-05-30T18:00:00Z",
-    "Home team": { "id": "HOU", "name": "Houston Rockets", "record": "41-41", "odds": "1.72" },
-    "Away team": { "id": "MEM", "name": "Memphis Grizzlies", "record": "42-40", "odds": "2.15" }
-  },
-  {
-    "Time": "2026-05-31T20:00:00Z",
-    "Home team": { "id": "BKN", "name": "Brooklyn Nets", "record": "32-50", "odds": "2.20" },
-    "Away team": { "id": "TOR", "name": "Toronto Raptors", "record": "25-57", "odds": "1.72" }
-  },
-  {
-    "Time": "2026-06-01T23:00:00Z",
-    "Home team": { "id": "SAS", "name": "San Antonio Spurs", "record": "22-60", "odds": "2.45" },
-    "Away team": { "id": "UTA", "name": "Utah Jazz", "record": "31-51", "odds": "1.60" }
-  },
-  {
-    "Time": "2026-06-02T01:00:00Z",
-    "Home team": { "id": "POR", "name": "Portland Trail Blazers", "record": "21-61", "odds": "3.80" },
-    "Away team": { "id": "DET", "name": "Detroit Pistons", "record": "14-68", "odds": "1.28" }
-  },
-  {
-    "Time": "2026-06-03T19:30:00Z",
-    "Home team": { "id": "CHA", "name": "Charlotte Hornets", "record": "21-61", "odds": "1.85" },
-    "Away team": { "id": "WAS", "name": "Washington Wizards", "record": "15-67", "odds": "2.00" }
   }
 ]

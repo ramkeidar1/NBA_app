@@ -1,6 +1,7 @@
 import type { GameData, TeamProfile } from '../types/game';
 import type { OrchestratorRecommendation } from '../types/recommendation';
 import type { GameAgentAnalysis } from '../types/analysis';
+import type { FinalPredictionJSON } from '../types/prediction';
 
 const BACKEND_BASE = 'http://127.0.0.1:8000';
 
@@ -22,22 +23,18 @@ export function fetchMatches(signal?: AbortSignal): Promise<GameData[]> {
   return fetchJson<GameData[]>('/api/matches', signal);
 }
 
-export function fetchTeams(signal?: AbortSignal): Promise<TeamProfile[]> {
-  return fetchJson<TeamProfile[]>('/api/teams', signal);
+export function fetchTeam(teamId: string, signal?: AbortSignal): Promise<TeamProfile> {
+  return fetchJson<TeamProfile>(`/api/teams/${teamId}`, signal);
+}
+
+export function fetchCachedPrediction(game_id: string, signal?: AbortSignal): Promise<FinalPredictionJSON> {
+  return fetchJson<FinalPredictionJSON>(`/api/predictions/${game_id}`, signal);
 }
 
 // ─── SSE streams ─────────────────────────────────────────────────────────────
 
-export function openPredictionsStream(): EventSource {
-  return new EventSource('/api/predictions/stream');
-}
-
-export function openAgentAnalysisStream(): EventSource {
-  return new EventSource('/api/agent_analysis/stream');
-}
-
-export function openAnalysisStream(game_id: string): EventSource {
-  return new EventSource(`/api/analysis/stream/${game_id}`);
+export function openAnalysisStream(game_id: string, mode: 'hard' | 'soft' = 'hard'): EventSource {
+  return new EventSource(`/api/analysis/stream/${game_id}?mode=${mode}`);
 }
 
 export type { OrchestratorRecommendation, GameAgentAnalysis };

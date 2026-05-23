@@ -1,11 +1,39 @@
 import asyncio
 import logging
 
+from app.cache.memory import form_cache, matchup_cache
 from app.cache.supabase import get_supabase
 from app.schemas import FormEvalJSON, MatchupEvalJSON, OddsRiskEvalJSON, FinalPredictionJSON
 from app.schemas.base import GameContext
 
+logger = logging.getLogger(__name__)
+
 # ── reads ─────────────────────────────────────────────────────────────────────
+
+def _fetch_recommendation_sync(match_id: str) -> FinalPredictionJSON | None:
+    res = get_supabase().table("recommendations") \
+        .select("payload") \
+        .eq("match_id", match_id) \
+        .order("created_at", desc=True) \
+        .limit(1) \
+        .execute()
+    if not res.data:
+        return None
+    return FinalPredictionJSON.model_validate(res.data[0]["payload"])
+
+
+async def fetch_recommendation(match_id: str) -> FinalPredictionJSON | None:
+    try:
+        result = await asyncio.to_thread(_fetch_recommendation_sync, match_id)
+        if result:
+            logger.info("db: recommendations hit for %s", match_id)
+        else:
+            logger.info("db: recommendations miss for %s", match_id)
+        return result
+    except Exception as exc:
+        logger.error("db: fetch_recommendation failed for %s: %s", match_id, exc)
+        return None
+
 
 def _fetch_form_sync(match_id: str, team_id: str) -> FormEvalJSON | None:
     res = get_supabase().table("form_cache") \
@@ -55,10 +83,78 @@ async def fetch_matchup(match_id: str) -> MatchupEvalJSON | None:
         logger.error("db: fetch_matchup failed for %s: %s", match_id, exc)
         return None
 
-logger = logging.getLogger(__name__)
+
+# ── matches (read) ────────────────────────────────────────────────────────────
+
+def _fetch_matches_sync() -> list[dict]:
+    res = get_supabase().table("matches").select("*").execute()
+    return res.data or []
 
 
-# ── matches ───────────────────────────────────────────────────────────────────
+async def fetch_matches() -> list[dict]:
+    try:
+        rows = await asyncio.to_thread(_fetch_matches_sync)
+        logger.info("db: fetched %d matches", len(rows))
+        return rows
+    except Exception as exc:
+        logger.error("db: fetch_matches failed: %s", exc)
+        return []
+
+
+# ── teams (read) ───────────────────────────────────────────────────────────────
+
+def _fetch_teams_sync() -> list[dict]:
+    res = get_supabase().table("teams").select("*").execute()
+    return res.data or []
+
+
+async def fetch_teams() -> list[dict]:
+    try:
+        rows = await asyncio.to_thread(_fetch_teams_sync)
+        logger.info("db: fetched %d teams", len(rows))
+        return rows
+    except Exception as exc:
+        logger.error("db: fetch_teams failed: %s", exc)
+        return []
+
+
+def _fetch_team_sync(team_id: str) -> dict | None:
+    res = get_supabase().table("teams").select("*").eq("team_id", team_id).limit(1).execute()
+    return res.data[0] if res.data else None
+
+
+async def fetch_team(team_id: str) -> dict | None:
+    try:
+        row = await asyncio.to_thread(_fetch_team_sync, team_id)
+        if row:
+            logger.info("db: teams hit for %s", team_id)
+        else:
+            logger.info("db: teams miss for %s", team_id)
+        return row
+    except Exception as exc:
+        logger.error("db: fetch_team failed for %s: %s", team_id, exc)
+        return None
+
+
+def _fetch_match_sync(match_id: str) -> dict | None:
+    res = get_supabase().table("matches").select("*").eq("id", match_id).limit(1).execute()
+    return res.data[0] if res.data else None
+
+
+async def fetch_match(match_id: str) -> dict | None:
+    try:
+        row = await asyncio.to_thread(_fetch_match_sync, match_id)
+        if row:
+            logger.info("db: matches hit for %s", match_id)
+        else:
+            logger.info("db: matches miss for %s", match_id)
+        return row
+    except Exception as exc:
+        logger.error("db: fetch_match failed for %s: %s", match_id, exc)
+        return None
+
+
+# ── matches (write) ───────────────────────────────────────────────────────────
 
 def _save_match_sync(ctx: GameContext, fixture: dict) -> None:
     get_supabase().table("matches").upsert({
@@ -89,7 +185,11 @@ def _save_form_sync(form: FormEvalJSON) -> None:
         "team_id":                     form.team_id,
         "team_name":                   form.team_name,
         "record":                      form.record,
+        "seed":                        form.seed,
         "last_10_record":              form.last_10_record,
+        "offensive_rating":            form.offensive_rating,
+        "defensive_rating":            form.defensive_rating,
+        "rating_differential":         form.rating_differential,
         "last_10_offensive_rating":    form.last_10_offensive_rating,
         "last_10_defensive_rating":    form.last_10_defensive_rating,
         "last_10_rating_differential": form.last_10_rating_differential,
@@ -101,6 +201,7 @@ def _save_form_sync(form: FormEvalJSON) -> None:
 async def save_form(form: FormEvalJSON) -> None:
     try:
         await asyncio.to_thread(_save_form_sync, form)
+        form_cache.set(f"{form.game_id}:{form.team_id}", form)
         logger.info("db: form_cache saved for %s/%s", form.game_id, form.team_id)
     except Exception as exc:
         logger.error("db: save_form failed for %s/%s: %s", form.game_id, form.team_id, exc)
@@ -120,6 +221,7 @@ def _save_matchup_sync(matchup: MatchupEvalJSON) -> None:
 async def save_matchup(matchup: MatchupEvalJSON) -> None:
     try:
         await asyncio.to_thread(_save_matchup_sync, matchup)
+        matchup_cache.set(matchup.game_id, matchup)
         logger.info("db: matchup_cache saved for %s", matchup.game_id)
     except Exception as exc:
         logger.error("db: save_matchup failed for %s: %s", matchup.game_id, exc)
