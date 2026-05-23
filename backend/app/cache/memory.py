@@ -1,5 +1,8 @@
 import time
-from typing import Generic, TypeVar
+from typing import TYPE_CHECKING, Generic, TypeVar
+
+if TYPE_CHECKING:
+    from app.schemas import FormEvalJSON, MatchupEvalJSON
 
 V = TypeVar("V")
 
@@ -27,3 +30,8 @@ class TTLCache(Generic[V]):
 
     def clear(self) -> None:
         self._store.clear()
+
+
+# Module-level singletons — 1-hour TTL matches typical game-day staleness tolerance
+form_cache: "TTLCache[FormEvalJSON]" = TTLCache(ttl_seconds=3600)
+matchup_cache: "TTLCache[MatchupEvalJSON]" = TTLCache(ttl_seconds=3600)

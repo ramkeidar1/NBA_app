@@ -16,6 +16,7 @@ from app.cache.db import (
     save_odds_snapshot,
     save_recommendation,
 )
+from app.cache.memory import form_cache, matchup_cache
 from app.config import DUMMY_MODE
 from app.schemas import AgentError, GameContext, SSEEvent
 
@@ -206,8 +207,27 @@ async def _run_hard(
 
 
 # ── Soft pipeline ─────────────────────────────────────────────────────────────
-# Loads form + matchup from DB cache, only runs odds_risk_workflow live.
-# Falls back to hard pipeline if any cached row is missing.
+# Lookup order for stable inputs: in-memory TTLCache → DB.
+# Falls back to hard pipeline if any result is missing from both.
+# Only odds_risk is always run live (market data changes frequently).
+
+async def _fetch_form_two_level(game_id: str, team_id: str):
+    """TTLCache → DB for a single form entry."""
+    result = form_cache.get(f"{game_id}:{team_id}")
+    if result is not None:
+        logger.debug("memory: form_cache hit for %s/%s", game_id, team_id)
+        return result
+    return await fetch_form(game_id, team_id)
+
+
+async def _fetch_matchup_two_level(game_id: str):
+    """TTLCache → DB for matchup."""
+    result = matchup_cache.get(game_id)
+    if result is not None:
+        logger.debug("memory: matchup_cache hit for %s", game_id)
+        return result
+    return await fetch_matchup(game_id)
+
 
 async def _run_soft(
     ctx: GameContext,
@@ -215,16 +235,14 @@ async def _run_soft(
     fixture: dict,
     dummy: bool = True,
 ) -> AsyncGenerator[SSEEvent, None]:
-    yield SSEEvent(event_name="status", payload={"message": "Soft pipeline — loading cached agent data..."})
+    yield SSEEvent(event_name="status", payload={"message": "Soft pipeline — checking cache..."})
 
-    # Fetch all three cached results concurrently
     home_form, away_form, matchup = await asyncio.gather(
-        fetch_form(ctx.game_id, ctx.home_team_id),
-        fetch_form(ctx.game_id, ctx.away_team_id),
-        fetch_matchup(ctx.game_id),
+        _fetch_form_two_level(ctx.game_id, ctx.home_team_id),
+        _fetch_form_two_level(ctx.game_id, ctx.away_team_id),
+        _fetch_matchup_two_level(ctx.game_id),
     )
 
-    # Fall back to hard pipeline if any cache entry is missing
     if home_form is None or away_form is None or matchup is None:
         yield SSEEvent(
             event_name="status",

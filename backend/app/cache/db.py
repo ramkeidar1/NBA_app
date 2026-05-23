@@ -1,6 +1,7 @@
 import asyncio
 import logging
 
+from app.cache.memory import form_cache, matchup_cache
 from app.cache.supabase import get_supabase
 from app.schemas import FormEvalJSON, MatchupEvalJSON, OddsRiskEvalJSON, FinalPredictionJSON
 from app.schemas.base import GameContext
@@ -200,6 +201,7 @@ def _save_form_sync(form: FormEvalJSON) -> None:
 async def save_form(form: FormEvalJSON) -> None:
     try:
         await asyncio.to_thread(_save_form_sync, form)
+        form_cache.set(f"{form.game_id}:{form.team_id}", form)
         logger.info("db: form_cache saved for %s/%s", form.game_id, form.team_id)
     except Exception as exc:
         logger.error("db: save_form failed for %s/%s: %s", form.game_id, form.team_id, exc)
@@ -219,6 +221,7 @@ def _save_matchup_sync(matchup: MatchupEvalJSON) -> None:
 async def save_matchup(matchup: MatchupEvalJSON) -> None:
     try:
         await asyncio.to_thread(_save_matchup_sync, matchup)
+        matchup_cache.set(matchup.game_id, matchup)
         logger.info("db: matchup_cache saved for %s", matchup.game_id)
     except Exception as exc:
         logger.error("db: save_matchup failed for %s: %s", matchup.game_id, exc)
