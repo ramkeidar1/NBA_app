@@ -1,16 +1,11 @@
 import type { OrchestratorRecommendation } from '../../types/recommendation';
 import BetForm from './BetForm';
-import LoadingDots from '../ui/LoadingDots';
 
 interface PlaceBetPanelProps {
   recommendation: OrchestratorRecommendation | null;
-  isStreaming: boolean;
 }
 
-export default function PlaceBetPanel({ recommendation, isStreaming }: PlaceBetPanelProps) {
-  if (isStreaming) {
-    return <LoadingDots />;
-  }
+export default function PlaceBetPanel({ recommendation }: PlaceBetPanelProps) {
 
   if (!recommendation) {
     return (

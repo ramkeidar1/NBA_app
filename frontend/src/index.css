@@ -143,6 +143,73 @@ html, body, #root {
   border-right: none;
 }
 
+.panel--bottom {
+  flex: none;
+  border-top: 1px solid var(--border);
+  border-right: none;
+  height: 240px;
+}
+
+.panel-body--scroll-x {
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: flex;
+  align-items: stretch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-active) transparent;
+}
+
+.h2h-chart-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 16px 4px;
+  min-width: max-content;
+}
+
+.h2h-chart {
+  display: block;
+  overflow: visible;
+}
+
+.h2h-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.h2h-legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+  color: var(--text-muted);
+  padding-left: 4px;
+}
+
+.h2h-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.h2h-legend-dot--home { background: #6366f1; }
+.h2h-legend-dot--away { background: #f59e0b; }
+
+.h2h-legend-star {
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-left: 6px;
+}
+
+.h2h-legend-label {
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+  margin-right: 8px;
+}
+
 .panel-header {
   display: flex;
   align-items: center;

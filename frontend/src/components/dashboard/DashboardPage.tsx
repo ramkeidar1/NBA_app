@@ -11,6 +11,7 @@ import SpecificGamePanel from './SpecificGamePanel';
 import AIRecommendationPanel from './AIRecommendationPanel';
 import AgentAnalysisPanel from './AgentAnalysisPanel';
 import PlaceBetPanel from './PlaceBetPanel';
+import Previous10GamesPanel from './Previous10GamesPanel';
 
 function gameKey(game: GameData): string {
   return `${game['Home team'].id}_${game['Away team'].id}`;
@@ -264,8 +265,22 @@ export default function DashboardPage() {
             <span className="panel-title">Place Bet</span>
           </div>
           <div className="panel-body panel-body--overflow">
-            <PlaceBetPanel recommendation={selectedRec} isStreaming={isStreaming} />
+            {isStreaming ? <LoadingDots /> : <PlaceBetPanel recommendation={selectedRec}/> }
           </div>
+        </div>
+      </div>
+
+      <div className="panel panel--bottom">
+        <div className="panel-header">
+          <span className="tab-index">6</span>
+          <span className="panel-title">Previous 10 Games</span>
+        </div>
+        <div className="panel-body panel-body--scroll-x">
+          <Previous10GamesPanel
+            games={selectedAgentUpdates?.matchup?.h2h_last_10 ?? []}
+            homeTeamId={selectedGame ? selectedGame['Home team'].id : ''}
+            awayTeamId={selectedGame ? selectedGame['Away team'].id : ''}
+          />
         </div>
       </div>
     </div>
