@@ -222,7 +222,6 @@ export default function DashboardPage() {
               game={game}
               isSelected={selectedIndex === i}
               onClick={() => setSelectedIndex(selectedIndex === i ? null : i)}
-              onRefresh={(mode) => triggerPipeline(gameKey(game), mode)}
             />
           ))}
         </div>
@@ -245,7 +244,7 @@ export default function DashboardPage() {
             <span className="panel-title">AI Recommendation</span>
           </div>
           <div className="panel-body panel-body--overflow">
-            {isStreaming ? <LoadingDots /> : <AIRecommendationPanel recommendation={selectedRec} />}
+            {isStreaming ? <LoadingDots /> : <AIRecommendationPanel recommendation={selectedRec} onRefresh={(mode) => { if (selectedGameKey) triggerPipeline(selectedGameKey, mode); }} />}
           </div>
         </div>
 
