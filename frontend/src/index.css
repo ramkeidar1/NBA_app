@@ -143,11 +143,28 @@ html, body, #root {
   border-right: none;
 }
 
-.panel--bottom {
-  flex: none;
-  border-top: 1px solid var(--border);
+.panels-right {
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  min-width: 0;
+  border-left: 1px solid var(--border);
+}
+
+.panels-right-top {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.panels-right-top .panel:last-child {
   border-right: none;
-  height: 240px;
+}
+
+.panel--h2h {
+  flex: none;
+  height: 210px;
+  border-top: 1px solid var(--border);
 }
 
 .panel-body--scroll-x {
@@ -161,10 +178,45 @@ html, body, #root {
 
 .h2h-chart-wrap {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
   padding: 8px 16px 4px;
-  min-width: max-content;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.h2h-side-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.h2h-side-legend-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.h2h-side-legend-line {
+  display: block;
+  width: 2px;
+  height: 24px;
+  border-radius: 1px;
+}
+
+.h2h-side-legend-line--home { background: #6366f1; }
+.h2h-side-legend-line--away { background: #f59e0b; }
+
+.h2h-side-legend-label {
+  font-size: 8px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
 }
 
 .h2h-chart {

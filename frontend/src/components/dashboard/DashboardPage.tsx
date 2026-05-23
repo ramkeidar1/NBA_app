@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { postCommand, openAnalysisStream, fetchCachedPrediction } from '../../services/api';
+import { postCommand, openAnalysisStream, fetchCachedPrediction, fetchCachedMatchup } from '../../services/api';
 import type { GameData } from '../../types/game';
 import type { GameAgentAnalysis } from '../../types/analysis';
 import type { OrchestratorRecommendation, RiskLevel } from '../../types/recommendation';
@@ -124,6 +124,14 @@ export default function DashboardPage() {
     fetchCachedPrediction(key, controller.signal)
       .then((prediction) => {
         setPipelineResults((prev) => ({ ...prev, [key]: prediction }));
+        fetchCachedMatchup(key, controller.signal)
+          .then((matchup) => {
+            setAgentUpdatesByGame((prev) => ({
+              ...prev,
+              [key]: { ...prev[key], matchup },
+            }));
+          })
+          .catch(() => {});
       })
       .catch((err: unknown) => {
         if (err instanceof Error && err.name === 'AbortError') return;
@@ -249,38 +257,42 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="panel">
-          <div className="panel-header">
-            <span className="tab-index">4</span>
-            <span className="panel-title">Agent Analysis</span>
-          </div>
-          <div className="panel-body panel-body--overflow">
-            {isStreaming ? <LoadingDots /> : <AgentAnalysisPanel analysis={selectedAnalysis} />}
-          </div>
-        </div>
+        <div className="panels-right">
+          <div className="panels-right-top">
+            <div className="panel">
+              <div className="panel-header">
+                <span className="tab-index">4</span>
+                <span className="panel-title">Agent Analysis</span>
+              </div>
+              <div className="panel-body panel-body--overflow">
+                {isStreaming ? <LoadingDots /> : <AgentAnalysisPanel analysis={selectedAnalysis} />}
+              </div>
+            </div>
 
-        <div className="panel">
-          <div className="panel-header">
-            <span className="tab-index">5</span>
-            <span className="panel-title">Place Bet</span>
+            <div className="panel">
+              <div className="panel-header">
+                <span className="tab-index">5</span>
+                <span className="panel-title">Place Bet</span>
+              </div>
+              <div className="panel-body panel-body--overflow">
+                {isStreaming ? <LoadingDots /> : <PlaceBetPanel recommendation={selectedRec}/> }
+              </div>
+            </div>
           </div>
-          <div className="panel-body panel-body--overflow">
-            {isStreaming ? <LoadingDots /> : <PlaceBetPanel recommendation={selectedRec}/> }
-          </div>
-        </div>
-      </div>
 
-      <div className="panel panel--bottom">
-        <div className="panel-header">
-          <span className="tab-index">6</span>
-          <span className="panel-title">Previous 10 Games</span>
-        </div>
-        <div className="panel-body panel-body--scroll-x">
-          <Previous10GamesPanel
-            games={selectedAgentUpdates?.matchup?.h2h_last_10 ?? []}
-            homeTeamId={selectedGame ? selectedGame['Home team'].id : ''}
-            awayTeamId={selectedGame ? selectedGame['Away team'].id : ''}
-          />
+          <div className="panel panel--h2h">
+            <div className="panel-header">
+              <span className="tab-index">6</span>
+              <span className="panel-title">H2H Last 10</span>
+            </div>
+            <div className="panel-body">
+              <Previous10GamesPanel
+                games={selectedAgentUpdates?.matchup?.h2h_last_10 ?? []}
+                homeTeamId={selectedGame ? selectedGame['Home team'].id : ''}
+                awayTeamId={selectedGame ? selectedGame['Away team'].id : ''}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

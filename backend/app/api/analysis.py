@@ -10,7 +10,7 @@ from sse_starlette.sse import EventSourceResponse
 
 from app.cache.db import fetch_form, fetch_matchup, fetch_recommendation
 from app.orchestrator import run_pipeline
-from app.schemas import FinalPredictionJSON, GameAnalysisSchema, CommandRequest
+from app.schemas import FinalPredictionJSON, GameAnalysisSchema, CommandRequest, MatchupEvalJSON
 
 logger = logging.getLogger(__name__)
 MOCK_DATA_DIR = Path(__file__).parent.parent / "mock_data"
@@ -96,6 +96,14 @@ async def get_cached_analysis(game_id: str):
         "away_form": away_form.model_dump() if away_form else None,
         "matchup": matchup.model_dump() if matchup else None,
     }
+
+
+@router.get("/api/matchup/{game_id}", response_model=MatchupEvalJSON)
+async def get_cached_matchup(game_id: str) -> MatchupEvalJSON:
+    matchup = await fetch_matchup(game_id)
+    if matchup is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No cached matchup for game '{game_id}'.")
+    return matchup
 
 
 @router.get("/api/predictions/{game_id}", response_model=FinalPredictionJSON)
