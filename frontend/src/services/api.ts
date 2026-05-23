@@ -2,13 +2,38 @@ import type { GameData, TeamProfile } from '../types/game';
 import type { OrchestratorRecommendation } from '../types/recommendation';
 import type { GameAgentAnalysis } from '../types/analysis';
 import type { FinalPredictionJSON, MatchupEvalJSON } from '../types/prediction';
+import { refresh } from './authService';
+import { useAuthStore } from '../store/authStore';
 
 const BACKEND_BASE = 'http://127.0.0.1:8000';
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
+function authHeaders(): HeadersInit {
+  const token = useAuthStore.getState().accessToken;
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
 async function fetchJson<T>(url: string, signal?: AbortSignal): Promise<T> {
-  const res = await fetch(url, { signal });
+  const res = await fetch(url, { signal, headers: authHeaders() });
+
+  if (res.status === 401) {
+    // attempt silent token refresh once
+    try {
+      const { access_token } = await refresh();
+      useAuthStore.getState().setAccessToken(access_token);
+      const retried = await fetch(url, {
+        signal,
+        headers: { Authorization: `Bearer ${access_token}` },
+      });
+      if (!retried.ok) throw new Error(`HTTP ${retried.status}`);
+      return retried.json() as Promise<T>;
+    } catch {
+      useAuthStore.getState().logout();
+      throw new Error('Session expired — please log in again.');
+    }
+  }
+
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const ct = res.headers.get('content-type') ?? '';
   if (!ct.includes('application/json')) {
@@ -57,7 +82,7 @@ interface CommandResponse {
   stream_url?: string;
 }
 
-export async function postCommand(game_id: string, command: string, mode: 'soft' | 'hard'): Promise<CommandResponse> {
+export async function postUpdateCommand(game_id: string, command: string, mode: 'soft' | 'hard'): Promise<CommandResponse> {
   const body: CommandRequest = { game_id, command, mode };
   const res = await fetch(`${BACKEND_BASE}/command`, {
     method: 'POST',

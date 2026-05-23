@@ -22,3 +22,10 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 logger.info("Config loaded — DUMMY_MODE=%s  LOG_LEVEL=%s", DUMMY_MODE, _level_name)
+
+# ── JWT ───────────────────────────────────────────────────────────────────────
+JWT_SECRET: str = os.getenv("JWT_SECRET", "change-me-in-production")
+JWT_REFRESH_SECRET: str = os.getenv("JWT_REFRESH_SECRET", "change-refresh-secret-in-production")
+JWT_ALGORITHM: str = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES: int = 15
+REFRESH_TOKEN_EXPIRE_DAYS: int = 7
