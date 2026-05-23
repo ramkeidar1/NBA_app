@@ -1,10 +1,20 @@
-from pydantic import BaseModel, EmailStr
+from typing import Literal
 from uuid import UUID
+
+from pydantic import BaseModel, EmailStr
+
+UserRole = Literal["admin", "analyst", "viewer"]
 
 
 class LoginRequest(BaseModel):
     email: EmailStr
     password: str
+
+
+class RegisterRequest(BaseModel):
+    email: EmailStr
+    password: str
+    role: UserRole = "viewer"
 
 
 class TokenResponse(BaseModel):
@@ -15,6 +25,7 @@ class TokenResponse(BaseModel):
 class UserOut(BaseModel):
     id: UUID
     email: EmailStr
+    role: UserRole
 
 
 class TokenPayload(BaseModel):

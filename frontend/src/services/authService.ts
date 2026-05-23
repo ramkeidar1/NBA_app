@@ -1,4 +1,4 @@
-import type { LoginPayload, TokenResponse } from '../types/auth';
+import type { LoginPayload, RegisterPayload, TokenResponse } from '../types/auth';
 
 async function post<T>(path: string, body?: unknown, credentials: RequestCredentials = 'omit'): Promise<T> {
   const res = await fetch(path, {
@@ -16,7 +16,11 @@ async function post<T>(path: string, body?: unknown, credentials: RequestCredent
 }
 
 export async function login(payload: LoginPayload): Promise<TokenResponse> {
-  return post<TokenResponse>('/auth/login', payload);
+  return post<TokenResponse>('/auth/login', payload, 'include');
+}
+
+export async function register(payload: RegisterPayload): Promise<TokenResponse> {
+  return post<TokenResponse>('/auth/register', payload, 'include');
 }
 
 export async function refresh(): Promise<TokenResponse> {

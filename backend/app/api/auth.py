@@ -8,7 +8,7 @@ from app.auth.utils import (
     verify_password,
 )
 from app.cache.supabase import get_supabase
-from app.schemas.auth import LoginRequest, TokenResponse, UserOut
+from app.schemas.auth import LoginRequest, RegisterRequest, TokenResponse
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -18,25 +18,28 @@ _COOKIE_OPTS: dict = {
     "samesite": "lax",
     "secure": False,  # set True behind HTTPS in production
     "max_age": 60 * 60 * 24 * 7,  # 7 days in seconds
-    "path": "/auth/refresh",
+    "path": "/auth",
 }
 
 
-@router.post("/register", response_model=UserOut, status_code=status.HTTP_201_CREATED)
-async def register(body: LoginRequest) -> UserOut:
+@router.post("/register", response_model=TokenResponse, status_code=status.HTTP_201_CREATED)
+async def register(body: RegisterRequest, response: Response) -> TokenResponse:
     client = get_supabase()
     existing = client.table("users").select("id").eq("email", body.email).execute()
     if existing.data:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Email already registered")
-
     hashed = hash_password(body.password)
     result = (
         client.table("users")
-        .insert({"email": body.email, "hashed_password": hashed})
+        .insert({"email": body.email, "hashed_password": hashed, "role": body.role})
         .execute()
     )
-    row = result.data[0]
-    return UserOut(id=row["id"], email=row["email"])
+    user_id = result.data[0]["id"]
+    access_token = create_access_token(user_id)
+    refresh_token = create_refresh_token(user_id)
+
+    response.set_cookie(value=refresh_token, key=_REFRESH_COOKIE, **_COOKIE_OPTS)
+    return TokenResponse(access_token=access_token)
 
 
 @router.post("/login", response_model=TokenResponse)
@@ -71,4 +74,4 @@ async def refresh(request: Request) -> TokenResponse:
 
 @router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
 async def logout(response: Response) -> None:
-    response.delete_cookie(key=_REFRESH_COOKIE, path="/auth/refresh")
+    response.delete_cookie(key=_REFRESH_COOKIE, path="/auth")

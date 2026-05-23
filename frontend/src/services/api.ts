@@ -82,7 +82,7 @@ interface CommandResponse {
   stream_url?: string;
 }
 
-export async function postCommand(game_id: string, command: string, mode: 'soft' | 'hard'): Promise<CommandResponse> {
+export async function postUpdateCommand(game_id: string, command: string, mode: 'soft' | 'hard'): Promise<CommandResponse> {
   const body: CommandRequest = { game_id, command, mode };
   const res = await fetch(`${BACKEND_BASE}/command`, {
     method: 'POST',

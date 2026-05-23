@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { postCommand, openAnalysisStream, fetchCachedPrediction, fetchCachedMatchup } from '../../services/api';
+import { postUpdateCommand, openAnalysisStream, fetchCachedPrediction, fetchCachedMatchup } from '../../services/api';
 import type { GameData } from '../../types/game';
 import type { GameAgentAnalysis } from '../../types/analysis';
 import type { OrchestratorRecommendation, RiskLevel } from '../../types/recommendation';
 import type { FinalPredictionJSON, FormEvalJSON, MatchupEvalJSON, OddsRiskEvalJSON, AgentUpdateState } from '../../types/prediction';
 import { useGames } from '../../hooks/useGames';
+import { useAuthStore } from '../../store/authStore';
 import LoadingDots from '../ui/LoadingDots';
 import GameCard from './GameCard';
 import SpecificGamePanel from './SpecificGamePanel';
@@ -99,6 +100,7 @@ function agentUpdatesToGameAgentAnalysis(game: GameData, updates: AgentUpdateSta
 
 export default function DashboardPage() {
   const { games, loading, error } = useGames();
+  const logout = useAuthStore((s) => s.logout);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [pipelineResults, setPipelineResults] = useState<Record<string, FinalPredictionJSON>>({});
   const [agentUpdatesByGame, setAgentUpdatesByGame] = useState<Record<string, AgentUpdateState>>({});
@@ -148,7 +150,7 @@ export default function DashboardPage() {
   function triggerPipeline(game_id: string, mode: 'soft' | 'hard') {
     analysisStreamRef.current?.close();
     setIsStreaming(true);
-    postCommand(game_id, 'GetUpdatedPredictionData', mode)
+    postUpdateCommand(game_id, 'GetUpdatedPredictionData', mode)
       .then((res) => {
         if (res.stream_url) {
           const es = openAnalysisStream(game_id, mode);
@@ -184,7 +186,7 @@ export default function DashboardPage() {
           es.onerror = () => { console.error('Analysis stream error'); es.close(); setIsStreaming(false); };
         }
       })
-      .catch((err: unknown) => { console.error('[postCommand]', err); setIsStreaming(false); });
+      .catch((err: unknown) => { console.error('[postUpdateCommand]', err); setIsStreaming(false); });
   }
 
   const selectedGame = selectedIndex !== null ? games[selectedIndex] : null;
@@ -211,6 +213,7 @@ export default function DashboardPage() {
         <div className="panel-header">
           <span className="tab-index">1</span>
           <span className="panel-title">NBA Games Today</span>
+          <button className="logout-btn" onClick={() => void logout()}>Sign out</button>
         </div>
         <div className={loading || error ? 'panel-body' : 'panel-body panel-body--scroll'}>
           {loading && (
