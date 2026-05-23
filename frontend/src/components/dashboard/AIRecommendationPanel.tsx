@@ -3,10 +3,10 @@ import RecommendationCard from './RecommendationCard';
 
 interface AIRecommendationPanelProps {
   recommendation: OrchestratorRecommendation | null;
-  onRefresh: (mode: 'soft' | 'hard') => void;
+  onUpdate: (mode: 'soft' | 'hard') => void;
 }
 
-export default function AIRecommendationPanel({ recommendation, onRefresh }: AIRecommendationPanelProps) {
+export default function AIRecommendationPanel({ recommendation, onUpdate }: AIRecommendationPanelProps) {
   if (!recommendation) {
     return (
       <div className="sg-empty">
@@ -21,13 +21,13 @@ export default function AIRecommendationPanel({ recommendation, onRefresh }: AIR
       <div className="ai-rec-panel__actions">
         <button
           className="ai-rec-panel__btn ai-rec-panel__btn--soft"
-          onClick={() => onRefresh('soft')}
+          onClick={() => onUpdate('soft')}
         >
           Soft Update
         </button>
         <button
           className="ai-rec-panel__btn ai-rec-panel__btn--hard"
-          onClick={() => onRefresh('hard')}
+          onClick={() => onUpdate('hard')}
         >
           Hard Update
         </button>

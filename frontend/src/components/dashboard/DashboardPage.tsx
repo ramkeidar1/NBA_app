@@ -139,7 +139,7 @@ export default function DashboardPage() {
   function triggerPipeline(game_id: string, mode: 'soft' | 'hard') {
     analysisStreamRef.current?.close();
     setIsStreaming(true);
-    postCommand(game_id, 'GetFullPredictionData', mode)
+    postCommand(game_id, 'GetUpdatedPredictionData', mode)
       .then((res) => {
         if (res.stream_url) {
           const es = openAnalysisStream(game_id, mode);
@@ -244,7 +244,7 @@ export default function DashboardPage() {
             <span className="panel-title">AI Recommendation</span>
           </div>
           <div className="panel-body panel-body--overflow">
-            {isStreaming ? <LoadingDots /> : <AIRecommendationPanel recommendation={selectedRec} onRefresh={(mode) => { if (selectedGameKey) triggerPipeline(selectedGameKey, mode); }} />}
+            {isStreaming ? <LoadingDots /> : <AIRecommendationPanel recommendation={selectedRec} onUpdate={(mode) => { if (selectedGameKey) triggerPipeline(selectedGameKey, mode); }} />}
           </div>
         </div>
 
