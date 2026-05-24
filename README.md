@@ -51,18 +51,23 @@ The Orchestrator is pure async Python — no LLM calls, no blocking I/O. It pre-
 ```
 NBA_app/
 ├── backend/
-│   └── app/
-│       ├── agents/          # Final prediction agent (Sonnet)
-│       ├── api/             # FastAPI route handlers
-│       ├── auth/            # JWT utilities and dependencies
-│       ├── cache/           # Supabase + in-memory TTL caching
-│       ├── schemas/         # Pydantic v2 data contracts
-│       ├── workflows/       # Worker agent workflows (Haiku)
-│       ├── orchestrator.py  # Pipeline coordinator
-│       ├── config.py        # Environment config
-│       └── main.py          # App entry point
+│   ├── app/
+│   │   ├── agents/          # Final prediction agent (Sonnet)
+│   │   ├── api/             # FastAPI route handlers
+│   │   ├── auth/            # JWT utilities and dependencies
+│   │   ├── cache/           # Supabase + in-memory TTL caching
+│   │   ├── schemas/         # Pydantic v2 data contracts
+│   │   ├── workflows/       # Worker agent workflows (Haiku)
+│   │   ├── orchestrator.py  # Pipeline coordinator
+│   │   ├── config.py        # Environment config
+│   │   └── main.py          # App entry point
+│   ├── tests/
+│   │   ├── conftest.py      # Shared fixtures (TestClient, token factory)
+│   │   └── test_core.py     # Auth, SSE stream, and pipeline tests
+│   └── pytest.ini
 └── frontend/
     └── src/
+        ├── __tests__/       # Vitest test suite
         ├── components/      # React UI components
         ├── hooks/           # Data-fetching hooks
         ├── pages/           # Route-level page components
@@ -163,6 +168,33 @@ The Vite dev server proxies `/api` and `/auth` requests to the FastAPI backend a
 | `GET` | `/api/matchup/{game_id}` | Fetch cached matchup analysis |
 
 The SSE stream endpoint requires a valid JWT passed as `?token=<access_token>`. All other protected endpoints use a standard `Authorization: Bearer <token>` header.
+
+---
+
+## Testing
+
+### Backend (pytest)
+
+Tests live in `backend/tests/`. Run from inside `backend/`:
+
+```bash
+pytest -v                     # Run all tests
+pytest -v tests/test_core.py  # Run a specific file
+```
+
+Covers: JWT expiry, login 401, SSE stream auth (missing/invalid token), and full dummy pipeline completion. `DUMMY_MODE` is forced to `true` in tests — no API spend.
+
+### Frontend (Vitest)
+
+Tests live in `frontend/src/__tests__/`. Run from inside `frontend/`:
+
+```bash
+npm test                  # Watch mode (development)
+npm test -- --run         # Single run (CI)
+npm coverage              # Run with coverage report
+```
+
+Covers: `gameKey` pure logic, `agentUpdatesToGameAgentAnalysis` mapping, `GameCard` rendering, and `useGames` hook states (loading, success, error).
 
 ---
 
