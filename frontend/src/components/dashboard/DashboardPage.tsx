@@ -14,7 +14,7 @@ import AgentAnalysisPanel from './AgentAnalysisPanel';
 import PlaceBetPanel from './PlaceBetPanel';
 import Previous10GamesPanel from './Previous10GamesPanel';
 
-function gameKey(game: GameData): string {
+export function gameKey(game: GameData): string {
   return `${game['Home team'].id}_${game['Away team'].id}`;
 }
 
@@ -59,7 +59,7 @@ function predictionToAgentAnalysis(game: GameData, p: FinalPredictionJSON): Game
 }
 
 
-function agentUpdatesToGameAgentAnalysis(game: GameData, updates: AgentUpdateState): GameAgentAnalysis {
+export function agentUpdatesToGameAgentAnalysis(game: GameData, updates: AgentUpdateState): GameAgentAnalysis {
   const { form_home, form_away, matchup, odds_risk } = updates;
   const home = game['Home team'];
 
