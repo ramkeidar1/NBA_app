@@ -1,6 +1,5 @@
 import asyncio
 import importlib
-import json
 import logging
 from pathlib import Path
 from typing import AsyncGenerator, Literal
@@ -9,9 +8,9 @@ import aiofiles
 
 from app.cache.db import (
     fetch_form,
+    fetch_match,
     fetch_matchup,
     save_form,
-    save_match,
     save_matchup,
     save_odds_snapshot,
     save_recommendation,
@@ -43,26 +42,19 @@ async def _read_file(path: Path) -> str:
         return await f.read()
 
 
-async def _load_context(game_id: str) -> tuple[GameContext, dict[str, str], dict]:
+async def _load_context(game_id: str) -> tuple[GameContext, dict[str, str]]:
     home_id, away_id = _parse_game_id(game_id)
 
-    raw = await _read_file(MOCK_DATA_DIR / "games.json")
-    games = json.loads(raw)
-
-    fixture = next(
-        (g for g in games
-         if g["Home team"]["id"] == home_id and g["Away team"]["id"] == away_id),
-        None,
-    )
-    if fixture is None:
-        raise ValueError(f"No fixture found for {home_id} vs {away_id}")
+    row = await fetch_match(game_id)
+    if row is None:
+        raise ValueError(f"No match found in database for game_id '{game_id}'")
 
     ctx = GameContext(
         game_id=game_id,
         home_team_id=home_id,
         away_team_id=away_id,
-        game_date=fixture["Time"][:10],
-        venue=f"{fixture['Home team']['name']} Home Court",
+        game_date=row["game_time"][:10],
+        venue=row.get("venue", f"{row['home_team_name']} Home Court"),
     )
 
     file_map: dict[str, Path] = {
@@ -73,7 +65,7 @@ async def _load_context(game_id: str) -> tuple[GameContext, dict[str, str], dict
     }
 
     texts = {key: await _read_file(path) for key, path in file_map.items()}
-    return ctx, texts, fixture
+    return ctx, texts
 
 
 def _get_workflow_fn(module_path: str, fn_name: str = "run"):
@@ -95,7 +87,6 @@ async def _not_impl(agent_name: str):
 async def _run_hard(
     ctx: GameContext,
     texts: dict[str, str],
-    fixture: dict,
     dummy: bool = DUMMY_MODE,
 ) -> AsyncGenerator[SSEEvent, None]:
     yield SSEEvent(event_name="status", payload={"message": "Dispatching parallel agents..."})
@@ -238,7 +229,6 @@ async def _fetch_matchup_two_level(game_id: str):
 async def _run_soft(
     ctx: GameContext,
     texts: dict[str, str],
-    fixture: dict,
     dummy: bool = DUMMY_MODE,
 ) -> AsyncGenerator[SSEEvent, None]:
     yield SSEEvent(event_name="status", payload={"message": "Soft pipeline — checking cache..."})
@@ -254,7 +244,7 @@ async def _run_soft(
             event_name="status",
             payload={"message": "Cache miss — switching to hard pipeline..."},
         )
-        async for event in _run_hard(ctx, texts, fixture, dummy=dummy):
+        async for event in _run_hard(ctx, texts, dummy=dummy):
             yield event
         return
 
@@ -345,17 +335,15 @@ async def run_pipeline(
     yield SSEEvent(event_name="status", payload={"message": "Loading game context..."})
 
     try:
-        ctx, texts, fixture = await _load_context(game_id)
+        ctx, texts = await _load_context(game_id)
     except Exception as e:
         yield SSEEvent(event_name="error", payload={"message": str(e)})
         return
 
-    if not dummy:
-        await save_match(ctx, fixture)
     yield SSEEvent(event_name="context_loaded", payload=ctx.model_dump())
 
     pipeline = _run_hard if mode == "hard" else _run_soft
-    async for event in pipeline(ctx, texts, fixture, dummy=dummy):
+    async for event in pipeline(ctx, texts, dummy=dummy):
         yield event
 
     yield SSEEvent(event_name="done", payload={})

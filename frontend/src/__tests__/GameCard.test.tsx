@@ -5,8 +5,8 @@ import type { GameData } from '../types/game';
 
 const game: GameData = {
   Time: '2026-05-24T20:30:00Z',
-  'Home team': { id: 'LAL', name: 'Los Angeles Lakers', record: '42-18', odds: '-120' },
-  'Away team': { id: 'GSW', name: 'Golden State Warriors', record: '38-22', odds: '+110' },
+  'Home team': { id: 'LAL', name: 'Los Angeles Lakers' },
+  'Away team': { id: 'GSW', name: 'Golden State Warriors' },
 };
 
 describe('GameCard', () => {

@@ -2,9 +2,7 @@ import asyncio
 import hashlib
 import json
 import logging
-from pathlib import Path
 
-import aiofiles
 from fastapi import APIRouter, HTTPException, Query, status
 from sse_starlette.sse import EventSourceResponse
 
@@ -14,7 +12,6 @@ from app.orchestrator import run_pipeline
 from app.schemas import FinalPredictionJSON, GameAnalysisSchema, CommandRequest, MatchupEvalJSON
 
 logger = logging.getLogger(__name__)
-MOCK_DATA_DIR = Path(__file__).parent.parent / "mock_data"
 
 router = APIRouter()
 

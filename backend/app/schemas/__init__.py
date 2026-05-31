@@ -16,8 +16,6 @@ class TeamData(BaseModel):
 
     id: str
     name: str
-    record: str
-    odds: str
 
 class MatchFixture(BaseModel):
     model_config = common_config
