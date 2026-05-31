@@ -7,12 +7,10 @@ function formatTime(iso: string): string {
 interface TeamRowProps {
   id: string;
   name: string;
-  record: string;
-  odds: string;
   side: 'home' | 'away';
 }
 
-function TeamRow({ id, name, record, odds, side }: TeamRowProps) {
+function TeamRow({ id, name, side }: TeamRowProps) {
   return (
     <div className={`game-card__team game-card__team--${side}`}>
       <img
@@ -22,9 +20,7 @@ function TeamRow({ id, name, record, odds, side }: TeamRowProps) {
       />
       <div className="game-card__team-info">
         <span className="game-card__team-name">{name}</span>
-        <span className="game-card__record">{record}</span>
       </div>
-      <span className="game-card__odds">{odds}</span>
     </div>
   );
 }
@@ -51,9 +47,9 @@ export default function GameCard({ game, isSelected, onClick }: GameCardProps) {
         <div className="game-card__time">{formatTime(game.Time)}</div>
       </div>
       <div className="game-card__matchup">
-        <TeamRow id={home.id} name={home.name} record={home.record} odds={home.odds} side="home" />
+        <TeamRow id={home.id} name={home.name} side="home" />
         <div className="game-card__vs">VS</div>
-        <TeamRow id={away.id} name={away.name} record={away.record} odds={away.odds} side="away" />
+        <TeamRow id={away.id} name={away.name} side="away" />
       </div>
     </div>
   );
