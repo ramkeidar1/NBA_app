@@ -5,7 +5,7 @@ import type { FinalPredictionJSON, MatchupEvalJSON } from '../types/prediction';
 import { refresh } from './authService';
 import { useAuthStore } from '../store/authStore';
 
-const BACKEND_BASE = 'http://127.0.0.1:8000';
+const BACKEND_BASE = '';
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 

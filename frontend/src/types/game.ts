@@ -1,6 +1,8 @@
 export interface TeamData {
   id: string;
   name: string;
+  record?: string;
+  odds?: string;
 }
 
 export interface GameData {
