@@ -1,0 +1,23 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    env_file: .env
+    ports:
+      - "8000:8000"
+    networks:
+      - courmind
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - courmind
+
+networks:
+  courmind:
+    driver: bridge
